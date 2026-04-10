@@ -5,210 +5,158 @@
 }
 
 /* =============================================
-   GITGLOSS — COTTON CANDY GLASS DESIGN SYSTEM
+   GITGLOSS — STUDIO WHITE DESIGN SYSTEM v2.0
+   Premium Developer Identity Studio
    ============================================= */
 :root {
-  /* ── Core Brand Colors ── */
-  --gg-pink:          #ED93B1;
-  --gg-pink-deep:     #D4537E;
-  --gg-pink-soft:     #F4C0D1;
-  --gg-pink-dim:      rgba(237, 147, 177, 0.18);
-  --gg-pink-border:   rgba(237, 147, 177, 0.42);
-  --gg-pink-glow:     rgba(237, 147, 177, 0.28);
+  /* ── Base Colors ── */
+  --bg-main:          #FFFFFF;
+  --bg-subtle:        #FBFBFB;
+  --text-main:        #08080F;
+  --text-sub:         rgba(8, 8, 15, 0.65);
+  --text-hint:        rgba(8, 8, 15, 0.40);
 
-  --gg-purple:        #9B8FE8;
-  --gg-purple-deep:   #7F77DD;
-  --gg-purple-soft:   #C8B8F0;
-  --gg-purple-dim:    rgba(155, 143, 232, 0.18);
-  --gg-purple-border: rgba(155, 143, 232, 0.44);
-  --gg-purple-glow:   rgba(155, 143, 232, 0.28);
+  /* ── Google Primary Colors ── */
+  --google-blue:      #4285F4;
+  --google-red:       #EA4335;
+  --google-yellow:    #FBBC05;
+  --google-green:     #34A853;
 
-  --gg-sky:           #7EC8E3;
-  --gg-sky-soft:      #B5E8F7;
-  --gg-sky-dim:       rgba(126, 200, 227, 0.18);
-  --gg-sky-border:    rgba(126, 200, 227, 0.42);
+  /* ── Gradients ── */
+  --gradient-hero:    linear-gradient(135deg, rgba(66,133,244,0.08) 0%, rgba(234,67,53,0.06) 100%);
+  --gradient-blue-red: linear-gradient(135deg, #4285F4 0%, #EA4335 100%);
+  --gradient-multi:   linear-gradient(135deg, #4285F4 0%, #EA4335 50%, #FBBC05 100%);
+  --gradient-glass:   linear-gradient(135deg, rgba(66,133,244,0.12) 0%, rgba(52,168,83,0.08) 100%);
 
-  /* ── Background ── */
-  --gg-bg:            #FDF0F6;
-  --gg-bg-card:       rgba(255, 255, 255, 0.72);
-  --gg-bg-dark:       #2D1F42;
-  --gg-bg-dark-card:  rgba(45, 31, 66, 0.72);
+  /* ── Glassmorphism System ── */
+  --glass-white:      rgba(255, 255, 255, 0.7);
+  --glass-border:     rgba(0, 0, 0, 0.08);
+  --blur-effect:      blur(30px) saturate(180%);
 
-  /* ── Glassmorphism ── */
-  --glass-bg-light:   rgba(255, 255, 255, 0.42);
-  --glass-bg-pink:    rgba(253, 240, 246, 0.52);
-  --glass-bg-purple:  rgba(200, 184, 240, 0.22);
-  --glass-border:     rgba(255, 255, 255, 0.58);
-  --glass-border-pink:rgba(237, 147, 177, 0.38);
-  --glass-border-purple:rgba(155, 143, 232, 0.36);
-  --glass-blur:       blur(20px);
-  --glass-blur-heavy: blur(32px);
-  --glass-shadow:     0 4px 24px rgba(155, 143, 232, 0.16),
-                      0 1px 0px rgba(255, 255, 255, 0.6) inset;
+  /* ── 2.5D Depth Shadow ── */
+  --shadow-depth:     0 10px 20px rgba(0, 0, 0, 0.05),
+                      0 6px 6px rgba(0, 0, 0, 0.1);
+  --shadow-float:     0 20px 40px rgba(0, 0, 0, 0.08),
+                      0 10px 10px rgba(0, 0, 0, 0.12);
+  --shadow-subtle:    0 2px 8px rgba(0, 0, 0, 0.04);
 
-  /* ── Neumorphism (Cotton Candy) ── */
-  --neu-bg:           #F0E6F0;
-  --neu-raised:       6px 6px 14px rgba(183, 140, 172, 0.35),
-                      -6px -6px 14px rgba(255, 255, 255, 0.85);
-  --neu-inset:        inset 4px 4px 10px rgba(183, 140, 172, 0.3),
-                      inset -4px -4px 10px rgba(255, 255, 255, 0.8);
-  --neu-pressed:      inset 3px 3px 7px rgba(183, 140, 172, 0.4),
-                      inset -2px -2px 5px rgba(255, 255, 255, 0.7);
+  /* ── Legacy Compatibility ── */
+  --gg-bg:            var(--bg-main);
+  --gg-bg-card:       var(--glass-white);
+  --gg-text:          var(--text-main);
+  --gg-text-sub:      var(--text-sub);
+  --gg-text-hint:     var(--text-hint);
+  --gg-pink-deep:     var(--google-blue);
+  --gg-pink:          var(--google-blue);
+  --gg-purple:        var(--google-red);
+  --gg-sky:           var(--google-green);
+  --gg-bg-dark:       #08080F;
+  --gg-bg-dark-card:  rgba(8, 8, 15, 0.85);
 
-  /* ── Text ── */
-  --gg-text:          #2D1F42;
-  --gg-text-sub:      rgba(45, 31, 66, 0.60);
-  --gg-text-hint:     rgba(45, 31, 66, 0.38);
-  --gg-text-on-dark:  #FDF0F6;
+  /* ── Grid Pattern ── */
+  --grid-pattern:     repeating-linear-gradient(0deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 1px, transparent 1px, transparent 20px),
+                      repeating-linear-gradient(90deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 1px, transparent 1px, transparent 20px);
+  
+  /* ── Legacy Glass Vars ── */
+  --glass-bg-light:   var(--glass-white);
+  --glass-bg-pink:    rgba(66, 133, 244, 0.08);
+  --glass-bg-purple:  rgba(234, 67, 53, 0.08);
+  --glass-border-pink:rgba(66, 133, 244, 0.2);
+  --glass-border-purple:rgba(234, 67, 53, 0.2);
+  --glass-blur:       var(--blur-effect);
+  --glass-blur-heavy: blur(40px) saturate(200%);
+  --glass-shadow:     var(--shadow-depth);
 
   /* ── Semantic (광고/상태 표시용) ── */
-  --ad-border:        rgba(237, 147, 177, 0.30);
-  --ad-bg:            rgba(253, 240, 246, 0.50);
-  --ad-label:         rgba(180, 80, 110, 0.70);
+  --ad-border:        rgba(0, 0, 0, 0.10);
+  --ad-bg:            rgba(0, 0, 0, 0.02);
+  --ad-label:         rgba(0, 0, 0, 0.35);
 
   /* ── Typography ── */
-  --font-sans:        'Pretendard', 'Noto Sans KR', sans-serif;
+  --font-sans:        'Inter', 'Syne', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono:        'JetBrains Mono', 'Fira Code', monospace;
-
-  /* ── Legacy scale vars (pitchdeck 호환) ── */
-  --bg: var(--gg-bg);
-  --s1: #ffffff;
-  --s2: #f9f8f5;
-  --s3: #f0eeea;
-  --b1: rgba(0, 0, 0, 0.06);
-  --b2: rgba(0, 0, 0, 0.1);
-  --b3: rgba(0, 0, 0, 0.16);
-  --t1: var(--gg-text);
-  --t2: var(--gg-text-sub);
-  --t3: var(--gg-text-hint);
-  --v:  var(--gg-purple);
-  --v2: var(--gg-purple-soft);
-  --vl: var(--gg-purple-dim);
-  --vb: var(--gg-purple-border);
-  --tl: #0d9488;
-  --tlb: rgba(13, 148, 136, 0.1);
-  --pk: var(--gg-pink-deep);
-  --pkb: var(--gg-pink-dim);
-  --gn: #059669;
-  --gnb: rgba(5, 150, 105, 0.08);
-  --am: #d97706;
-  --amb: rgba(217, 119, 6, 0.08);
-  --gv: linear-gradient(135deg, var(--gg-pink), var(--gg-purple));
-  --gt: linear-gradient(135deg, #0d9488, var(--gg-purple));
-  --gp: linear-gradient(135deg, var(--gg-pink-deep), var(--gg-purple-soft));
-  --gg-grad: linear-gradient(135deg, #059669, #0d9488);
 }
 
-/* 다크모드 오버라이드 */
+/* 다크모드는 명시적으로만 활성화 */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --gg-bg:          #2D1F42;
-    --gg-bg-card:     rgba(45, 31, 66, 0.72);
-    --glass-bg-light: rgba(45, 31, 66, 0.52);
-    --glass-bg-pink:  rgba(80, 40, 80, 0.45);
-    --glass-border:   rgba(237, 147, 177, 0.20);
-    --gg-text:        #FDF0F6;
-    --gg-text-sub:    rgba(253, 240, 246, 0.60);
-    --gg-text-hint:   rgba(253, 240, 246, 0.35);
-    --neu-bg:         #3A2850;
-    --neu-raised:     6px 6px 14px rgba(20, 10, 35, 0.50),
-                      -6px -6px 14px rgba(80, 55, 100, 0.40);
-    --neu-inset:      inset 4px 4px 10px rgba(20, 10, 35, 0.45),
-                      inset -4px -4px 10px rgba(80, 55, 100, 0.35);
-    --bg: var(--gg-bg);
-    --t1: var(--gg-text);
-    --t2: var(--gg-text-sub);
-    --t3: var(--gg-text-hint);
-  }
+  /* 라이트 모드를 디폴트로 유지 */
 }
 
-/* ── CC-2: Glass Card 기본 ── */
+/* ── Studio White Glass Card ── */
 .glass-card {
-  background: var(--glass-bg-light);
-  border: 0.5px solid var(--glass-border);
-  border-radius: 16px;
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  box-shadow: var(--glass-shadow);
+  background: var(--glass-white);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  backdrop-filter: var(--blur-effect);
+  -webkit-backdrop-filter: var(--blur-effect);
+  box-shadow: var(--shadow-depth);
+  transform: translateZ(0);
 }
 
-/* Pink tint */
-.glass-card--pink {
-  background: var(--glass-bg-pink);
-  border-color: var(--glass-border-pink);
-  box-shadow: 0 4px 24px var(--gg-pink-glow), 0 1px 0 rgba(255,255,255,0.6) inset;
+/* Blue accent */
+.glass-card--blue {
+  background: rgba(66, 133, 244, 0.06);
+  border-color: rgba(66, 133, 244, 0.15);
+  box-shadow: var(--shadow-depth), 0 0 0 1px rgba(66, 133, 244, 0.08) inset;
 }
 
-/* Purple tint */
-.glass-card--purple {
-  background: var(--glass-bg-purple);
-  border-color: var(--glass-border-purple);
-  box-shadow: 0 4px 24px var(--gg-purple-glow), 0 1px 0 rgba(255,255,255,0.5) inset;
+/* Red accent */
+.glass-card--red {
+  background: rgba(234, 67, 53, 0.06);
+  border-color: rgba(234, 67, 53, 0.15);
+  box-shadow: var(--shadow-depth), 0 0 0 1px rgba(234, 67, 53, 0.08) inset;
 }
 
-/* ── Neumorphic 컴포넌트 ── */
-.neu-raised {
-  background: var(--neu-bg);
-  border-radius: 12px;
-  box-shadow: var(--neu-raised);
-  border: none;
+/* 2.5D Isometric Transform */
+.iso-card {
+  transform: rotateX(2deg) rotateY(-2deg) translateZ(20px);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.neu-inset {
-  background: var(--neu-bg);
-  border-radius: 10px;
-  box-shadow: var(--neu-inset);
-  border: none;
+.iso-card:hover {
+  transform: rotateX(0deg) rotateY(0deg) translateZ(40px);
+  box-shadow: var(--shadow-float);
 }
 
-.neu-btn {
-  background: var(--neu-bg);
-  border-radius: 10px;
-  box-shadow: var(--neu-raised);
-  border: none;
-  cursor: pointer;
-  transition: box-shadow .15s, transform .1s;
-}
-
-.neu-btn:hover {
-  box-shadow: 4px 4px 10px rgba(183, 140, 172, 0.3),
-              -4px -4px 10px rgba(255, 255, 255, 0.8);
-}
-
-.neu-btn:active {
-  box-shadow: var(--neu-pressed);
-  transform: scale(0.98);
-}
-
-/* ── Badge / Pill ── */
-.badge-pink {
-  background: var(--gg-pink-dim);
-  border: 0.5px solid var(--gg-pink-border);
-  color: #72243E;
+/* ── Badge / Pill (Google Colors) ── */
+.badge-blue {
+  background: rgba(66, 133, 244, 0.10);
+  border: 1px solid rgba(66, 133, 244, 0.20);
+  color: #1967D2;
   border-radius: 20px;
   padding: 4px 12px;
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
-.badge-purple {
-  background: var(--gg-purple-dim);
-  border: 0.5px solid var(--gg-purple-border);
-  color: #3C3489;
+.badge-red {
+  background: rgba(234, 67, 53, 0.10);
+  border: 1px solid rgba(234, 67, 53, 0.20);
+  color: #C5221F;
   border-radius: 20px;
   padding: 4px 12px;
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
-.badge-sky {
-  background: var(--gg-sky-dim);
-  border: 0.5px solid var(--gg-sky-border);
-  color: #0C447C;
+.badge-yellow {
+  background: rgba(251, 188, 5, 0.15);
+  border: 1px solid rgba(251, 188, 5, 0.30);
+  color: #E37400;
   border-radius: 20px;
   padding: 4px 12px;
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 600;
+}
+
+.badge-green {
+  background: rgba(52, 168, 83, 0.10);
+  border: 1px solid rgba(52, 168, 83, 0.20);
+  color: #188038;
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: 600;
 }
 
 /* ── 광고 슬롯 (Cotton Candy 버전) ── */
@@ -236,37 +184,30 @@
   font-family: var(--font-mono);
 }
 
-/* ── CTA 버튼 (핑크→퍼플 그라데이션) ── */
+/* ── CTA 버튼 (Studio White) ── */
 .btn-primary {
-  background: linear-gradient(135deg, var(--gg-pink) 0%, var(--gg-purple) 100%);
+  background: var(--google-blue);
   color: #fff;
   border: none;
-  border-radius: 10px;
-  padding: 10px 22px;
-  font-size: 13px;
-  font-weight: 500;
+  border-radius: 12px;
+  padding: 12px 28px;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 4px 16px var(--gg-pink-glow);
-  transition: opacity .15s, transform .1s;
+  box-shadow: var(--shadow-depth);
 }
-
-.btn-primary:hover { opacity: .88; }
-.btn-primary:active { transform: scale(0.97); }
 
 .btn-ghost {
-  background: var(--glass-bg-light);
-  color: var(--gg-purple-deep);
-  border: 0.5px solid var(--gg-purple-border);
-  border-radius: 10px;
-  padding: 10px 22px;
-  font-size: 13px;
-  font-weight: 500;
+  background: var(--glass-white);
+  color: var(--text-main);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 12px 28px;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  backdrop-filter: blur(8px);
-  transition: background .15s;
+  backdrop-filter: var(--blur-effect);
 }
-
-.btn-ghost:hover { background: var(--gg-purple-dim); }
 
 /* ── 테마 셀렉터 ── */
 .theme-tag {
@@ -283,37 +224,39 @@
   color: #72243E;
 }
 
-/* ── 페이지 배경 ── */
+/* ── 페이지 배경 (Studio White Grid) ── */
 body {
-  background: var(--gg-bg);
-  color: var(--gg-text);
+  background: var(--bg-main);
+  background-image: var(--grid-pattern);
+  color: var(--text-main);
   font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* NAV */
+/* NAV (Studio White) */
 .nav {
   position: sticky;
   top: 0;
   z-index: 200;
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 0.5px solid var(--glass-border);
-  padding: 8px 16px;
+  background: var(--glass-white);
+  backdrop-filter: var(--blur-effect);
+  -webkit-backdrop-filter: var(--blur-effect);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 16px 32px;
   display: flex;
   align-items: center;
-  gap: 5px;
-  flex-wrap: wrap
+  gap: 8px;
+  flex-wrap: wrap;
+  box-shadow: var(--shadow-subtle);
 }
 
 .nav-logo {
-  font-size: 13px;
-  font-weight: 900;
-  background: linear-gradient(135deg, var(--gg-pink), var(--gg-purple));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-right: 8px;
-  letter-spacing: -.04em
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-right: 16px;
+  letter-spacing: -0.02em;
 }
 
 .nb {

@@ -3,203 +3,627 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GitGloss — GitHub README & Notion 위젯 스튜디오</title>
-  <meta name="description" content="GitHub README와 Notion 페이지를 빛내는 Cotton Candy Glass 위젯 스튜디오. 드래그 앤 드롭으로 5분 만에 완성.">
+  <title>GitGloss — Premium Developer Identity Studio</title>
+  <meta name="description" content="실리콘밸리 하이테크 스튜디오가 만든 프리미엄 개발자 브랜딩 플랫폼. GitHub README를 압도적인 시각적 권위로 완성하세요.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
   <style>
-    html { scroll-behavior: smooth }
+    html { scroll-behavior: smooth; }
+    * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
 
     /* ── NAV ── */
-    .nav-links { display: flex; gap: 18px; margin-left: 16px; }
+    .nav-links { display: flex; gap: 32px; margin-left: 24px; }
     .nav-link {
-      font-size: 12px; color: var(--gg-text-hint);
-      text-decoration: none; cursor: pointer; transition: .12s;
+      font-size: 14px; color: var(--text-sub); font-weight: 500;
+      text-decoration: none; cursor: pointer;
     }
-    .nav-link:hover { color: var(--gg-text); }
     .nav-cta {
       margin-left: auto;
-      padding: 7px 18px;
-      background: linear-gradient(135deg, #D4537E, #534AB7);
-      color: #fff; border: none; border-radius: 8px;
-      font-size: 12px; font-weight: 500; cursor: pointer;
-      font-family: var(--font-sans); transition: .13s;
+      padding: 10px 24px;
+      background: var(--google-blue);
+      color: #fff; border: none; border-radius: 12px;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      font-family: var(--font-sans);
+      box-shadow: var(--shadow-depth);
+      position: relative;
+      overflow: hidden;
     }
-    .nav-cta:hover { opacity: .88; }
+
+    .nav-cta span {
+      position: relative;
+      z-index: 1;
+    }
 
     /* ── HERO ── */
     .hero {
       display: grid; grid-template-columns: 1fr 1fr;
-      gap: 48px; align-items: center;
-      padding: 52px 40px 48px;
-      background:
-        linear-gradient(160deg, rgba(237,147,177,.10) 0%, transparent 50%),
-        linear-gradient(200deg, rgba(155,143,232,.08) 30%, transparent 70%);
+      gap: 80px; align-items: center;
+      padding: 120px 80px;
+      background: var(--bg-main);
+      background-image: var(--gradient-hero), var(--grid-pattern);
+      position: relative;
     }
     .eyebrow {
-      font-size: 10px; font-weight: 500;
-      letter-spacing: .12em; text-transform: uppercase;
-      color: var(--gg-pink-deep); margin-bottom: 12px;
+      font-size: 12px; font-weight: 700;
+      letter-spacing: .15em; text-transform: uppercase;
+      color: var(--google-blue); margin-bottom: 24px;
     }
     .hero-h1 {
-      font-size: clamp(22px, 3.5vw, 36px);
-      font-weight: 500; color: var(--gg-text);
-      line-height: 1.18; letter-spacing: -.02em; margin-bottom: 14px;
+      font-size: clamp(32px, 5vw, 64px);
+      font-weight: 800; color: var(--text-main);
+      line-height: 1.1; letter-spacing: -.03em; margin-bottom: 24px;
     }
     .hero-h1 em {
-      font-style: normal; color: var(--gg-pink-deep);
+      font-style: normal;
+      background: var(--gradient-blue-red);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
     .hero-desc {
-      font-size: 13px; color: var(--gg-text-sub);
-      line-height: 1.65; margin-bottom: 24px;
+      font-size: 18px; color: var(--text-sub);
+      line-height: 1.6; margin-bottom: 40px; font-weight: 500;
     }
-    .hero-btns { display: flex; gap: 10px; }
+    .hero-btns { display: flex; gap: 16px; }
     .btn-primary-hero {
-      padding: 10px 22px;
-      background: linear-gradient(135deg, #D4537E, #534AB7);
-      color: #fff; border: none; border-radius: 8px;
-      font-size: 13px; font-weight: 500; cursor: pointer;
-      font-family: var(--font-sans); transition: .13s;
-      text-decoration: none; display: inline-block;
-    }
-    .btn-primary-hero:hover { opacity: .88; }
-    .btn-ghost-hero {
-      padding: 10px 18px;
-      background: transparent;
-      border: 0.5px solid rgba(237,147,177,.5);
-      color: #72243E; border-radius: 8px;
-      font-size: 13px; cursor: pointer;
+      padding: 16px 32px;
+      background: var(--google-blue);
+      color: #fff; border: none; border-radius: 12px;
+      font-size: 16px; font-weight: 600; cursor: pointer;
       font-family: var(--font-sans);
       text-decoration: none; display: inline-block;
+      box-shadow: var(--shadow-depth);
+      position: relative;
+      overflow: hidden;
+      transition: all .2s;
     }
 
-    /* Hero right — float cards */
-    .hero-right { display: flex; flex-direction: column; gap: 10px; }
-    .float-card {
-      padding: 14px 16px; border-radius: 14px;
-      background: rgba(253,240,246,.75);
-      border: 0.5px solid rgba(237,147,177,.32);
+    .btn-primary-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--gradient-blue-red);
+      opacity: 0;
+      transition: opacity .3s;
     }
-    .card-label {
-      font-size: 9px; font-weight: 500;
-      letter-spacing: .08em; text-transform: uppercase;
-      color: var(--gg-text-hint); margin-bottom: 6px;
+
+    .btn-primary-hero:hover::before {
+      opacity: 1;
     }
-    .card-stat {
-      font-size: 22px; font-weight: 500;
-      color: var(--gg-pink-deep); letter-spacing: -.02em;
+
+    .btn-primary-hero:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-float);
     }
-    .card-sub { font-size: 10px; color: var(--gg-text-hint); margin-top: 3px; }
-    .badge-row { display: flex; gap: 5px; margin-top: 8px; flex-wrap: wrap; }
-    .badge-sm { font-size: 9px; padding: 2px 8px; border-radius: 10px; }
-    .badge-sm-pk { background: #FBEAF0; color: #72243E; }
-    .badge-sm-pu { background: #EEEDFE; color: #3C3489; }
-    .badge-sm-sk { background: #E6F1FB; color: #0C447C; }
+
+    .btn-primary-hero span {
+      position: relative;
+      z-index: 1;
+    }
+    .btn-ghost-hero {
+      padding: 16px 32px;
+      background: var(--glass-white);
+      border: 1px solid var(--glass-border);
+      color: var(--text-main); border-radius: 12px;
+      font-size: 16px; cursor: pointer; font-weight: 600;
+      font-family: var(--font-sans);
+      text-decoration: none; display: inline-block;
+      backdrop-filter: var(--blur-effect);
+      transition: all .2s;
+    }
+    .btn-ghost-hero:hover {
+      background: rgba(0, 0, 0, 0.04);
+    }
+
+    /* Hero right — GitHub README Mockup (No Animation) */
+    .hero-right {
+      /* perspective 제거 */
+    }
+
+    .github-mockup {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: var(--shadow-float);
+      /* transform, transition, hover 제거 */
+    }
+
+    .gh-mock-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #21262d;
+      margin-bottom: 16px;
+    }
+
+    .gh-mock-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--gradient-blue-red);
+      border: 2px solid #21262d;
+      flex-shrink: 0;
+    }
+
+    .gh-mock-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: #c9d1d9;
+      margin-bottom: 2px;
+    }
+
+    .gh-mock-bio {
+      font-size: 12px;
+      color: #8b949e;
+    }
+
+    .gh-mock-tabs {
+      display: flex;
+      gap: 12px;
+      border-bottom: 1px solid #21262d;
+      margin-bottom: 16px;
+    }
+
+    .gh-mock-tab {
+      padding: 8px 12px;
+      font-size: 12px;
+      color: #8b949e;
+      border-bottom: 2px solid transparent;
+      font-weight: 500;
+    }
+
+    .gh-mock-tab.active {
+      color: #c9d1d9;
+      border-bottom-color: #f78166;
+    }
+
+    .gh-mock-readme {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .gh-mock-readme-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      background: #161b22;
+      border-bottom: 1px solid #30363d;
+      font-size: 12px;
+      font-weight: 600;
+      color: #c9d1d9;
+    }
+
+    .gh-mock-readme-header svg {
+      fill: #8b949e;
+    }
+
+    .gh-mock-content {
+      padding: 20px;
+    }
+
+    .gh-mock-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #c9d1d9;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #21262d;
+    }
+
+    .gh-mock-subtitle {
+      font-size: 16px;
+      font-weight: 600;
+      color: #c9d1d9;
+      margin: 20px 0 12px 0;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #21262d;
+    }
+
+    .gh-mock-text {
+      font-size: 13px;
+      color: #c9d1d9;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .gh-mock-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .gh-mock-list-item {
+      font-size: 13px;
+      color: #c9d1d9;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .gh-mock-list-item::before {
+      content: '•';
+      position: absolute;
+      left: 8px;
+      color: #8b949e;
+    }
+
+    /* GitGloss Widget Embedded in GitHub README (No Animation) */
+    .gitgloss-widget-embed {
+      background: var(--glass-white);
+      backdrop-filter: var(--blur-effect);
+      -webkit-backdrop-filter: var(--blur-effect);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      padding: 24px;
+      margin: 20px 0;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4),
+                  0 5px 10px rgba(0, 0, 0, 0.3);
+      position: relative;
+      /* transform, transition, hover 제거 */
+    }
+
+    .gitgloss-widget-embed::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      background: var(--gradient-glass);
+      opacity: 0.6;
+      z-index: -1;
+    }
+
+    .widget-embed-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .widget-embed-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--gradient-blue-red);
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(66, 133, 244, 0.4);
+    }
+
+    .widget-embed-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 2px;
+    }
+
+    .widget-embed-handle {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: 500;
+    }
+
+    .widget-embed-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .widget-embed-stat {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 12px 6px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .widget-embed-num {
+      font-size: 18px;
+      font-weight: 700;
+      background: var(--gradient-blue-red);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 4px;
+    }
+
+    .widget-embed-label {
+      font-size: 9px;
+      color: rgba(8, 8, 15, 0.6);
+      font-weight: 600;
+      letter-spacing: .08em;
+    }
+
+    .widget-embed-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .widget-embed-badge {
+      font-size: 10px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+
+    .widget-embed-badge.badge-blue {
+      background: rgba(66, 133, 244, 0.15);
+      color: #1967D2;
+      border: 1px solid rgba(66, 133, 244, 0.3);
+    }
+
+    .widget-embed-badge.badge-red {
+      background: rgba(234, 67, 53, 0.15);
+      color: #C5221F;
+      border: 1px solid rgba(234, 67, 53, 0.3);
+    }
+
+    .widget-embed-badge.badge-green {
+      background: rgba(52, 168, 83, 0.15);
+      color: #188038;
+      border: 1px solid rgba(52, 168, 83, 0.3);
+    }
 
     /* ── AD BANNER ── */
     .ad-banner {
-      margin: 0 24px;
-      padding: 10px 16px;
-      background: rgba(253,240,246,.55);
-      border: 0.5px dashed rgba(237,147,177,.35);
-      border-radius: 10px;
+      margin: 0 80px;
+      padding: 16px 24px;
+      background: rgba(0,0,0,.02);
+      border: 1px dashed rgba(0,0,0,.1);
+      border-radius: 16px;
       display: flex; align-items: center; justify-content: space-between;
       position: relative;
     }
     .ad-banner::before {
       content: 'Sponsored';
-      position: absolute; top: 4px; left: 10px;
-      font-size: 8px; color: rgba(154,122,154,.6);
-      letter-spacing: .06em; font-family: var(--font-mono);
+      position: absolute; top: 8px; left: 16px;
+      font-size: 10px; color: rgba(0,0,0,.35);
+      letter-spacing: .08em; font-family: var(--font-mono); font-weight: 600;
     }
-    .ad-banner-text { font-size: 11px; color: var(--gg-text-sub); padding-top: 8px; }
-    .ad-banner-slot { font-size: 9px; color: var(--gg-text-hint); font-family: var(--font-mono); }
+    .ad-banner-text { font-size: 13px; color: var(--text-sub); padding-top: 12px; font-weight: 500; }
+    .ad-banner-slot { font-size: 11px; color: var(--text-hint); font-family: var(--font-mono); }
 
     /* ── GALLERY ── */
-    .gallery-section { padding: 32px 24px; }
+    .gallery-section { padding: 80px 80px; background: var(--bg-subtle); }
     .section-eyebrow {
-      font-size: 10px; font-weight: 500;
-      letter-spacing: .12em; text-transform: uppercase;
-      color: var(--gg-pink-deep); margin-bottom: 8px;
+      font-size: 12px; font-weight: 700;
+      letter-spacing: .15em; text-transform: uppercase;
+      color: var(--google-blue); margin-bottom: 16px;
     }
-    .section-title { font-size: 20px; font-weight: 500; color: var(--gg-text); margin-bottom: 4px; }
-    .section-desc  { font-size: 12px; color: var(--gg-text-hint); margin-bottom: 20px; }
+    .section-title { font-size: 40px; font-weight: 800; color: var(--text-main); margin-bottom: 12px; letter-spacing: -.02em; }
+    .section-desc  { font-size: 18px; color: var(--text-sub); margin-bottom: 48px; font-weight: 500; }
 
-    .gallery-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+
+    /* Badge styles */
+    .badge-blue {
+      background: rgba(66, 133, 244, 0.1);
+      color: #1967D2;
+      border: 1px solid rgba(66, 133, 244, 0.2);
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .badge-red {
+      background: rgba(234, 67, 53, 0.1);
+      color: #C5221F;
+      border: 1px solid rgba(234, 67, 53, 0.2);
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .badge-green {
+      background: rgba(52, 168, 83, 0.1);
+      color: #188038;
+      border: 1px solid rgba(52, 168, 83, 0.2);
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .badge-yellow {
+      background: rgba(251, 188, 5, 0.15);
+      color: #E37400;
+      border: 1px solid rgba(251, 188, 5, 0.3);
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
 
     .g-card {
-      background: rgba(255,255,255,.65);
-      border: 0.5px solid rgba(237,147,177,.22);
-      border-radius: 14px; padding: 14px;
-      cursor: pointer; transition: .15s; position: relative;
+      background: var(--glass-white);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px; padding: 24px;
+      cursor: pointer; transition: all .3s; position: relative;
+      backdrop-filter: var(--blur-effect);
+      box-shadow: var(--shadow-depth);
+      transform: translateZ(0);
+      overflow: hidden;
     }
+
+    .g-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--gradient-glass);
+      opacity: 0;
+      transition: opacity .3s;
+      pointer-events: none;
+    }
+
+    .g-card:hover::before {
+      opacity: 0.3;
+    }
+
     .g-card:hover {
-      border-color: rgba(237,147,177,.55);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(237,147,177,.15);
+      transform: translateY(-4px) translateZ(20px);
+      box-shadow: var(--shadow-float);
+      border-color: rgba(66,133,244,.3);
     }
     .g-thumb {
-      height: 64px; border-radius: 8px;
-      margin-bottom: 10px; overflow: hidden;
+      height: 120px; border-radius: 12px;
+      margin-bottom: 20px; overflow: hidden;
       display: flex; align-items: center; justify-content: center;
       position: relative;
+      background: var(--bg-subtle);
     }
-    .g-thumb-bars { width: 75%; display: flex; flex-direction: column; gap: 4px; }
-    .thumb-bar { height: 6px; border-radius: 3px; }
-    .g-title { font-size: 12px; font-weight: 500; color: var(--gg-text); margin-bottom: 5px; }
-    .g-meta  { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px; }
+    .g-thumb-bars { width: 80%; display: flex; flex-direction: column; gap: 8px; }
+    .thumb-bar { height: 8px; border-radius: 4px; }
+    .g-title { font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 12px; }
+    .g-meta  { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
     .card-new {
-      position: absolute; top: 8px; right: 8px;
-      font-size: 8px; font-weight: 500;
-      background: rgba(126,200,227,.2); color: #0C447C;
-      border: 0.5px solid rgba(126,200,227,.4);
-      border-radius: 4px; padding: 1px 5px;
+      position: absolute; top: 16px; right: 16px;
+      font-size: 10px; font-weight: 700;
+      background: rgba(52,168,83,.15); color: #188038;
+      border: 1px solid rgba(52,168,83,.3);
+      border-radius: 8px; padding: 4px 10px;
     }
     .use-btn {
-      display: block; width: 100%; padding: 7px;
-      background: linear-gradient(135deg, rgba(212,83,126,.12), rgba(83,74,183,.10));
-      border: 0.5px solid rgba(237,147,177,.35);
-      border-radius: 7px; font-size: 11px; font-weight: 500;
-      color: #72243E; text-align: center; cursor: pointer;
-      font-family: var(--font-sans); transition: .13s;
+      display: block; width: 100%; padding: 12px;
+      background: var(--google-blue);
+      border: none;
+      border-radius: 12px; font-size: 14px; font-weight: 600;
+      color: #fff; text-align: center; cursor: pointer;
+      font-family: var(--font-sans);
       text-decoration: none;
+      box-shadow: var(--shadow-subtle);
+      position: relative;
+      overflow: hidden;
+      transition: all .2s;
     }
+
+    .use-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--gradient-blue-red);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+    .use-btn:hover::before {
+      opacity: 1;
+    }
+
     .use-btn:hover {
-      background: linear-gradient(135deg, rgba(212,83,126,.2), rgba(83,74,183,.18));
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-depth);
+    }
+
+    .use-btn span {
+      position: relative;
+      z-index: 1;
     }
 
     /* Native ad card */
     .ad-native-card {
-      background: rgba(253,240,246,.72);
-      border: 0.5px dashed rgba(155,143,232,.38);
-      border-radius: 14px; padding: 14px; position: relative;
+      background: rgba(0,0,0,.02);
+      border: 1px dashed rgba(0,0,0,.1);
+      border-radius: 20px; padding: 24px; position: relative;
     }
     .ad-native-card::before {
-      content: 'Sponsored'; position: absolute; top: 8px; left: 12px;
-      font-size: 8px; color: rgba(154,122,154,.6);
-      letter-spacing: .06em; font-family: var(--font-mono);
+      content: 'Sponsored'; position: absolute; top: 16px; left: 20px;
+      font-size: 10px; color: rgba(0,0,0,.35);
+      letter-spacing: .08em; font-family: var(--font-mono); font-weight: 600;
     }
-    .ad-native-title { font-size: 12px; font-weight: 500; color: var(--gg-text); margin-top: 12px; margin-bottom: 4px; }
-    .ad-native-desc  { font-size: 11px; color: var(--gg-text-sub); line-height: 1.5; margin-bottom: 10px; }
+    .ad-native-title { font-size: 16px; font-weight: 700; color: var(--text-main); margin-top: 24px; margin-bottom: 8px; }
+    .ad-native-desc  { font-size: 14px; color: var(--text-sub); line-height: 1.6; margin-bottom: 16px; font-weight: 500; }
 
     /* ── FOOTER ── */
     .page-footer {
-      background: rgba(253,240,246,.6);
-      border-top: 0.5px solid rgba(237,147,177,.2);
-      padding: 14px 24px;
-      display: flex; align-items: center; gap: 16px;
-      font-size: 10px; color: var(--gg-text-hint);
+      background: var(--bg-main);
+      border-top: 1px solid var(--glass-border);
+      padding: 32px 80px;
+      display: flex; align-items: center; gap: 32px;
+      font-size: 14px; color: var(--text-hint); font-weight: 500;
     }
-    .footer-links { display: flex; gap: 12px; }
-    .footer-link { color: var(--gg-text-hint); text-decoration: none; }
-    .footer-link:hover { color: var(--gg-pink-deep); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-link { color: var(--text-hint); text-decoration: none; transition: .2s; }
+    .footer-link:hover { color: var(--text-main); }
 
-    @media (max-width: 768px) {
-      .hero         { grid-template-columns: 1fr; gap: 32px; padding: 32px 20px; }
-      .gallery-grid { grid-template-columns: 1fr 1fr; }
-      .nav-links    { display: none; }
+    /* ── HOW TO SECTION ── */
+    .how-to-section {
+      padding: 80px 80px;
+      background: var(--bg-main);
     }
-    @media (max-width: 480px) {
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    .step-card {
+      background: var(--glass-white);
+      backdrop-filter: var(--blur-effect);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: var(--shadow-depth);
+    }
+
+    .step-number {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--google-blue);
+      margin-bottom: 16px;
+      letter-spacing: .1em;
+    }
+
+    .step-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 12px;
+    }
+
+    .step-desc {
+      font-size: 14px;
+      color: var(--text-sub);
+      line-height: 1.6;
+      font-weight: 500;
+    }
+
+    @media (max-width: 1024px) {
+      .hero { grid-template-columns: 1fr; gap: 48px; padding: 80px 40px; }
+      .gallery-section { padding: 60px 40px; }
+      .how-to-section { padding: 60px 40px; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .steps-grid { grid-template-columns: 1fr; gap: 24px; }
+      .nav-links { display: none; }
+      .ad-banner { margin: 0 40px; }
+      .page-footer { padding: 24px 40px; }
+    }
+    @media (max-width: 640px) {
+      .hero { padding: 60px 24px; }
+      .gallery-section { padding: 48px 24px; }
+      .how-to-section { padding: 48px 24px; }
       .gallery-grid { grid-template-columns: 1fr; }
+      .ad-banner { margin: 0 24px; }
+      .page-footer { padding: 20px 24px; flex-direction: column; gap: 16px; }
     }
   </style>
 </head>
@@ -213,160 +637,286 @@
       <a href="#guide"       class="nav-link">가이드</a>
       <a href="#about"       class="nav-link">소개</a>
     </div>
-    <a href="builder.html"><button class="nav-cta">위젯 만들기</button></a>
+    <a href="builder.html"><button class="nav-cta"><span>위젯 만들기</span></button></a>
   </nav>
 
-  <!-- HERO -->
+  <!-- HERO with GitHub README Mockup -->
   <section class="hero">
     <div>
-      <div class="eyebrow">Cotton Candy Glass Design System</div>
+      <div class="eyebrow">STUDIO WHITE DESIGN SYSTEM</div>
       <h1 class="hero-h1">GitHub README를<br><em>유리알처럼</em><br>빛내세요</h1>
-      <p class="hero-desc">갤러리에서 마음에 드는 위젯을 골라<br>클릭 한 번으로 README에 붙여넣기.</p>
+      <p class="hero-desc">갤러리에서 마음에 드는 위젯을 고르고<br>사용자명 입력 후 Markdown 한 줄로 붙여넣기.<br>그게 전부예요.</p>
       <div class="hero-btns">
-        <a href="gallery.html" class="btn-primary-hero">갤러리 보기 →</a>
-        <a href="builder.html" class="btn-ghost-hero">직접 만들기</a>
+        <a href="gallery.html" class="btn-primary-hero"><span>갤러리 보기 →</span></a>
+        <a href="builder.html" class="btn-ghost-hero">5분 가이드</a>
       </div>
+      <p style="font-size:13px;color:var(--text-hint);margin-top:16px;font-weight:500;">200+ 위젯 · 무료 · 즉시 사용 가능</p>
     </div>
 
+    <!-- GitHub README Mockup -->
     <div class="hero-right">
-      <div class="float-card">
-        <div class="card-label">GitHub Stats</div>
-        <div class="card-stat">2,847</div>
-        <div class="card-sub">Total Stars · 지난 30일</div>
-        <div class="badge-row">
-          <span class="badge-sm badge-sm-pk">React</span>
-          <span class="badge-sm badge-sm-pu">TypeScript</span>
-          <span class="badge-sm badge-sm-sk">Node.js</span>
+      <div class="github-mockup">
+        <div class="gh-mock-header">
+          <div class="gh-mock-avatar"></div>
+          <div class="gh-mock-info">
+            <div class="gh-mock-name">octocat</div>
+            <div class="gh-mock-bio">Full-stack Developer</div>
+          </div>
         </div>
-      </div>
-      <div class="float-card" style="background:rgba(238,237,254,.6);border-color:rgba(155,143,232,.3)">
-        <div class="card-label">Contribution Graph</div>
-        <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:3px;margin-top:4px">
-          <div style="height:7px;border-radius:2px;background:rgba(212,83,126,.18)"></div>
-          <div style="height:7px;border-radius:2px;background:#ED93B1"></div>
-          <div style="height:7px;border-radius:2px;background:rgba(155,143,232,.3)"></div>
-          <div style="height:7px;border-radius:2px;background:#9B8FE8"></div>
-          <div style="height:7px;border-radius:2px;background:rgba(212,83,126,.15)"></div>
-          <div style="height:7px;border-radius:2px;background:#ED93B1"></div>
-          <div style="height:7px;border-radius:2px;background:rgba(155,143,232,.25)"></div>
-          <div style="height:7px;border-radius:2px;background:rgba(126,200,227,.3)"></div>
-          <div style="height:7px;border-radius:2px;background:#7EC8E3"></div>
-          <div style="height:7px;border-radius:2px;background:#9B8FE8"></div>
-          <div style="height:7px;border-radius:2px;background:rgba(212,83,126,.18)"></div>
-          <div style="height:7px;border-radius:2px;background:#ED93B1"></div>
+        
+        <div class="gh-mock-tabs">
+          <span class="gh-mock-tab">Overview</span>
+          <span class="gh-mock-tab active">README</span>
+          <span class="gh-mock-tab">Repos</span>
         </div>
-        <div class="card-sub" style="margin-top:6px">342 contributions this year</div>
+
+        <div class="gh-mock-readme">
+          <div class="gh-mock-readme-header">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v12.5A1.75 1.75 0 0114.25 16H1.75A1.75 1.75 0 010 14.25V1.75zm1.75-.25a.25.25 0 00-.25.25v12.5c0 .138.112.25.25.25h12.5a.25.25 0 00.25-.25V1.75a.25.25 0 00-.25-.25H1.75z"></path>
+            </svg>
+            <span>README.md</span>
+          </div>
+
+          <div class="gh-mock-content">
+            <div class="gh-mock-title">👋 Hi, I'm @octocat</div>
+            <div class="gh-mock-text">Welcome to my GitHub profile!</div>
+
+            <!-- Embedded GitGloss Widget -->
+            <div class="gitgloss-widget-embed">
+              <div class="widget-embed-header">
+                <div class="widget-embed-avatar"></div>
+                <div>
+                  <div class="widget-embed-name">octocat</div>
+                  <div class="widget-embed-handle">@octocat · GitHub</div>
+                </div>
+              </div>
+              <div class="widget-embed-stats">
+                <div class="widget-embed-stat">
+                  <div class="widget-embed-num">2.8k</div>
+                  <div class="widget-embed-label">STARS</div>
+                </div>
+                <div class="widget-embed-stat">
+                  <div class="widget-embed-num">142</div>
+                  <div class="widget-embed-label">REPOS</div>
+                </div>
+                <div class="widget-embed-stat">
+                  <div class="widget-embed-num">98%</div>
+                  <div class="widget-embed-label">ACTIVE</div>
+                </div>
+              </div>
+              <div class="widget-embed-tags">
+                <span class="widget-embed-badge badge-blue">React</span>
+                <span class="widget-embed-badge badge-red">TypeScript</span>
+                <span class="widget-embed-badge badge-green">Node.js</span>
+              </div>
+            </div>
+
+            <div class="gh-mock-subtitle">🚀 About Me</div>
+            <div class="gh-mock-list">
+              <div class="gh-mock-list-item">🔭 Working on awesome-project</div>
+              <div class="gh-mock-list-item">🌱 Learning Rust & WebAssembly</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- AD-1: Hero 직후 Leaderboard -->
-  <div class="ad-banner" style="margin:16px 24px">
-    <div class="ad-banner-text">728×90 Leaderboard — Google AdSense · Hero 직후 최상단 노출</div>
-    <div class="ad-banner-slot">AD-1</div>
+  <div class="ad-banner" style="margin:48px 80px">
+    <div class="ad-banner-text">Google AdSense 728×90 — Leaderboard</div>
+    <div class="ad-banner-slot"></div>
   </div>
 
   <!-- GALLERY -->
   <div class="gallery-section">
     <div class="section-eyebrow">위젯 갤러리</div>
     <div class="section-title">마음에 드는 위젯을 골라보세요</div>
-    <div class="section-desc">클릭하면 바로 빌더에서 커스터마이징할 수 있어요</div>
+    <div class="section-desc">클릭하면 빌더에서 해당 위젯이 바로 열려요</div>
 
     <div class="gallery-grid">
 
       <!-- 1 -->
       <div class="g-card">
         <div class="card-new">NEW</div>
-        <div class="g-thumb" style="background:linear-gradient(135deg,rgba(237,147,177,.2),rgba(155,143,232,.15))">
+        <div class="g-thumb" style="background:linear-gradient(135deg,rgba(66,133,244,.15),rgba(234,67,53,.1))">
           <div class="g-thumb-bars">
-            <div class="thumb-bar" style="width:100%;background:rgba(155,143,232,.4)"></div>
-            <div class="thumb-bar" style="width:70%;background:rgba(237,147,177,.35)"></div>
-            <div class="thumb-bar" style="width:85%;background:rgba(155,143,232,.3)"></div>
+            <div class="thumb-bar" style="width:100%;background:rgba(66,133,244,.5)"></div>
+            <div class="thumb-bar" style="width:75%;background:rgba(234,67,53,.4)"></div>
+            <div class="thumb-bar" style="width:90%;background:rgba(52,168,83,.4)"></div>
           </div>
         </div>
         <div class="g-title">GitHub Stats Card</div>
-        <div class="g-meta"><span class="badge-sm badge-sm-pk">Glass Light</span></div>
-        <a href="builder.html?type=stats&theme=cotton-candy" class="use-btn">이 위젯 사용하기 →</a>
+        <div class="g-meta">
+          <span class="badge-blue">Glass Light</span>
+          <span class="card-new">NEW</span>
+        </div>
+        <a href="builder.html?type=stats&theme=glass-light" class="use-btn">이 위젯 사용하기 →</a>
       </div>
 
       <!-- 2 -->
       <div class="g-card">
-        <div class="g-thumb" style="background:linear-gradient(135deg,rgba(45,31,66,.8),rgba(80,40,80,.6))">
-          <div class="badge-row" style="justify-content:center">
-            <span class="badge-sm badge-sm-pk" style="font-size:8px">React</span>
-            <span class="badge-sm badge-sm-pu" style="font-size:8px">TS</span>
-            <span class="badge-sm badge-sm-sk" style="font-size:8px">Node</span>
+        <div class="g-thumb" style="background:linear-gradient(135deg,rgba(8,8,15,.9),rgba(66,133,244,.2))">
+          <div class="g-thumb-bars">
+            <div class="thumb-bar" style="width:100%;background:rgba(66,133,244,.5)"></div>
+            <div class="thumb-bar" style="width:75%;background:rgba(234,67,53,.4)"></div>
+            <div class="thumb-bar" style="width:90%;background:rgba(52,168,83,.4)"></div>
           </div>
         </div>
-        <div class="g-title">Tech Stack Badge</div>
-        <div class="g-meta"><span class="badge-sm badge-sm-pu">Neumorphic</span></div>
-        <a href="builder.html?type=tech&theme=neumorphic-candy" class="use-btn">이 위젯 사용하기 →</a>
+        <div class="g-title">GitHub Stats Card</div>
+        <div class="g-meta"><span class="badge-blue">Glass Dark</span></div>
+        <a href="builder.html?type=stats&theme=glass-dark" class="use-btn">이 위젯 사용하기 →</a>
       </div>
 
       <!-- AD-2: 갤러리 3번째 슬롯 네이티브 -->
       <div class="ad-native-card">
-        <div class="ad-native-title">쿠팡 파트너스</div>
-        <div class="ad-native-desc">개발자를 위한 추천 상품 · 쿠팡 파트너스 연동</div>
-        <a href="builder.html" class="use-btn" style="background:linear-gradient(135deg,rgba(155,143,232,.15),rgba(83,74,183,.12));border-color:rgba(155,143,232,.4);color:#3C3489">
-          광고 보기
-        </a>
+        <div class="ad-native-title">GitGloss Pro</div>
+        <div class="ad-native-desc">무제한 위젯 · 커스텀 도메인 · 우선 지원<br>월 9,900원으로 시작</div>
+        <a href="builder.html" class="use-btn">Pro 시작하기</a>
       </div>
 
       <!-- 4 -->
       <div class="g-card">
-        <div class="g-thumb" style="background:linear-gradient(135deg,rgba(126,200,227,.2),rgba(155,143,232,.15))">
-          <div class="g-thumb-bars">
-            <div class="thumb-bar" style="width:90%;background:rgba(126,200,227,.45)"></div>
-            <div class="thumb-bar" style="width:60%;background:rgba(155,143,232,.35)"></div>
+        <div class="g-thumb" style="background:linear-gradient(135deg,rgba(66,133,244,.15),rgba(234,67,53,.1))">
+          <div class="badge-row" style="justify-content:center;gap:6px">
+            <span class="badge-blue" style="font-size:10px;padding:3px 8px">React</span>
+            <span class="badge-red" style="font-size:10px;padding:3px 8px">TS</span>
+            <span class="badge-green" style="font-size:10px;padding:3px 8px">Go</span>
+            <span class="badge-yellow" style="font-size:10px;padding:3px 8px">Rust</span>
           </div>
         </div>
-        <div class="g-title">Contribution Graph</div>
-        <div class="g-meta"><span class="badge-sm badge-sm-sk">Glass Dark</span></div>
-        <a href="builder.html?type=stats&theme=cotton-dark" class="use-btn">이 위젯 사용하기 →</a>
+        <div class="g-title">Tech Stack Badge</div>
+        <div class="g-meta"><span class="badge-blue">Glass Light</span></div>
+        <a href="builder.html?type=tech&theme=glass-light" class="use-btn">이 위젯 사용하기 →</a>
       </div>
 
       <!-- 5 -->
       <div class="g-card">
-        <div class="g-thumb" style="background:linear-gradient(135deg,rgba(237,147,177,.18),rgba(155,143,232,.18))">
-          <div style="display:flex;gap:6px;align-items:center;padding:4px">
-            <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#ED93B1,#9B8FE8)"></div>
+        <div class="card-new">NEW</div>
+        <div class="g-thumb" style="background:linear-gradient(135deg,rgba(66,133,244,.15),rgba(234,67,53,.1))">
+          <div class="badge-row" style="justify-content:center;gap:6px">
+            <span class="badge-blue" style="font-size:10px;padding:3px 8px">Next.js</span>
+            <span class="badge-red" style="font-size:10px;padding:3px 8px">Figma</span>
+            <span class="badge-green" style="font-size:10px;padding:3px 8px">Postgres</span>
+          </div>
+        </div>
+        <div class="g-title">Tech Stack Badge</div>
+        <div class="g-meta">
+          <span class="badge-red">Vivid Gradient</span>
+          <span class="card-new">NEW</span>
+        </div>
+        <a href="builder.html?type=tech&theme=vivid" class="use-btn">이 위젯 사용하기 →</a>
+      </div>
+
+      <!-- AD-3: 갤러리 6번째 슬롯 -->
+      <div class="ad-native-card">
+        <div class="ad-native-title">개발자 장비 추천</div>
+        <div class="ad-native-desc">GitGloss 팀이 실제로 사용하는 장비 모음 — 쿠팡 파트너스</div>
+        <a href="builder.html" class="use-btn" style="background:var(--google-green)">추천 장비 보기</a>
+      </div>
+
+      <!-- 7 -->
+      <div class="g-card">
+        <div class="g-thumb" style="background:linear-gradient(135deg,rgba(66,133,244,.12),rgba(234,67,53,.12))">
+          <div style="display:flex;gap:12px;align-items:center;padding:8px">
+            <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#4285F4,#EA4335)"></div>
             <div style="flex:1">
-              <div class="thumb-bar" style="width:80%;background:rgba(155,143,232,.3);margin-bottom:4px"></div>
-              <div class="thumb-bar" style="width:50%;background:rgba(237,147,177,.25)"></div>
+              <div class="thumb-bar" style="width:85%;background:rgba(66,133,244,.4);margin-bottom:6px"></div>
+              <div class="thumb-bar" style="width:60%;background:rgba(234,67,53,.35)"></div>
             </div>
           </div>
         </div>
         <div class="g-title">Profile Card</div>
-        <div class="g-meta"><span class="badge-sm badge-sm-pu">Cotton Candy</span></div>
-        <a href="builder.html?type=profile&theme=cotton-candy" class="use-btn">이 위젯 사용하기 →</a>
+        <div class="g-meta"><span class="badge-blue">Glass Light</span></div>
+        <a href="builder.html?type=profile&theme=glass-light" class="use-btn">이 위젯 사용하기 →</a>
       </div>
 
-      <!-- AD-3: 갤러리 6번째 슬롯 쿠팡 -->
-      <div class="ad-native-card">
-        <div class="ad-native-title">GitGloss Pro</div>
-        <div class="ad-native-desc">무제한 위젯 · 커스텀 도메인 · 우선 지원</div>
-        <a href="builder.html" class="use-btn">Pro 알아보기</a>
+      <!-- 8 -->
+      <div class="g-card">
+        <div class="g-thumb" style="background:linear-gradient(135deg,rgba(8,8,15,.9),rgba(66,133,244,.2))">
+          <div style="display:flex;gap:12px;align-items:center;padding:8px">
+            <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#4285F4,#EA4335)"></div>
+            <div style="flex:1">
+              <div class="thumb-bar" style="width:85%;background:rgba(66,133,244,.4);margin-bottom:6px"></div>
+              <div class="thumb-bar" style="width:60%;background:rgba(234,67,53,.35)"></div>
+            </div>
+          </div>
+        </div>
+        <div class="g-title">Profile Card</div>
+        <div class="g-meta"><span class="badge-blue">Neumorphic</span></div>
+        <a href="builder.html?type=profile&theme=neumorphic" class="use-btn">이 위젯 사용하기 →</a>
+      </div>
+
+      <!-- 9 -->
+      <div class="g-card">
+        <div class="card-new">NEW</div>
+        <div class="g-thumb" style="background:linear-gradient(135deg,rgba(52,168,83,.2),rgba(251,188,5,.15))">
+          <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;padding:8px">
+            <div style="height:8px;border-radius:2px;background:rgba(66,133,244,.2)"></div>
+            <div style="height:8px;border-radius:2px;background:#4285F4"></div>
+            <div style="height:8px;border-radius:2px;background:rgba(234,67,53,.3)"></div>
+            <div style="height:8px;border-radius:2px;background:#EA4335"></div>
+            <div style="height:8px;border-radius:2px;background:rgba(52,168,83,.3)"></div>
+            <div style="height:8px;border-radius:2px;background:#34A853"></div>
+            <div style="height:8px;border-radius:2px;background:rgba(251,188,5,.4)"></div>
+          </div>
+        </div>
+        <div class="g-title">Streak Counter</div>
+        <div class="g-meta">
+          <span class="badge-green">Glass Light</span>
+          <span class="card-new">NEW</span>
+        </div>
+        <a href="builder.html?type=streak&theme=glass-light" class="use-btn">이 위젯 사용하기 →</a>
       </div>
 
     </div>
 
     <!-- AD-4: 갤러리 하단 Leaderboard -->
-    <div class="ad-banner" style="margin:16px 0 0">
-      <div class="ad-banner-text">728×90 Leaderboard — 갤러리 하단 · 스크롤 완료 유저 대상</div>
-      <div class="ad-banner-slot">AD-4</div>
+    <div class="ad-banner" style="margin:48px 0 0">
+      <div class="ad-banner-text">Google AdSense 728×90 — 갤러리 하단</div>
+      <div class="ad-banner-slot"></div>
+    </div>
+  </div>
+
+  <!-- HOW TO USE -->
+  <div class="how-to-section">
+    <div class="section-eyebrow">사용 방법</div>
+    <div class="section-title">3스텝으로 완성</div>
+    <div class="section-desc">복잡한 설정 없이 클릭 세 번이면 끝나요</div>
+
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-number">01</div>
+        <div class="step-title">위젯 고르기</div>
+        <div class="step-desc">갤러리에서 마음에 드는 위젯을 클릭하면 빌더가 해당 스타일로 바로 열려요.</div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">02</div>
+        <div class="step-title">사용자명 입력</div>
+        <div class="step-desc">GitHub 사용자명만 입력하면 미리보기가 실시간으로 바뀌어요. 추가 설정은 선택사항.</div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">03</div>
+        <div class="step-title">Copy & Use</div>
+        <div class="step-desc">Markdown 코드를 복사해서 README에 붙여넣기. 끝이에요.</div>
+      </div>
     </div>
   </div>
 
   <!-- FOOTER -->
   <footer class="page-footer" id="about">
-    <span>© 2025 GitGloss</span>
+    <span>GitGloss</span>
     <div class="footer-links">
-      <a href="privacy.html" class="footer-link">Privacy</a>
-      <a href="terms.html"   class="footer-link">Terms</a>
-      <a href="about.html"   class="footer-link">About</a>
-      <a href="contact.html" class="footer-link">Contact</a>
-      <a href="docs/"        class="footer-link">Docs</a>
+      <a href="#about" class="footer-link">소개</a>
+      <a href="#guide" class="footer-link">가이드</a>
+      <a href="privacy.html" class="footer-link">개인정보처리방침</a>
+      <a href="terms.html" class="footer-link">이용약관</a>
+      <a href="contact.html" class="footer-link">문의</a>
     </div>
+    <span style="margin-left:auto">© 2025 GitGloss. All rights reserved.</span>
   </footer>
 
   <script src="assets/js/common.js"></script>
