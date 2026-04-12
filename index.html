@@ -564,55 +564,669 @@
     .footer-link { color: var(--text-hint); text-decoration: none; transition: .2s; }
     .footer-link:hover { color: var(--text-main); }
 
-    /* ── HOW TO SECTION ── */
+    /* ── HOW TO SECTION (Toss-style Detailed) ── */
     .how-to-section {
-      padding: 80px 80px;
+      padding: 120px 80px;
       background: var(--bg-main);
     }
 
-    .steps-grid {
+    .step-detail {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 32px;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      margin-bottom: 120px;
+      position: relative;
     }
 
-    .step-card {
-      background: var(--glass-white);
-      backdrop-filter: var(--blur-effect);
-      border: 1px solid var(--glass-border);
-      border-radius: 20px;
-      padding: 32px;
-      box-shadow: var(--shadow-depth);
+    .step-detail.reverse {
+      direction: rtl;
+    }
+
+    .step-detail.reverse > * {
+      direction: ltr;
+    }
+
+    .step-content {
+      padding: 40px 0;
     }
 
     .step-number {
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 700;
       color: var(--google-blue);
-      margin-bottom: 16px;
-      letter-spacing: .1em;
+      margin-bottom: 24px;
+      letter-spacing: .15em;
     }
 
     .step-title {
-      font-size: 20px;
-      font-weight: 700;
+      font-size: 36px;
+      font-weight: 800;
       color: var(--text-main);
-      margin-bottom: 12px;
+      line-height: 1.3;
+      margin-bottom: 24px;
+      letter-spacing: -.02em;
     }
 
     .step-desc {
-      font-size: 14px;
+      font-size: 18px;
       color: var(--text-sub);
-      line-height: 1.6;
+      line-height: 1.7;
+      margin-bottom: 32px;
       font-weight: 500;
+    }
+
+    .step-features {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 15px;
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    .feature-icon {
+      font-size: 20px;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-subtle);
+      border-radius: 8px;
+    }
+
+    /* UI Mockups */
+    .step-visual {
+      position: relative;
+    }
+
+    .ui-mockup {
+      background: var(--glass-white);
+      backdrop-filter: var(--blur-effect);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      box-shadow: var(--shadow-float);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Gallery Mockup */
+    .gallery-mockup {
+      padding: 24px;
+    }
+
+    .mockup-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--glass-border);
+      margin-bottom: 24px;
+    }
+
+    .mockup-logo {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .mockup-nav {
+      display: flex;
+      gap: 16px;
+    }
+
+    .nav-item {
+      font-size: 13px;
+      color: var(--text-hint);
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: .2s;
+    }
+
+    .nav-item.active {
+      color: var(--google-blue);
+      background: rgba(66, 133, 244, 0.1);
+    }
+
+    .gallery-grid-mini {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .widget-card-mini {
+      background: white;
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 12px;
+      cursor: pointer;
+      transition: all .3s;
+      position: relative;
+    }
+
+    .widget-card-mini.active {
+      border-color: var(--google-blue);
+      box-shadow: 0 4px 16px rgba(66, 133, 244, 0.2);
+      transform: translateY(-4px);
+    }
+
+    .widget-thumb {
+      height: 80px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+    }
+
+    .thumb-bars {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .bar {
+      height: 6px;
+      border-radius: 3px;
+    }
+
+    .badge-row-mini {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    .badge-mini {
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .profile-mini {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .avatar-mini {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--gradient-blue-red);
+    }
+
+    .widget-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-main);
+      text-align: center;
+    }
+
+    .widget-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      font-size: 9px;
+      font-weight: 700;
+      background: rgba(52, 168, 83, 0.15);
+      color: #188038;
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+
+    /* Animated Cursor */
+    .mockup-cursor {
+      position: absolute;
+      top: 140px;
+      left: 60px;
+      animation: cursor-click 2s ease-in-out infinite;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    }
+
+    @keyframes cursor-click {
+      0%, 100% { transform: translate(0, 0); }
+      25% { transform: translate(120px, 0); }
+      50% { transform: translate(120px, 0) scale(0.9); }
+      75% { transform: translate(120px, 0); }
+    }
+
+    /* Builder Mockup */
+    .builder-mockup {
+      padding: 0;
+    }
+
+    .builder-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 400px;
+    }
+
+    .builder-panel {
+      padding: 24px;
+      border-right: 1px solid var(--glass-border);
+      background: var(--bg-subtle);
+    }
+
+    .panel-header {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-sub);
+      margin-bottom: 8px;
+    }
+
+    .input-animated {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      font-size: 14px;
+      background: white;
+      color: var(--text-main);
+      animation: input-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes input-pulse {
+      0%, 100% { border-color: var(--glass-border); }
+      50% { border-color: var(--google-blue); box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1); }
+    }
+
+    .theme-selector {
+      display: flex;
+      gap: 8px;
+    }
+
+    .theme-option {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      font-size: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: .2s;
+      background: white;
+    }
+
+    .theme-option.active {
+      border-color: var(--google-blue);
+      background: rgba(66, 133, 244, 0.1);
+      color: var(--google-blue);
+      font-weight: 600;
+    }
+
+    .typing-indicator {
+      display: flex;
+      gap: 4px;
+      margin-top: 16px;
+    }
+
+    .typing-indicator .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--google-blue);
+      animation: typing-bounce 1.4s ease-in-out infinite;
+    }
+
+    .typing-indicator .dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator .dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typing-bounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-8px); }
+    }
+
+    .builder-preview {
+      padding: 24px;
+      background: white;
+      position: relative;
+    }
+
+    .preview-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-hint);
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      margin-bottom: 16px;
+    }
+
+    .preview-widget {
+      position: relative;
+    }
+
+    .widget-preview-card {
+      background: var(--glass-white);
+      backdrop-filter: var(--blur-effect);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: var(--shadow-depth);
+    }
+
+    .preview-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--gradient-blue-red);
+      margin-bottom: 16px;
+    }
+
+    .preview-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .stat-item {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-size: 20px;
+      font-weight: 700;
+      background: var(--gradient-blue-red);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label {
+      font-size: 10px;
+      color: var(--text-hint);
+      font-weight: 600;
+      margin-top: 4px;
+      letter-spacing: .05em;
+    }
+
+    .preview-pulse {
+      position: absolute;
+      inset: -4px;
+      border: 2px solid var(--google-blue);
+      border-radius: 20px;
+      animation: pulse-ring 2s ease-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes pulse-ring {
+      0% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1.05); }
+    }
+
+    /* README Comparison */
+    .readme-comparison {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .readme-before,
+    .readme-after {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .readme-header {
+      background: #161b22;
+      border-bottom: 1px solid #30363d;
+      padding: 12px 16px;
+    }
+
+    .readme-tabs {
+      display: flex;
+      gap: 16px;
+    }
+
+    .tab {
+      font-size: 12px;
+      color: #8b949e;
+      padding: 6px 12px;
+      border-radius: 6px;
+    }
+
+    .tab.active {
+      color: #c9d1d9;
+      background: #0d1117;
+    }
+
+    .readme-content {
+      padding: 20px;
+      min-height: 280px;
+    }
+
+    .readme-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #c9d1d9;
+      margin-bottom: 12px;
+    }
+
+    .readme-text {
+      font-size: 13px;
+      color: #c9d1d9;
+      margin-bottom: 16px;
+    }
+
+    .readme-stats-plain {
+      font-size: 13px;
+      color: #8b949e;
+    }
+
+    .before-label,
+    .after-label {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      font-size: 10px;
+      font-weight: 700;
+      color: #8b949e;
+      background: #161b22;
+      padding: 4px 10px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+    }
+
+    .after-label {
+      color: var(--google-green);
+    }
+
+    .transform-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: arrow-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes arrow-pulse {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(8px); }
+    }
+
+    /* Embedded Widget in README */
+    .embedded-widget {
+      position: relative;
+      margin: 20px 0;
+      animation: widget-appear 1s ease-out 0.5s both;
+    }
+
+    @keyframes widget-appear {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .widget-glow {
+      position: absolute;
+      inset: -20px;
+      background: radial-gradient(circle, rgba(66, 133, 244, 0.2) 0%, transparent 70%);
+      animation: glow-pulse 2s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes glow-pulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    .widget-card-embed {
+      background: var(--glass-white);
+      backdrop-filter: var(--blur-effect);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .embed-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--gradient-blue-red);
+      margin-bottom: 16px;
+    }
+
+    .embed-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .embed-stat {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      padding: 10px 6px;
+      text-align: center;
+    }
+
+    .embed-num {
+      font-size: 16px;
+      font-weight: 700;
+      background: var(--gradient-blue-red);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .embed-label {
+      font-size: 9px;
+      color: rgba(8, 8, 15, 0.6);
+      font-weight: 600;
+      margin-top: 4px;
+      letter-spacing: .05em;
+    }
+
+    .embed-badges {
+      display: flex;
+      gap: 6px;
+    }
+
+    .embed-badge {
+      font-size: 10px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      background: rgba(66, 133, 244, 0.15);
+      color: #1967D2;
+      font-weight: 600;
+    }
+
+    /* Copy Success Mini */
+    .copy-success-mini {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--glass-white);
+      backdrop-filter: var(--blur-effect);
+      border: 2px solid var(--google-green);
+      border-radius: 16px;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 8px 24px rgba(52, 168, 83, 0.3);
+      animation: success-appear 0.5s ease-out 1.5s both;
+    }
+
+    @keyframes success-appear {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+
+    .success-checkmark {
+      width: 24px;
+      height: 24px;
+      background: var(--google-green);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .copy-success-mini span {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--google-green);
     }
 
     @media (max-width: 1024px) {
       .hero { grid-template-columns: 1fr; gap: 48px; padding: 80px 40px; }
       .gallery-section { padding: 60px 40px; }
-      .how-to-section { padding: 60px 40px; }
+      .how-to-section { padding: 80px 40px; }
       .gallery-grid { grid-template-columns: 1fr 1fr; }
-      .steps-grid { grid-template-columns: 1fr; gap: 24px; }
+      .step-detail { grid-template-columns: 1fr; gap: 48px; }
+      .step-detail.reverse { direction: ltr; }
+      .builder-split { grid-template-columns: 1fr; }
+      .builder-panel { border-right: none; border-bottom: 1px solid var(--glass-border); }
+      .readme-comparison { grid-template-columns: 1fr; }
+      .transform-arrow { transform: rotate(90deg); margin: 16px 0; }
       .nav-links { display: none; }
       .ad-banner { margin: 0 40px; }
       .page-footer { padding: 24px 40px; }
@@ -620,8 +1234,11 @@
     @media (max-width: 640px) {
       .hero { padding: 60px 24px; }
       .gallery-section { padding: 48px 24px; }
-      .how-to-section { padding: 48px 24px; }
+      .how-to-section { padding: 60px 24px; }
       .gallery-grid { grid-template-columns: 1fr; }
+      .step-title { font-size: 28px; }
+      .step-desc { font-size: 16px; }
+      .gallery-grid-mini { grid-template-columns: 1fr; }
       .ad-banner { margin: 0 24px; }
       .page-footer { padding: 20px 24px; flex-direction: column; gap: 16px; }
     }
@@ -879,29 +1496,269 @@
     </div>
   </div>
 
-  <!-- HOW TO USE -->
+  <!-- HOW TO USE: Toss-style Detailed Steps -->
   <div class="how-to-section">
     <div class="section-eyebrow">사용 방법</div>
-    <div class="section-title">3스텝으로 완성</div>
-    <div class="section-desc">복잡한 설정 없이 클릭 세 번이면 끝나요</div>
+    <div class="section-title">클릭 세 번이면 끝나요</div>
+    <div class="section-desc">복잡한 설정 없이, 3분이면 프리미엄 README 완성</div>
 
-    <div class="steps-grid">
-      <div class="step-card">
+    <!-- Step 1: 위젯 고르기 -->
+    <div class="step-detail">
+      <div class="step-content">
         <div class="step-number">01</div>
-        <div class="step-title">위젯 고르기</div>
-        <div class="step-desc">갤러리에서 마음에 드는 위젯을 클릭하면 빌더가 해당 스타일로 바로 열려요.</div>
+        <h3 class="step-title">갤러리에서<br>마음에 드는 위젯을 고르세요</h3>
+        <p class="step-desc">
+          200개가 넘는 프리미엄 위젯 중에서<br>
+          내 스타일에 맞는 걸 골라보세요.<br>
+          클릭하면 빌더가 바로 열려요.
+        </p>
+        <div class="step-features">
+          <div class="feature-item">
+            <span class="feature-icon">✨</span>
+            <span>200+ 프리미엄 템플릿</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🎨</span>
+            <span>다크/라이트 모드 지원</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">⚡</span>
+            <span>실시간 미리보기</span>
+          </div>
+        </div>
       </div>
+      
+      <div class="step-visual">
+        <!-- Gallery UI Mockup -->
+        <div class="ui-mockup gallery-mockup">
+          <div class="mockup-header">
+            <div class="mockup-logo">GitGloss</div>
+            <div class="mockup-nav">
+              <span class="nav-item active">갤러리</span>
+              <span class="nav-item">빌더</span>
+            </div>
+          </div>
+          
+          <div class="mockup-content">
+            <div class="gallery-grid-mini">
+              <div class="widget-card-mini active">
+                <div class="widget-thumb" style="background:linear-gradient(135deg,rgba(66,133,244,.15),rgba(234,67,53,.1))">
+                  <div class="thumb-bars">
+                    <div class="bar" style="width:100%;background:rgba(66,133,244,.5)"></div>
+                    <div class="bar" style="width:75%;background:rgba(234,67,53,.4)"></div>
+                  </div>
+                </div>
+                <div class="widget-label">GitHub Stats</div>
+                <div class="widget-badge">NEW</div>
+              </div>
+              
+              <div class="widget-card-mini">
+                <div class="widget-thumb" style="background:linear-gradient(135deg,rgba(52,168,83,.2),rgba(251,188,5,.15))">
+                  <div class="badge-row-mini">
+                    <span class="badge-mini">React</span>
+                    <span class="badge-mini">TS</span>
+                  </div>
+                </div>
+                <div class="widget-label">Tech Stack</div>
+              </div>
+              
+              <div class="widget-card-mini">
+                <div class="widget-thumb" style="background:linear-gradient(135deg,rgba(66,133,244,.12),rgba(234,67,53,.12))">
+                  <div class="profile-mini">
+                    <div class="avatar-mini"></div>
+                  </div>
+                </div>
+                <div class="widget-label">Profile</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mockup-cursor">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--google-blue)">
+              <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
 
-      <div class="step-card">
+    <!-- Step 2: 사용자명 입력 -->
+    <div class="step-detail reverse">
+      <div class="step-visual">
+        <!-- Builder UI + Live Preview Split -->
+        <div class="ui-mockup builder-mockup">
+          <div class="builder-split">
+            <!-- Left: Input Panel -->
+            <div class="builder-panel">
+              <div class="panel-header">설정</div>
+              <div class="input-group">
+                <label>GitHub 사용자명</label>
+                <input type="text" value="octocat" class="input-animated" readonly />
+              </div>
+              <div class="input-group">
+                <label>테마</label>
+                <div class="theme-selector">
+                  <div class="theme-option active">Glass Light</div>
+                  <div class="theme-option">Glass Dark</div>
+                </div>
+              </div>
+              <div class="typing-indicator">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+              </div>
+            </div>
+            
+            <!-- Right: Live Preview -->
+            <div class="builder-preview">
+              <div class="preview-label">실시간 미리보기</div>
+              <div class="preview-widget">
+                <div class="widget-preview-card">
+                  <div class="preview-avatar"></div>
+                  <div class="preview-stats">
+                    <div class="stat-item">
+                      <div class="stat-num">2.8k</div>
+                      <div class="stat-label">Stars</div>
+                    </div>
+                    <div class="stat-item">
+                      <div class="stat-num">142</div>
+                      <div class="stat-label">Repos</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="preview-pulse"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="step-content">
         <div class="step-number">02</div>
-        <div class="step-title">사용자명 입력</div>
-        <div class="step-desc">GitHub 사용자명만 입력하면 미리보기가 실시간으로 바뀌어요. 추가 설정은 선택사항.</div>
+        <h3 class="step-title">GitHub 사용자명만<br>입력하면 끝이에요</h3>
+        <p class="step-desc">
+          복잡한 설정은 필요 없어요.<br>
+          사용자명을 입력하면<br>
+          미리보기가 실시간으로 바뀌어요.
+        </p>
+        <div class="step-features">
+          <div class="feature-item">
+            <span class="feature-icon">🔄</span>
+            <span>실시간 동기화</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🎯</span>
+            <span>자동 데이터 불러오기</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">✏️</span>
+            <span>커스터마이징 가능</span>
+          </div>
+        </div>
       </div>
+    </div>
 
-      <div class="step-card">
+    <!-- Step 3: Copy & Paste -->
+    <div class="step-detail">
+      <div class="step-content">
         <div class="step-number">03</div>
-        <div class="step-title">Copy & Use</div>
-        <div class="step-desc">Markdown 코드를 복사해서 README에 붙여넣기. 끝이에요.</div>
+        <h3 class="step-title">복사해서<br>README에 붙여넣기</h3>
+        <p class="step-desc">
+          Markdown 코드 한 줄이면 돼요.<br>
+          복사 버튼을 누르고<br>
+          GitHub README에 붙여넣으세요.
+        </p>
+        <div class="step-features">
+          <div class="feature-item">
+            <span class="feature-icon">📋</span>
+            <span>원클릭 복사</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🚀</span>
+            <span>즉시 적용</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">♻️</span>
+            <span>자동 업데이트</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="step-visual">
+        <!-- GitHub README Before/After Animation -->
+        <div class="readme-comparison">
+          <!-- Before -->
+          <div class="readme-before">
+            <div class="readme-header">
+              <div class="readme-tabs">
+                <span class="tab">Code</span>
+                <span class="tab active">README</span>
+              </div>
+            </div>
+            <div class="readme-content plain">
+              <h1 class="readme-title">👋 Hi, I'm @octocat</h1>
+              <p class="readme-text">Welcome to my profile</p>
+              <div class="readme-stats-plain">
+                ⭐ 42 stars · 📦 12 repos
+              </div>
+            </div>
+            <div class="before-label">Before</div>
+          </div>
+          
+          <!-- Arrow Animation -->
+          <div class="transform-arrow">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="var(--google-green)">
+              <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+            </svg>
+          </div>
+          
+          <!-- After -->
+          <div class="readme-after">
+            <div class="readme-header">
+              <div class="readme-tabs">
+                <span class="tab">Code</span>
+                <span class="tab active">README</span>
+              </div>
+            </div>
+            <div class="readme-content premium">
+              <h1 class="readme-title">👋 Hi, I'm @octocat</h1>
+              <p class="readme-text">Welcome to my profile</p>
+              
+              <!-- Embedded GitGloss Widget -->
+              <div class="embedded-widget">
+                <div class="widget-glow"></div>
+                <div class="widget-card-embed">
+                  <div class="embed-avatar"></div>
+                  <div class="embed-stats">
+                    <div class="embed-stat">
+                      <div class="embed-num">2.8k</div>
+                      <div class="embed-label">STARS</div>
+                    </div>
+                    <div class="embed-stat">
+                      <div class="embed-num">142</div>
+                      <div class="embed-label">REPOS</div>
+                    </div>
+                    <div class="embed-stat">
+                      <div class="embed-num">98%</div>
+                      <div class="embed-label">ACTIVE</div>
+                    </div>
+                  </div>
+                  <div class="embed-badges">
+                    <span class="embed-badge">React</span>
+                    <span class="embed-badge">TypeScript</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="after-label">After</div>
+          </div>
+        </div>
+        
+        <!-- Copy Success Animation -->
+        <div class="copy-success-mini">
+          <div class="success-checkmark">✓</div>
+          <span>복사 완료!</span>
+        </div>
       </div>
     </div>
   </div>

@@ -699,3 +699,65 @@ body {
   0%, 100% { transform: translateY(0px) rotate(-1deg); }
   50%       { transform: translateY(-10px) rotate(1deg); }
 }
+
+/* ══════════════════════════════
+   Navigation Right
+══════════════════════════════ */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+/* Hide old nav-links */
+.nav-links {
+  display: none;
+}
+
+/* Remove margin from CTA */
+.nav-cta {
+  margin-left: 0;
+}
+
+/* ══════════════════════════════
+   Footer Styles
+══════════════════════════════ */
+.footer-logo {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-main);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+
+.footer-copy {
+  font-size: 12px;
+  color: var(--text-hint);
+  margin-left: auto;
+}
+
+.page-footer {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 20px 80px;
+  border-top: 1px solid var(--glass-border);
+  flex-wrap: wrap;
+}
+
+/* ══════════════════════════════
+   Responsive Navigation
+══════════════════════════════ */
+@media (max-width: 768px) {
+  .nav {
+    padding: 0 24px;
+  }
+  
+  .nav-right .nav-link {
+    display: none;
+  }
+  
+  .page-footer {
+    padding: 20px 24px;
+  }
+}

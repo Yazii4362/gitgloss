@@ -9,7 +9,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/builder.css">
-  <link rel="stylesheet" href="assets/css/presets.css">
   <style>
     * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
   </style>
@@ -39,19 +38,35 @@
         <button class="type-chip on" onclick="selectType(this,'stats')">Stats</button>
         <button class="type-chip"    onclick="selectType(this,'tech')">Tech</button>
         <button class="type-chip"    onclick="selectType(this,'profile')">Profile</button>
-        <button class="type-chip"    onclick="selectType(this,'streak')">Streak</button>
       </div>
 
-      <!-- Presets -->
-      <div class="section-label">테마</div>
-      <div class="preset-tabs-row" id="ptabs">
-        <button class="ptab on" onclick="selPtab(this,'gl')">Glass</button>
-        <button class="ptab"    onclick="selPtab(this,'gd')">Dark</button>
-        <button class="ptab"    onclick="selPtab(this,'nm')">Neu</button>
-        <button class="ptab"    onclick="selPtab(this,'vv')">Grad</button>
-      </div>
-      <div class="preset-scroll" id="preset-scroll">
+      <!-- Template Thumbnails -->
+      <div class="section-label">템플릿 선택</div>
+      <div class="template-grid" id="template-grid">
         <!-- JS로 렌더 -->
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Emoji Selector -->
+      <div class="section-label">프로필 이모지</div>
+      <div class="emoji-grid" id="emoji-grid">
+        <button class="emoji-btn active" onclick="selectEmoji(this, '👨‍💻')" data-emoji="👨‍💻">👨‍💻</button>
+        <button class="emoji-btn" onclick="selectEmoji(this, '👩‍💻')" data-emoji="👩‍💻">👩‍💻</button>
+        <button class="emoji-btn" onclick="selectEmoji(this, '🚀')" data-emoji="🚀">🚀</button>
+        <button class="emoji-btn" onclick="selectEmoji(this, '⚡')" data-emoji="⚡">⚡</button>
+        <button class="emoji-btn" onclick="selectEmoji(this, '🎨')" data-emoji="🎨">🎨</button>
+        <button class="emoji-btn" onclick="selectEmoji(this, '🔥')" data-emoji="🔥">🔥</button>
+        <button class="emoji-btn" onclick="selectEmoji(this, '💎')" data-emoji="💎">💎</button>
+        <button class="emoji-btn" onclick="selectEmoji(this, '🌟')" data-emoji="🌟">🌟</button>
+        <button class="emoji-btn" onclick="selectEmoji(this, '🎯')" data-emoji="🎯">🎯</button>
+        <button class="emoji-btn" onclick="selectEmoji(this, '🦄')" data-emoji="🦄">🦄</button>
+        <button class="emoji-btn" onclick="selectEmoji(this, '🐙')" data-emoji="🐙">🐙</button>
+        <button class="emoji-btn" onclick="selectEmoji(this, '🤖')" data-emoji="🤖">🤖</button>
+        <button class="emoji-btn" onclick="selectEmoji(this, '👾')" data-emoji="👾">👾</button>
+        <button class="emoji-btn" onclick="selectEmoji(this, '🎮')" data-emoji="🎮">🎮</button>
+        <button class="emoji-btn" onclick="selectEmoji(this, '☕')" data-emoji="☕">☕</button>
+        <button class="emoji-btn" onclick="selectEmoji(this, '🌈')" data-emoji="🌈">🌈</button>
       </div>
 
       <div class="divider"></div>
@@ -69,7 +84,7 @@
       <!-- GitHub username -->
       <div class="field-group">
         <div class="field-label">GitHub 사용자명</div>
-        <input class="field-input" id="inp-username" placeholder="octocat" oninput="updateName(this.value)">
+        <input class="field-input" id="inp-username" placeholder="octocat">
       </div>
 
       <!-- Dynamic fields per widget type -->
@@ -127,6 +142,10 @@
           <div class="field-label">직함</div>
           <input class="field-input" id="inp-role" placeholder="Full-stack Developer">
         </div>
+        <div class="field-group">
+          <div class="field-label">소개</div>
+          <input class="field-input" id="inp-bio" placeholder="Building amazing things with code">
+        </div>
         <div class="section-label">기술 스택</div>
         <div class="tag-wrap" id="tag-wrap-profile">
           <span class="tag tag-pk">React     <button class="tag-x" onclick="removeTag(this)">×</button></span>
@@ -142,6 +161,14 @@
         <div class="field-group">
           <div class="field-label">현재 스트릭 (일)</div>
           <input class="field-input" id="inp-streak" placeholder="42">
+        </div>
+        <div class="field-group">
+          <div class="field-label">최장 스트릭 (일)</div>
+          <input class="field-input" id="inp-longest-streak" placeholder="87">
+        </div>
+        <div class="field-group">
+          <div class="field-label">총 기여 수</div>
+          <input class="field-input" id="inp-total-contributions" placeholder="1247">
         </div>
       </div>
 
@@ -223,6 +250,8 @@
   </div>
 
   <script src="assets/js/common.js"></script>
+  <script src="assets/data/templates.js"></script>
+  <script src="assets/js/template-loader.js"></script>
   <script src="assets/js/widget-engine.js"></script>
   <script src="assets/js/builder.js"></script>
 </body>
