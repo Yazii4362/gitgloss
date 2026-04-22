@@ -3315,3 +3315,37 @@
 .tpl-thumb[data-theme="glass-neon"]   .tpl-thumb-inner { background: linear-gradient(135deg, #0f0a1e, #1a1035); color: #C3B9F5; }
 .tpl-thumb[data-theme="aurora"]       .tpl-thumb-inner { background: linear-gradient(145deg, #0f3460, #0d0d2b); color: #7EC8E3; }
 .tpl-thumb[data-theme="mono-border"]  .tpl-thumb-inner { background: #fff; color: #08080F; border: 2px solid #08080F; box-shadow: 2px 2px 0 #08080F; }
+
+/* ── 외부 서비스 블록 (Trophy, Snake, Hits, Banner, Typing) ── */
+.wb-external-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+.wb-ext-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-hint);
+}
+.wb-ext-placeholder {
+  padding: 16px;
+  background: rgba(0,0,0,0.03);
+  border: 1px dashed rgba(0,0,0,0.1);
+  border-radius: 10px;
+  font-size: 12px;
+  color: var(--text-hint);
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* 커피 카운터 블록 */
+.wb-coffee {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 0;
+}

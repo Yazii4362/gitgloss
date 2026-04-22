@@ -81,8 +81,7 @@ const TEMPLATES = [
   { id:'stats-11',   type:'stats',   theme:'glass-neon',    layout:'', title:'Glass Neon',     desc:'네온 글로우 + 글래스모피즘 조합 카드',      badge:'NEW', accentColor:'#9B8FE8', config:{stats:['Stars','Repos','Active']} },
   { id:'stats-12',   type:'stats',   theme:'aurora',        layout:'', title:'Aurora',         desc:'오로라 그라디언트 풀 카드',                 badge:'NEW', accentColor:'#7EC8E3', config:{stats:['Stars','Repos','Active']} },
   { id:'stats-13',   type:'stats',   theme:'mono-border',   layout:'', title:'Mono Border',    desc:'흑백 굵은 테두리, 타이포 중심 카드',        badge:null,  accentColor:'#08080F', config:{stats:['Stars','Repos','Active']} },
-  { id:'links-11',   type:'links',   theme:'spotify-glass', layout:'links-layout', title:'Spotify Playing', desc:'현재 듣고 있는 음악 (유리 질감 카드)', badge:'HOT', accentColor:'#1DB954', config:{links:['spotify']} },
-  { id:'links-12',   type:'links',   theme:'coffee-meter',  layout:'links-layout', title:'Today Fuel',    desc:'오늘 마신 커피/음료 잔 수 카운터 뱃지',     badge:null,  accentColor:'#6f4e37', config:{links:['kakao']} },
+  { id:'links-11',   type:'links',   theme:'coffee-meter',  layout:'links-layout', title:'Today Fuel',    desc:'오늘 마신 커피/음료 잔 수 카운터 뱃지',     badge:null,  accentColor:'#6f4e37', config:{links:['kakao']} },
   { id:'banner-11',  type:'banner',  theme:'premium-hit',   layout:'banner-layout', title:'Premium Hit',  desc:'세련된 타이포그래피 유리 질감 카운터',      badge:'NEW', accentColor:'#4285F4', config:{text:'Visitors',height:100} },
 ];
 

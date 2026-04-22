@@ -59,8 +59,8 @@ function renderBlockList() {
   initDrag();
 }
 
-const BLOCK_ICON  = { avatar:'😀', name:'✏️', stats:'📊', badges:'🏷️', streak:'🔥', links:'🔗', bio:'📝', divider:'➖' };
-const BLOCK_LABEL = { avatar:'이모지 아바타', name:'이름 / 직무', stats:'Stats 숫자', badges:'기술 배지', streak:'스트릭', links:'링크 버튼', bio:'소개글', divider:'구분선' };
+const BLOCK_ICON  = { avatar:'😀', name:'✏️', stats:'📊', badges:'🏷️', streak:'🔥', links:'🔗', bio:'📝', divider:'➖', trophy:'🏆', snake:'🐍', hits:'👁️', coffee:'☕', banner:'🎨', typing:'⌨️' };
+const BLOCK_LABEL = { avatar:'이모지 아바타', name:'이름 / 직무', stats:'Stats 숫자', badges:'기술 배지', streak:'스트릭', links:'링크 버튼', bio:'소개글', divider:'구분선', trophy:'GitHub Trophy', snake:'Snake Game', hits:'Hits 카운터', coffee:'커피 카운터', banner:'배너', typing:'타이핑 SVG' };
 
 function renderBlockFields(b) {
   const d = b.data;
@@ -171,6 +171,127 @@ function renderBlockFields(b) {
 
     case 'divider':
       return `<div style="font-size:11px;color:var(--text-hint);padding:4px 0;">구분선이 추가됩니다</div>`;
+
+    case 'trophy':
+      return `
+        <div class="field-row">
+          <label class="field-label">GitHub 사용자명 <span style="color:var(--google-red)">*</span></label>
+          <input class="field-input" value="${d.username || ''}" placeholder="octocat"
+                 oninput="setBlockData('${b.id}','username',this.value)">
+        </div>
+        <div class="field-row">
+          <label class="field-label">테마</label>
+          <select class="field-select" onchange="setBlockData('${b.id}','theme',this.value)">
+            ${['flat','onedark','gruvbox','dracula','monokai','chalk','nord','alduin','darkhub','juicyfresh','buddhism','oldie','radical','tokyonight'].map(t =>
+              `<option value="${t}" ${(d.theme||'flat')===t?'selected':''}>${t}</option>`
+            ).join('')}
+          </select>
+        </div>
+        <div class="field-row" style="background:rgba(66,133,244,0.06);border-radius:8px;padding:8px;font-size:11px;color:var(--text-sub);">
+          💡 GitHub 프로필 트로피를 자동으로 가져옵니다
+        </div>`;
+
+    case 'snake':
+      return `
+        <div class="field-row">
+          <label class="field-label">GitHub 사용자명 <span style="color:var(--google-red)">*</span></label>
+          <input class="field-input" value="${d.username || ''}" placeholder="octocat"
+                 oninput="setBlockData('${b.id}','username',this.value)">
+        </div>
+        <div class="field-row">
+          <label class="field-label">색상 테마</label>
+          <select class="field-select" onchange="setBlockData('${b.id}','colorScheme',this.value)">
+            <option value="github" ${(d.colorScheme||'github')==='github'?'selected':''}>GitHub (기본)</option>
+            <option value="github-dark" ${d.colorScheme==='github-dark'?'selected':''}>GitHub Dark</option>
+          </select>
+        </div>
+        <div class="field-row" style="background:rgba(52,168,83,0.06);border-radius:8px;padding:8px;font-size:11px;color:var(--text-sub);">
+          🐍 기여 그래프를 먹는 스네이크 게임 애니메이션
+        </div>`;
+
+    case 'hits':
+      return `
+        <div class="field-row">
+          <label class="field-label">GitHub 사용자명 <span style="color:var(--google-red)">*</span></label>
+          <input class="field-input" value="${d.username || ''}" placeholder="octocat"
+                 oninput="setBlockData('${b.id}','username',this.value)">
+        </div>
+        <div class="field-row">
+          <label class="field-label">레포지토리 이름 (선택)</label>
+          <input class="field-input" value="${d.repo || ''}" placeholder="octocat (비우면 프로필 카운터)"
+                 oninput="setBlockData('${b.id}','repo',this.value)">
+        </div>
+        <div class="field-row" style="background:rgba(52,168,83,0.06);border-radius:8px;padding:8px;font-size:11px;color:var(--text-sub);">
+          👁️ seeyoufarm.com 방문자 카운터 배지
+        </div>`;
+
+    case 'coffee':
+      return `
+        <div class="field-row">
+          <label class="field-label">오늘 마신 잔 수</label>
+          <input class="field-input" value="${d.cups || '2'}" type="number" min="0" max="10"
+                 oninput="setBlockData('${b.id}','cups',this.value)">
+        </div>
+        <div class="field-row">
+          <label class="field-label">최대 잔 수</label>
+          <input class="field-input" value="${d.maxCups || '4'}" type="number" min="1" max="10"
+                 oninput="setBlockData('${b.id}','maxCups',this.value)">
+        </div>
+        <div class="field-row">
+          <label class="field-label">음료 이모지</label>
+          <select class="field-select" onchange="setBlockData('${b.id}','drinkEmoji',this.value)">
+            ${['☕','🧋','🍵','🥤','🧃','🍺','🥛'].map(e =>
+              `<option value="${e}" ${(d.drinkEmoji||'☕')===e?'selected':''}>${e}</option>`
+            ).join('')}
+          </select>
+        </div>`;
+
+    case 'banner':
+      return `
+        <div class="field-row">
+          <label class="field-label">배너 텍스트</label>
+          <input class="field-input" value="${d.text || 'Hi! Welcome!'}" placeholder="Hi! Welcome!"
+                 oninput="setBlockData('${b.id}','text',this.value)">
+        </div>
+        <div class="field-row">
+          <label class="field-label">배너 스타일</label>
+          <select class="field-select" onchange="setBlockData('${b.id}','bannerType',this.value)">
+            <option value="wave" ${(d.bannerType||'wave')==='wave'?'selected':''}>🌊 Wave</option>
+            <option value="slice" ${d.bannerType==='slice'?'selected':''}>✂️ Slice</option>
+            <option value="egg" ${d.bannerType==='egg'?'selected':''}>🥚 Egg</option>
+            <option value="cylinder" ${d.bannerType==='cylinder'?'selected':''}>🔵 Cylinder</option>
+            <option value="shark" ${d.bannerType==='shark'?'selected':''}>🦈 Shark (Dark)</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label class="field-label">배경 색상</label>
+          <input class="field-input" value="${d.color || 'ED93B1'}" placeholder="ED93B1 (hex, # 없이)"
+                 oninput="setBlockData('${b.id}','color',this.value)">
+        </div>
+        <div class="field-row">
+          <label class="field-label">높이 (px)</label>
+          <input class="field-input" value="${d.height || '160'}" type="number"
+                 oninput="setBlockData('${b.id}','height',this.value)">
+        </div>`;
+
+    case 'typing':
+      return `
+        <div class="field-row">
+          <label class="field-label">타이핑 텍스트 (줄바꿈은 ; 로 구분)</label>
+          <input class="field-input" value="${d.lines || "I'm a Developer;I love Open Source"}"
+                 placeholder="Hello World;I love coding"
+                 oninput="setBlockData('${b.id}','lines',this.value)">
+        </div>
+        <div class="field-row">
+          <label class="field-label">폰트 색상 (hex)</label>
+          <input class="field-input" value="${d.color || '4285F4'}" placeholder="4285F4"
+                 oninput="setBlockData('${b.id}','color',this.value)">
+        </div>
+        <div class="field-row">
+          <label class="field-label">폰트 크기</label>
+          <input class="field-input" value="${d.size || '22'}" type="number"
+                 oninput="setBlockData('${b.id}','size',this.value)">
+        </div>`;
 
     default: return '';
   }
@@ -353,13 +474,19 @@ function getPresetThumbBg(tpl) {
 function addBlock(type) {
   const defaults = {
     avatar:  { emoji: '👨‍💻' },
-    name:    { name: '', role: '', handle: '' },
+    name:    { username: '', name: '', role: '', handle: '' },
     stats:   { items: [{ label:'Stars', val:'2.8k' }, { label:'Repos', val:'142' }] },
     badges:  { tags: ['React', 'TypeScript'] },
     streak:  { current: '42', longest: '87', total: '1,247' },
     links:   { items: [{ type:'github', url:'' }, { type:'blog', url:'' }] },
     bio:     { text: '' },
     divider: {},
+    trophy:  { username: '', theme: 'flat' },
+    snake:   { username: '', colorScheme: 'github' },
+    hits:    { username: '', repo: '' },
+    coffee:  { cups: '2', maxCups: '4', drinkEmoji: '☕' },
+    banner:  { text: 'Hi! Welcome!', bannerType: 'wave', color: 'ED93B1', height: '160' },
+    typing:  { lines: "I'm a Developer;I love Open Source", color: '4285F4', size: '22' },
   };
   WE.blocks.push({ id: uid(), type, data: defaults[type] || {}, collapsed: false });
   renderBlockList();
@@ -591,6 +718,87 @@ function renderBlockHTML(b) {
     case 'divider':
       return `<div class="wb-divider" style="background:${hexAlpha(acc, 0.2)}"></div>`;
 
+    case 'trophy': {
+      const user = d.username || 'octocat';
+      const theme = d.theme || 'flat';
+      const url = `https://github-profile-trophy.vercel.app/?username=${user}&theme=${theme}&no-frame=true&row=1&column=6`;
+      return `
+        <div class="wb-external-block">
+          <div class="wb-ext-label">🏆 GitHub Trophy</div>
+          ${d.username
+            ? `<img src="${url}" alt="GitHub Trophy" style="max-width:100%;border-radius:8px;" loading="lazy">`
+            : `<div class="wb-ext-placeholder">GitHub 사용자명을 입력하면 트로피가 표시됩니다</div>`
+          }
+        </div>`;
+    }
+
+    case 'snake': {
+      const user = d.username || '';
+      const dark = d.colorScheme === 'github-dark';
+      const url = `https://raw.githubusercontent.com/${user}/${user}/output/github-contribution-grid-snake${dark?'-dark':''}.svg`;
+      return `
+        <div class="wb-external-block">
+          <div class="wb-ext-label">🐍 Snake Game</div>
+          ${d.username
+            ? `<img src="${url}" alt="Snake Game" style="max-width:100%;border-radius:8px;" loading="lazy">`
+            : `<div class="wb-ext-placeholder">GitHub 사용자명을 입력하면 스네이크 게임이 표시됩니다</div>`
+          }
+        </div>`;
+    }
+
+    case 'hits': {
+      const user = d.username || '';
+      const repo = d.repo || user;
+      const url = `https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2F${user}%2F${repo}&count_bg=%2334A853&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false`;
+      return `
+        <div class="wb-external-block">
+          <div class="wb-ext-label">👁️ Hits Counter</div>
+          ${d.username
+            ? `<img src="${url}" alt="Hits" style="border-radius:4px;" loading="lazy">`
+            : `<div class="wb-ext-placeholder">GitHub 사용자명을 입력하면 카운터가 표시됩니다</div>`
+          }
+        </div>`;
+    }
+
+    case 'coffee': {
+      const cups = parseInt(d.cups) || 2;
+      const max  = parseInt(d.maxCups) || 4;
+      const emoji = d.drinkEmoji || '☕';
+      const icons = Array.from({length: max}, (_, i) =>
+        `<span style="font-size:28px;opacity:${i < cups ? 1 : 0.18};transition:opacity .2s">${emoji}</span>`
+      ).join('');
+      return `
+        <div class="wb-coffee">
+          <div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap;">${icons}</div>
+          <div style="font-size:12px;font-weight:700;color:${acc};margin-top:8px;text-align:center;">${cups} / ${max} ${emoji} Done</div>
+        </div>`;
+    }
+
+    case 'banner': {
+      const text = d.text || 'Hi! Welcome!';
+      const type = d.bannerType || 'wave';
+      const color = (d.color || 'ED93B1').replace('#','');
+      const height = d.height || '160';
+      const url = `https://capsule-render.vercel.app/api?type=${type}&color=${color}&height=${height}&section=header&text=${encodeURIComponent(text)}&fontSize=40&fontColor=ffffff&animation=fadeIn`;
+      return `
+        <div class="wb-external-block">
+          <div class="wb-ext-label">🎨 Banner — ${type}</div>
+          <img src="${url}" alt="Banner" style="max-width:100%;border-radius:8px;" loading="lazy">
+        </div>`;
+    }
+
+    case 'typing': {
+      const lines = encodeURIComponent((d.lines || "I'm a Developer").replace(/;/g, ';'));
+      const color = (d.color || '4285F4').replace('#','');
+      const size  = d.size || '22';
+      const url = `https://readme-typing-svg.demolab.com?font=Fira+Code&size=${size}&pause=1000&color=${color}&width=435&lines=${lines}`;
+      return `
+        <div class="wb-external-block">
+          <div class="wb-ext-label">⌨️ Typing SVG</div>
+          <img src="${url}" alt="Typing SVG" style="max-width:100%;border-radius:4px;" loading="lazy">
+        </div>`;
+    }
+
     default: return '';
   }
 }
@@ -738,21 +946,80 @@ function buildAPIUrl() {
 }
 
 function generateCode(fmt) {
-  const url = buildAPIUrl();
-
-  // 이름 블록에서 표시 이름 추출
   const nameBlock = WE.blocks.find(b => b.type === 'name');
   const altText   = nameBlock?.data?.name || 'GitGloss Widget';
 
-  if (fmt === 'md') {
-    return `![${altText}](${url})`;
+  // 외부 서비스 블록이 있으면 각각 별도 URL로 생성
+  const lines = [];
+
+  WE.blocks.forEach(b => {
+    const d = b.data;
+    switch (b.type) {
+      case 'trophy': {
+        if (!d.username) break;
+        const url = `https://github-profile-trophy.vercel.app/?username=${d.username}&theme=${d.theme||'flat'}&no-frame=true&row=1&column=6`;
+        lines.push(fmt === 'html'
+          ? `<img src="${url}" alt="GitHub Trophy" />`
+          : `![GitHub Trophy](${url})`);
+        break;
+      }
+      case 'snake': {
+        if (!d.username) break;
+        const dark = d.colorScheme === 'github-dark';
+        const url = `https://raw.githubusercontent.com/${d.username}/${d.username}/output/github-contribution-grid-snake${dark?'-dark':''}.svg`;
+        lines.push(fmt === 'html'
+          ? `<img src="${url}" alt="Snake Game" />`
+          : `![Snake Game](${url})`);
+        break;
+      }
+      case 'hits': {
+        if (!d.username) break;
+        const repo = d.repo || d.username;
+        const url = `https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2F${d.username}%2F${repo}&count_bg=%2334A853&title_bg=%23555555&title=hits&edge_flat=false`;
+        lines.push(fmt === 'html'
+          ? `<img src="${url}" alt="Hits" />`
+          : `![Hits](${url})`);
+        break;
+      }
+      case 'banner': {
+        const text  = d.text || 'Hi! Welcome!';
+        const type  = d.bannerType || 'wave';
+        const color = (d.color || 'ED93B1').replace('#','');
+        const h     = d.height || '160';
+        const url = `https://capsule-render.vercel.app/api?type=${type}&color=${color}&height=${h}&section=header&text=${encodeURIComponent(text)}&fontSize=40&fontColor=ffffff&animation=fadeIn`;
+        lines.push(fmt === 'html'
+          ? `<img src="${url}" alt="Banner" style="width:100%;" />`
+          : `![Banner](${url})`);
+        break;
+      }
+      case 'typing': {
+        const linesStr = encodeURIComponent((d.lines || "I'm a Developer").replace(/;/g, ';'));
+        const color = (d.color || '4285F4').replace('#','');
+        const size  = d.size || '22';
+        const url = `https://readme-typing-svg.demolab.com?font=Fira+Code&size=${size}&pause=1000&color=${color}&width=435&lines=${linesStr}`;
+        lines.push(fmt === 'html'
+          ? `<img src="${url}" alt="Typing SVG" />`
+          : `![Typing SVG](${url})`);
+        break;
+      }
+    }
+  });
+
+  // 나머지 블록들은 GitGloss API URL로 생성
+  const hasGitglossBlocks = WE.blocks.some(b =>
+    ['avatar','name','stats','badges','streak','links','bio','divider','coffee'].includes(b.type)
+  );
+
+  if (hasGitglossBlocks) {
+    const url = buildAPIUrl();
+    const label = altText;
+    lines.unshift(fmt === 'html'
+      ? `<img src="${url}" alt="${label}" style="max-width:100%;" />`
+      : `![${label}](${url})`
+    );
   }
 
-  if (fmt === 'html') {
-    return `<img src="${url}" alt="${altText}" style="max-width:100%;" />`;
-  }
-
-  return url;
+  return lines.join(fmt === 'html' ? '\n' : '\n\n') || '<!-- 블록을 추가해주세요 -->';
 }
 
 function selCtab(btn, fmt) {
