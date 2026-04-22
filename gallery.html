@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="title"       content="배지 갤러리 — GitGloss | GitHub 프로필 배지 템플릿 모음">
-  <meta name="description" content="30가지 이상의 GitHub 프로필 배지 템플릿. Flat, Gradient, Outline, Glass, Pill, Square 스타일을 무료로 사용하세요.">
+  <meta name="description" content="30가지 이상의 프로필 배지 템플릿. Flat, Gradient, Outline, Glass, Pill, Square 스타일을 무료로 사용하세요.">
   <meta name="keywords"    content="GitHub 배지, shields.io 스타일, GitHub README 배지, 개발자 배지 템플릿">
   <meta name="robots"      content="index, follow">
   <meta name="viewport"    content="width=device-width, initial-scale=1.0">
@@ -21,7 +21,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/builder.css">
   <style>
     * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
 
@@ -175,6 +174,56 @@
       border-radius: 20px;
       box-shadow: 0 4px 12px rgba(66,133,244,0.3);
       z-index: 2;
+    }
+
+    /* Gallery container */
+    .gallery-container {
+      padding: 0 80px 80px;
+      flex: 1;
+    }
+
+    .gallery-stats {
+      font-size: 13px;
+      color: var(--text-hint);
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+
+    /* Template card extras */
+    .template-theme {
+      padding: 0 20px;
+      font-size: 12px;
+      color: var(--text-hint);
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
+    .template-action {
+      padding: 12px 20px 20px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--google-blue);
+      transition: gap .2s;
+    }
+
+    .template-card:hover .template-action {
+      color: var(--google-blue);
+      text-decoration: underline;
+    }
+
+    .template-category {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Search input focus */
+    #gallery-search:focus {
+      border-color: var(--google-blue) !important;
+      box-shadow: 0 0 0 3px rgba(66,133,244,0.12);
     }
 
     @media (max-width: 1024px) {

@@ -1,250 +1,156 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
   <meta charset="UTF-8">
-  <meta name="title" content="위젯 빌더 — GitGloss | 프로필 카드 & 배지 스튜디오">
-  <meta name="description"
-    content="GitGloss 위젯 빌더에서 60가지 이상의 프리미엄 프로필 카드와 테크 스택 배지를 커스터마이징하세요.">
-  <meta name="robots" content="noindex, follow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#4285F4">
-
+  <meta name="robots" content="noindex, follow">
   <title>GitGloss Builder — Widget Studio</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/builder.css">
-  <style>
-    @font-face {
-      font-family: 'HsGultokki';
-      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-2@1.0/HSGooltokki.woff2') format('woff2');
-      font-weight: normal;
-      font-display: swap;
-    }
-    * {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-    .topbar-logo {
-      font-family: 'HsGultokki', sans-serif;
-    }
-  </style>
+  <!-- Google AdSense — pub-ID 발급 후 아래 코드 활성화 -->
+  <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-REPLACE_WITH_YOUR_PUB_ID" crossorigin="anonymous"></script> -->
 </head>
-
 <body>
 
   <!-- TOPBAR -->
   <header class="topbar">
-    <button class="panel-toggle-btn" id="panel-toggle" aria-label="설정 패널 열기" title="설정 패널">☰</button>
+    <button class="panel-toggle-btn" id="panel-toggle" aria-label="패널 열기">☰</button>
     <a href="index.html" class="topbar-logo">GitGloss</a>
     <div class="topbar-sep"></div>
     <span class="topbar-title">Widget Studio</span>
     <div class="topbar-actions">
-      <a href="gallery.html" style="font-size:11px;color:var(--gg-text-sub,#888);text-decoration:none;">← 갤러리</a>
+      <a href="gallery.html" class="topbar-back">← 갤러리</a>
     </div>
   </header>
 
-  <!-- 모바일 오버레이 -->
   <div class="panel-overlay" id="panel-overlay"></div>
 
-  <!-- 2-COLUMN BODY -->
   <div class="builder-body">
 
-    <!-- ══ LEFT: Config ══ -->
-    <aside class="panel-left">
+    <!-- ══ LEFT: 블록 조합 패널 ══ -->
+    <aside class="panel-left" id="panel-left">
 
-      <!-- 유형 선택 -->
-      <div class="section-label">위젯 유형</div>
-      <div class="type-row">
-        <button class="type-chip on" onclick="selectType(this, 'stats')">Stats</button>
-        <button class="type-chip" onclick="selectType(this, 'tech')">Tech</button>
-        <button class="type-chip" onclick="selectType(this, 'profile')">Profile</button>
-        <button class="type-chip" onclick="selectType(this, 'streak')">Streak</button>
-        <button class="type-chip" onclick="selectType(this, 'links')">Links</button>
-        <button class="type-chip" onclick="selectType(this, 'banner')">Banner</button>
+      <!-- ① 프리셋 테마 -->
+      <div class="section-label">프리셋 테마</div>
+      <div class="preset-filter-row">
+        <button class="preset-filter on" data-f="all"     onclick="switchPresetFilter(this,'all')">전체</button>
+        <button class="preset-filter"    data-f="stats"   onclick="switchPresetFilter(this,'stats')">Stats</button>
+        <button class="preset-filter"    data-f="tech"    onclick="switchPresetFilter(this,'tech')">Tech</button>
+        <button class="preset-filter"    data-f="profile" onclick="switchPresetFilter(this,'profile')">Profile</button>
+        <button class="preset-filter"    data-f="links"   onclick="switchPresetFilter(this,'links')">Links</button>
       </div>
-
-      <!-- 템플릿 그리드 -->
-      <div class="section-label">템플릿 선택</div>
-      <div class="template-grid" id="template-thumbs">
-        <!-- widget-engine.js가 렌더 -->
+      <div class="preset-grid" id="preset-grid">
+        <!-- JS가 렌더 -->
       </div>
 
       <div class="divider"></div>
 
-      <!-- 공통 설정: 이모지 & 사용자명 -->
-      <div id="divider-emoji" class="section-label">캐릭터 / 이모지</div>
-      <div id="emoji-grid" class="emoji-grid">
-        <button class="emoji-btn active" onclick="selectEmoji(this, '👨‍💻')">👨‍💻</button>
-        <button class="emoji-btn" onclick="selectEmoji(this, '🚀')">🚀</button>
-        <button class="emoji-btn" onclick="selectEmoji(this, '🔥')">🔥</button>
-        <button class="emoji-btn" onclick="selectEmoji(this, '⭐')">⭐</button>
-        <button class="emoji-btn" onclick="selectEmoji(this, '🎨')">🎨</button>
-        <button class="emoji-btn" onclick="selectEmoji(this, '⚡')">⚡</button>
-        <button class="emoji-btn" onclick="selectEmoji(this, '🎮')">🎮</button>
-        <button class="emoji-btn" onclick="selectEmoji(this, '📚')">📚</button>
+      <!-- ② 카드 스타일 -->
+      <div class="section-label">카드 스타일</div>
+      <div class="style-grid">
+        <button class="style-btn on" data-style="glass"    onclick="setStyle(this,'glass')">🪟 Glass</button>
+        <button class="style-btn"    data-style="dark"     onclick="setStyle(this,'dark')">🌑 Dark</button>
+        <button class="style-btn"    data-style="neu"      onclick="setStyle(this,'neu')">🫧 Soft</button>
+        <button class="style-btn"    data-style="border"   onclick="setStyle(this,'border')">⬜ Border</button>
+        <button class="style-btn"    data-style="gradient" onclick="toggleGradientPicker(this)">🌈 Gradient ▾</button>
+        <button class="style-btn"    data-style="minimal"  onclick="setStyle(this,'minimal')">◻ Minimal</button>
+      </div>
+      <!-- 그라디언트 선택 드롭다운 -->
+      <div class="gradient-picker" id="gradient-picker">
+        <button class="grad-opt" data-grad="sunset"   onclick="setGradient(this,'sunset')">🌅 Sunset</button>
+        <button class="grad-opt" data-grad="ocean"    onclick="setGradient(this,'ocean')">🌊 Ocean</button>
+        <button class="grad-opt" data-grad="forest"   onclick="setGradient(this,'forest')">🌿 Forest</button>
+        <button class="grad-opt" data-grad="candy"    onclick="setGradient(this,'candy')">🍬 Candy</button>
+        <button class="grad-opt" data-grad="midnight" onclick="setGradient(this,'midnight')">🌃 Midnight</button>
+        <button class="grad-opt" data-grad="aurora"   onclick="setGradient(this,'aurora')">🌌 Aurora</button>
       </div>
 
-      <div id="divider-username" class="divider"></div>
-
-      <!-- 필드: Stats -->
-      <div id="fields-stats">
-        <div class="field-group">
-          <div class="field-label">GitHub 사용자명</div>
-          <input class="field-input" id="inp-username" placeholder="octocat">
-        </div>
-        <div class="field-group" style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-          <div>
-            <div class="field-label">라벨 1</div>
-            <input class="field-input" id="s1-label" value="Stars">
-          </div>
-          <div>
-            <div class="field-label">값 1</div>
-            <input class="field-input" id="s1-val" value="2.8k">
-          </div>
-        </div>
-        <div class="field-group" style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-          <div>
-            <div class="field-label">라벨 2</div>
-            <input class="field-input" id="s2-label" value="Repos">
-          </div>
-          <div>
-            <div class="field-label">값 2</div>
-            <input class="field-input" id="s2-val" value="142">
-          </div>
-        </div>
-        <div class="field-group" style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-          <div>
-            <div class="field-label">라벨 3</div>
-            <input class="field-input" id="s3-label" value="Active">
-          </div>
-          <div>
-            <div class="field-label">값 3</div>
-            <input class="field-input" id="s3-val" value="98%">
-          </div>
-        </div>
+      <!-- ③ 액센트 색상 -->
+      <div class="section-label">액센트 색상</div>
+      <div class="color-row">
+        <button class="sw on"  style="background:#4285F4" title="#4285F4" onclick="setAccent(this,'#4285F4')"></button>
+        <button class="sw"     style="background:#EA4335" title="#EA4335" onclick="setAccent(this,'#EA4335')"></button>
+        <button class="sw"     style="background:#FBBC05" title="#FBBC05" onclick="setAccent(this,'#FBBC05')"></button>
+        <button class="sw"     style="background:#34A853" title="#34A853" onclick="setAccent(this,'#34A853')"></button>
+        <button class="sw"     style="background:#ED93B1" title="#ED93B1" onclick="setAccent(this,'#ED93B1')"></button>
+        <button class="sw"     style="background:#9B8FE8" title="#9B8FE8" onclick="setAccent(this,'#9B8FE8')"></button>
+        <button class="sw"     style="background:#7EC8E3" title="#7EC8E3" onclick="setAccent(this,'#7EC8E3')"></button>
+        <button class="sw"     style="background:#08080F" title="#08080F" onclick="setAccent(this,'#08080F')"></button>
       </div>
 
-      <!-- 필드: Tech -->
-      <div id="fields-tech" style="display:none;">
-        <div class="field-group">
-          <div class="field-label">기술 스택 추가 (Enter)</div>
-          <input class="field-input" id="tech-input" placeholder="e.g. React" onkeydown="addTagTo(event, this, 'tech-tags-wrap')">
-          <div class="tag-wrap" id="tech-tags-wrap">
-            <span class="tag tag-pk">React <button class="tag-x" onclick="removeTag(this)">×</button></span>
-            <span class="tag tag-pu">TypeScript <button class="tag-x" onclick="removeTag(this)">×</button></span>
-            <span class="tag tag-sk">Node.js <button class="tag-x" onclick="removeTag(this)">×</button></span>
-          </div>
-        </div>
+      <div class="divider"></div>
+
+      <!-- ④ 블록 추가 -->
+      <div class="section-label">블록 추가</div>
+      <div class="block-add-grid">
+        <button class="block-add-btn" onclick="addBlock('avatar')">😀 이모지</button>
+        <button class="block-add-btn" onclick="addBlock('name')">✏️ 이름/직무</button>
+        <button class="block-add-btn" onclick="addBlock('stats')">📊 Stats</button>
+        <button class="block-add-btn" onclick="addBlock('badges')">🏷️ 기술 배지</button>
+        <button class="block-add-btn" onclick="addBlock('streak')">🔥 스트릭</button>
+        <button class="block-add-btn" onclick="addBlock('links')">🔗 링크</button>
+        <button class="block-add-btn" onclick="addBlock('bio')">📝 소개글</button>
+        <button class="block-add-btn" onclick="addBlock('divider')">➖ 구분선</button>
       </div>
 
-      <!-- 필드: Profile -->
-      <div id="fields-profile" style="display:none;">
-        <div class="field-group">
-          <div class="field-label">이름 / 닉네임</div>
-          <input class="field-input" id="inp-pname" placeholder="The Octocat">
-        </div>
-        <div class="field-group">
-          <div class="field-label">핸들 (e.g. @username)</div>
-          <input class="field-input" id="inp-handle" placeholder="@octocat">
-        </div>
-        <div class="field-group">
-          <div class="field-label">역할 / 직무</div>
-          <input class="field-input" id="inp-role" placeholder="Full-stack Developer">
-        </div>
-        <div class="field-group">
-          <div class="field-label">자기소개</div>
-          <textarea class="field-input" id="inp-bio" rows="2" style="resize:none;">Building amazing things with code</textarea>
-        </div>
-      </div>
+      <div class="divider"></div>
 
-      <!-- 필드: Streak -->
-      <div id="fields-streak" style="display:none;">
-        <div class="field-group">
-          <div class="field-label">현재 스트릭</div>
-          <input class="field-input" id="inp-streak" value="42">
-        </div>
-        <div class="field-group">
-          <div class="field-label">최대 스트릭</div>
-          <input class="field-input" id="inp-longest-streak" value="87">
-        </div>
-        <div class="field-group">
-          <div class="field-label">총 기여도</div>
-          <input class="field-input" id="inp-total-contributions" value="1,247">
-        </div>
+      <!-- ⑤ 활성 블록 목록 -->
+      <div class="section-label">
+        활성 블록
+        <span style="font-size:9px;color:var(--text-hint);font-weight:400;margin-left:4px;">드래그로 순서 변경</span>
       </div>
-
-      <!-- 필드: Links -->
-      <div id="fields-links" style="display:none;">
-        <div class="field-label" style="margin-bottom:8px;">소셜 링크 목록</div>
-        <div id="link-rows-wrap" style="display:flex; flex-direction:column; gap:8px;">
-          <!-- widget-engine.js renderLinkRows() -->
-        </div>
-        <button class="btn-stack-add" onclick="addLinkRow()" style="margin-top:10px; border-style:solid; border-width:1px;">+ 링크 추가</button>
-      </div>
-
-      <!-- 필드: Banner -->
-      <div id="fields-banner" style="display:none;">
-        <div class="field-group">
-          <div class="field-label">배너 텍스트</div>
-          <input class="field-input" id="inp-banner-text" value="Hi! Welcome!">
-        </div>
-        <div class="field-group">
-          <div class="field-label">사용자명 (히트카운터용)</div>
-          <input class="field-input" id="inp-username-banner" placeholder="octocat">
-        </div>
-        <div class="field-group">
-          <div class="field-label">배너 높이 (px)</div>
-          <input class="field-input" id="inp-banner-height" value="160">
-        </div>
-      </div>
+      <div id="block-list"></div>
 
       <div class="panel-left-spacer"></div>
-      <div class="ad-slot-left" id="ad-b1" style="border:none; background:none; padding:0; margin:16px 0;">
+
+      <!-- AD-B1: 빌더 사이드바 하단 (카카오 애드핏 300×250) -->
+      <div class="ad-slot-left" id="ad-b1">
         <ins class="kakao_ad_area" style="display:none;"
-        data-ad-unit = "DAN-Ephj9mjHyqtTY59G"
-        data-ad-width = "300"
-        data-ad-height = "250"></ins>
+             data-ad-unit="DAN-REPLACE_WITH_YOUR_UNIT_ID"
+             data-ad-width="300"
+             data-ad-height="250"></ins>
         <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
       </div>
+
       <div class="panel-left-footer">
-        © 2025 GitGloss ·
-        <a href="privacy.html">Privacy</a> ·
-        <a href="terms.html">Terms</a>
+        © 2025 GitGloss · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a>
       </div>
 
     </aside>
 
-    <!-- ══ RIGHT: Preview + Code ══ -->
+    <!-- ══ RIGHT: 프리뷰 + 코드 ══ -->
     <div class="panel-right">
 
-      <!-- 미리보기 -->
       <div class="preview-area" id="preview-area">
         <div class="preview-bg-dots"></div>
-        
-        <!-- 위젯 카드 컨테이너 -->
-        <div class="widget-card theme-cotton-candy" id="widget-card">
+        <div class="widget-card" id="widget-card">
           <!-- widget-engine.js가 렌더 -->
         </div>
       </div>
 
-      <!-- 코드 스트립 -->
       <div class="code-strip">
         <div class="code-tabs-row">
-          <button class="ctab on" onclick="selCtab(this, 'md')">Markdown</button>
-          <button class="ctab" onclick="selCtab(this, 'html')">HTML</button>
+          <button class="ctab on"  onclick="selCtab(this,'md')"   data-fmt="md">Markdown</button>
+          <button class="ctab"     onclick="selCtab(this,'html')" data-fmt="html">HTML</button>
         </div>
         <div class="code-body">
-          <pre id="code-pre"></pre>
+          <pre id="code-pre" class="code-pre"></pre>
           <button class="copy-btn" id="copy-btn" onclick="doCopy()">Copy</button>
         </div>
-
-        <!-- 복사 후 광고 슬라이드인 -->
         <div class="ad-slide" id="ad-b2">
+          <!-- AD-B2: Copy 후 슬라이드인 (Google AdSense 728×90) -->
           <div class="ad-slide-inner">
-            광고 슬롯 — 복사 완료 후 노출
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-REPLACE_WITH_YOUR_PUB_ID"
+                 data-ad-slot="REPLACE_WITH_SLOT_ID"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
           </div>
         </div>
       </div>
@@ -252,41 +158,26 @@
     </div>
   </div>
 
-  <!-- SCRIPTS -->
   <script src="assets/data/templates.js"></script>
   <script src="assets/js/widget-engine.js"></script>
   <script>
-    /* ── 모바일 드로어 토글 ── */
-    (function () {
-      const btn     = document.getElementById('panel-toggle');
-      const panel   = document.querySelector('.panel-left');
-      const overlay = document.getElementById('panel-overlay');
-      if (!btn || !panel || !overlay) return;
-
-      function openPanel() {
-        panel.classList.add('open');
-        overlay.classList.add('visible');
-        btn.setAttribute('aria-expanded', 'true');
-        btn.textContent = '✕';
-      }
-      function closePanel() {
+    // 모바일 드로어
+    (function(){
+      const btn=document.getElementById('panel-toggle');
+      const panel=document.getElementById('panel-left');
+      const overlay=document.getElementById('panel-overlay');
+      if(!btn||!panel||!overlay) return;
+      btn.addEventListener('click',()=>{
+        const open=panel.classList.toggle('open');
+        overlay.classList.toggle('visible',open);
+        btn.textContent = open ? '✕' : '☰';
+      });
+      overlay.addEventListener('click',()=>{
         panel.classList.remove('open');
         overlay.classList.remove('visible');
-        btn.setAttribute('aria-expanded', 'false');
-        btn.textContent = '☰';
-      }
-
-      btn.addEventListener('click', function () {
-        panel.classList.contains('open') ? closePanel() : openPanel();
-      });
-      overlay.addEventListener('click', closePanel);
-
-      window.addEventListener('resize', function () {
-        if (window.innerWidth > 768) closePanel();
+        btn.textContent='☰';
       });
     })();
   </script>
-
 </body>
-
 </html>

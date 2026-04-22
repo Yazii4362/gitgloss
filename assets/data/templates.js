@@ -34,25 +34,24 @@ const TEMPLATES = [
   { id:'profile-01', type:'profile', theme:'profile-minimal',      layout:'profile-layout', title:'Minimal',      desc:'이모지 + 이름 + 핸들만, 초미니멀 센터 정렬',    badge:null,  accentColor:'#08080F', config:{} },
   { id:'profile-02', type:'profile', theme:'profile-dark-hero',    layout:'profile-layout', title:'Dark Hero',    desc:'다크 드라마틱, 그라디언트 네임 글로우',          badge:'HOT', accentColor:'#9B8FE8', config:{} },
   { id:'profile-03', type:'profile', theme:'profile-soft',         layout:'profile-layout', title:'Soft Hero',    desc:'소프트 핑크 글래스, 따뜻한 분위기',             badge:null,  accentColor:'#ED93B1', config:{} },
-  { id:'profile-04', type:'profile', theme:'profile-typography',   layout:'profile-layout', title:'Typography',   desc:'타이포그래피 중심, 아바타 없음',                badge:null,  accentColor:'#4285F4', config:{} },
-  { id:'profile-05', type:'profile', theme:'profile-character',    layout:'profile-layout', title:'Character',    desc:'빅 이모지, 점선 테두리, 펀 스타일',             badge:null,  accentColor:'#ED93B1', config:{} },
-  { id:'profile-06', type:'profile', theme:'profile-obsidian',     layout:'profile-layout', title:'Obsidian',     desc:'퓨어 블랙, 하이 콘트라스트, 럭셔리',           badge:'NEW', accentColor:'#fff',    config:{} },
-  { id:'profile-07', type:'profile', theme:'profile-glass-grid',   layout:'profile-layout', title:'Glass Grid',   desc:'그리드 투 컬럼 레이아웃 글래스',               badge:null,  accentColor:'#4285F4', config:{} },
-  { id:'profile-08', type:'profile', theme:'profile-interactive',  layout:'profile-layout', title:'Interactive',  desc:'호버 시 레인보우 보더 시머 애니메이션',         badge:null,  accentColor:'#9B8FE8', config:{} },
-  { id:'profile-09', type:'profile', theme:'profile-portfolio',    layout:'profile-layout', title:'Portfolio',    desc:'링크드인 스타일 수평 레이아웃',                badge:null,  accentColor:'#4285F4', config:{} },
-  { id:'profile-10', type:'profile', theme:'profile-simple-dark',  layout:'profile-layout', title:'Simple Dark',  desc:'심플 다크, 낮은 채도 미니멀',                  badge:null,  accentColor:'#aaa',    config:{} },
+  { id:'profile-04', type:'profile', theme:'profile-character',    layout:'profile-layout', title:'Character',    desc:'빅 이모지, 점선 테두리, 펀 스타일',             badge:null,  accentColor:'#ED93B1', config:{} },
+  { id:'profile-05', type:'profile', theme:'profile-obsidian',     layout:'profile-layout', title:'Obsidian',     desc:'퓨어 블랙, 하이 콘트라스트, 럭셔리',           badge:'NEW', accentColor:'#fff',    config:{} },
+  { id:'profile-06', type:'profile', theme:'profile-glass-grid',   layout:'profile-layout', title:'Glass Grid',   desc:'그리드 투 컬럼 레이아웃 글래스',               badge:null,  accentColor:'#4285F4', config:{} },
+  { id:'profile-07', type:'profile', theme:'profile-interactive',  layout:'profile-layout', title:'Interactive',  desc:'호버 시 레인보우 보더 시머 애니메이션',         badge:null,  accentColor:'#9B8FE8', config:{} },
+  { id:'profile-08', type:'profile', theme:'profile-portfolio',    layout:'profile-layout', title:'Portfolio',    desc:'링크드인 스타일 수평 레이아웃',                badge:null,  accentColor:'#4285F4', config:{} },
+  { id:'profile-09', type:'profile', theme:'profile-simple-dark',  layout:'profile-layout', title:'Simple Dark',  desc:'심플 다크, 낮은 채도 미니멀',                  badge:null,  accentColor:'#aaa',    config:{} },
+  { id:'profile-10', type:'profile', theme:'mbti-status',          layout:'profile-layout', title:'MBTI & Mood',  desc:'개발자 MBTI 및 오늘의 상태 표현 뱃지',         badge:'NEW', accentColor:'#9B8FE8', config:{} },
 
-  /* ── MIX (10) ────────────────────────────────────── */
+  /* ── MIX (9) ────────────────────────────────────── */
   { id:'mix-01', type:'stats',   theme:'dev-card',    layout:'',            title:'Dev Card',    desc:'올인원 개발자 카드, 상단 컬러 스트라이프',  badge:'NEW', accentColor:'#7EC8E3', config:{stats:['Stars','Repos','Active']} },
   { id:'mix-02', type:'profile', theme:'designer',    layout:'profile-layout', title:'Designer', desc:'로즈 핑크→스카이 블루 드림 그라디언트',    badge:null,  accentColor:'#FF9A9E', config:{} },
   { id:'mix-03', type:'stats',   theme:'engineer',    layout:'',            title:'Engineer',    desc:'터미널 그린, 코드 에디터 감성',            badge:null,  accentColor:'#34A853', config:{stats:['Stars','Repos','Active']} },
   { id:'mix-04', type:'tech',    theme:'creator',     layout:'tech-layout', title:'Creator',     desc:'애니메이팅 레인보우 테두리, 멀티 컬러',    badge:'HOT', accentColor:'#FF006E', config:{stack:['React','Figma','Node.js','Python','Swift']} },
-  { id:'mix-05', type:'stats',   theme:'minimal-dev', layout:'',            title:'Minimal Dev', desc:'보더리스, 상단 라인 하나, 흑백 타이포',    badge:null,  accentColor:'#08080F', config:{stats:['Stars','Repos','Active']} },
-  { id:'mix-06', type:'stats',   theme:'tech-light',  layout:'',            title:'Tech Light',  desc:'블루 액센트 라이트 테크 카드',             badge:null,  accentColor:'#4285F4', config:{stats:['Stars','Repos','Active']} },
-  { id:'mix-07', type:'stats',   theme:'tech-dark',   layout:'',            title:'Tech Dark',   desc:'네이비 다크 + 블루 글로우',               badge:null,  accentColor:'#4285F4', config:{stats:['Stars','Repos','Active']} },
-  { id:'mix-08', type:'tech',    theme:'tech-soft',   layout:'tech-layout', title:'Tech Soft',   desc:'인디고+에메랄드 소프트 파스텔 콤비',       badge:null,  accentColor:'#6366F1', config:{stack:['React','TypeScript','Node.js','Docker']} },
-  { id:'mix-09', type:'stats',   theme:'stats-lite',  layout:'',            title:'Stats Lite',  desc:'경량 컴팩트 스탯 카드 (300px)',            badge:null,  accentColor:'#4285F4', config:{stats:['Stars','Repos','Active']} },
-  { id:'mix-10', type:'stats',   theme:'dark-lite',   layout:'',            title:'Dark Lite',   desc:'경량 다크 컴팩트 카드 (300px)',            badge:null,  accentColor:'#aaa',    config:{stats:['Stars','Repos','Active']} },
+  { id:'mix-05', type:'stats',   theme:'tech-light',  layout:'',            title:'Tech Light',  desc:'블루 액센트 라이트 테크 카드',             badge:null,  accentColor:'#4285F4', config:{stats:['Stars','Repos','Active']} },
+  { id:'mix-06', type:'stats',   theme:'tech-dark',   layout:'',            title:'Tech Dark',   desc:'네이비 다크 + 블루 글로우',               badge:null,  accentColor:'#4285F4', config:{stats:['Stars','Repos','Active']} },
+  { id:'mix-07', type:'tech',    theme:'tech-soft',   layout:'tech-layout', title:'Tech Soft',   desc:'인디고+에메랄드 소프트 파스텔 콤비',       badge:null,  accentColor:'#6366F1', config:{stack:['React','TypeScript','Node.js','Docker']} },
+  { id:'mix-08', type:'stats',   theme:'stats-lite',  layout:'',            title:'Stats Lite',  desc:'경량 컴팩트 스탯 카드 (300px)',            badge:null,  accentColor:'#4285F4', config:{stats:['Stars','Repos','Active']} },
+  { id:'mix-09', type:'stats',   theme:'dark-lite',   layout:'',            title:'Dark Lite',   desc:'경량 다크 컴팩트 카드 (300px)',            badge:null,  accentColor:'#aaa',    config:{stats:['Stars','Repos','Active']} },
 
   /* ── LINKS (10) ──────────────────────────────────── */
   { id:'links-01', type:'links', theme:'links-pill-row',      layout:'links-layout', title:'Pill Row',       desc:'한 줄 가로 배열 라운드 필 버튼',                badge:'NEW', accentColor:'#4285F4', config:{links:['github','blog','email']} },
@@ -79,13 +78,12 @@ const TEMPLATES = [
   { id:'banner-10', type:'banner', theme:'banner-snake',          layout:'banner-layout', title:'Snake Game',      desc:'contribution-snake SVG 게임 애니메이션',         badge:'NEW', accentColor:'#34A853', config:{text:''} },
 
   /* ── NEW: CREATIVE & INTERACTIVE (7) ─────────────── */
-  { id:'stats-11',   type:'stats',   theme:'blog-card',    layout:'', title:'Tech Blog Feed', desc:'Velog/Tistory 최신 글 반투명 연동 카드', badge:'PRO', accentColor:'#20c997', config:{stats:['Recent Post','Views','Likes']} },
-  { id:'stats-12',   type:'stats',   theme:'progress-100', layout:'', title:'100 Days Code',  desc:'100일 코딩 챌린지 진행률 프로그레스 바',   badge:'NEW', accentColor:'#FF006E', config:{stats:['Progress','Day','Left']} },
-  { id:'stats-13',   type:'stats',   theme:'radar-chart',  layout:'', title:'Skill Radar',    desc:'육각형 역량 능력치 시각화 차트 위젯',      badge:'HOT', accentColor:'#4285F4', config:{stats:['Frontend','Backend','Design']} },
-  { id:'links-11',   type:'links',   theme:'spotify-glass',layout:'links-layout', title:'Spotify Playing', desc:'현재 듣고 있는 음악 (유리 질감 카드)', badge:'HOT', accentColor:'#1DB954', config:{links:['spotify']} },
-  { id:'links-12',   type:'links',   theme:'coffee-meter', layout:'links-layout', title:'Today Fuel',    desc:'오늘 마신 커피/음료 잔 수 카운터 뱃지',     badge:null,  accentColor:'#6f4e37', config:{links:['kakao']} },
-  { id:'profile-11', type:'profile', theme:'mbti-status',  layout:'profile-layout', title:'MBTI & Mood', desc:'개발자 MBTI 및 오늘의 상태 표현 뱃지',  badge:'NEW', accentColor:'#9B8FE8', config:{} },
-  { id:'banner-11',  type:'banner',  theme:'premium-hit',  layout:'banner-layout', title:'Premium Hit',  desc:'세련된 타이포그래피 유리 질감 카운터',      badge:'NEW', accentColor:'#4285F4', config:{text:'Visitors',height:100} },
+  { id:'stats-11',   type:'stats',   theme:'glass-neon',    layout:'', title:'Glass Neon',     desc:'네온 글로우 + 글래스모피즘 조합 카드',      badge:'NEW', accentColor:'#9B8FE8', config:{stats:['Stars','Repos','Active']} },
+  { id:'stats-12',   type:'stats',   theme:'aurora',        layout:'', title:'Aurora',         desc:'오로라 그라디언트 풀 카드',                 badge:'NEW', accentColor:'#7EC8E3', config:{stats:['Stars','Repos','Active']} },
+  { id:'stats-13',   type:'stats',   theme:'mono-border',   layout:'', title:'Mono Border',    desc:'흑백 굵은 테두리, 타이포 중심 카드',        badge:null,  accentColor:'#08080F', config:{stats:['Stars','Repos','Active']} },
+  { id:'links-11',   type:'links',   theme:'spotify-glass', layout:'links-layout', title:'Spotify Playing', desc:'현재 듣고 있는 음악 (유리 질감 카드)', badge:'HOT', accentColor:'#1DB954', config:{links:['spotify']} },
+  { id:'links-12',   type:'links',   theme:'coffee-meter',  layout:'links-layout', title:'Today Fuel',    desc:'오늘 마신 커피/음료 잔 수 카운터 뱃지',     badge:null,  accentColor:'#6f4e37', config:{links:['kakao']} },
+  { id:'banner-11',  type:'banner',  theme:'premium-hit',   layout:'banner-layout', title:'Premium Hit',  desc:'세련된 타이포그래피 유리 질감 카운터',      badge:'NEW', accentColor:'#4285F4', config:{text:'Visitors',height:100} },
 ];
 
 /* ── 헬퍼 함수 ───────────────────────────────────────── */

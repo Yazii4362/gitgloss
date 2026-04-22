@@ -1,964 +1,741 @@
 /* ═══════════════════════════════════════════════════════
-   GitGloss — widget-engine.js
-   테마 클래스 적용 + 위젯 DOM 렌더링 엔진
+   GitGloss — widget-engine.js  v3.0
+   블록 조합 빌더 엔진
    ═══════════════════════════════════════════════════════ */
-
 'use strict';
 
-/* ── 링크 메타데이터 (파비콘 + 브랜드 컬러 + URL 패턴) ── */
-const LINK_META = {
-  github:    { label: 'GitHub',      favicon: 'https://www.google.com/s2/favicons?domain=github.com&sz=32',      color: '#181717', bg: '#f0f0f0', brand: 'github',    urlTpl: 'https://github.com/{username}' },
-  blog:      { label: '블로그',       favicon: 'https://www.google.com/s2/favicons?domain=velog.io&sz=32',        color: '#20c997', bg: '#e8fdf5', brand: 'velog',     urlTpl: 'https://velog.io/@{username}' },
-  email:     { label: 'Email',       favicon: 'https://www.google.com/s2/favicons?domain=gmail.com&sz=32',       color: '#EA4335', bg: '#fde8e6', brand: 'gmail',     urlTpl: 'mailto:{email}' },
-  linkedin:  { label: 'LinkedIn',    favicon: 'https://www.google.com/s2/favicons?domain=linkedin.com&sz=32',    color: '#0A66C2', bg: '#e7f0fa', brand: 'linkedin',  urlTpl: 'https://linkedin.com/in/{username}' },
-  twitter:   { label: 'X / Twitter', favicon: 'https://www.google.com/s2/favicons?domain=x.com&sz=32',          color: '#000000', bg: '#f0f0f0', brand: 'x',         urlTpl: 'https://twitter.com/{username}' },
-  instagram: { label: 'Instagram',   favicon: 'https://www.google.com/s2/favicons?domain=instagram.com&sz=32',  color: '#E1306C', bg: '#fde8f0', brand: 'instagram', urlTpl: 'https://instagram.com/{username}' },
-  youtube:   { label: 'YouTube',     favicon: 'https://www.google.com/s2/favicons?domain=youtube.com&sz=32',    color: '#FF0000', bg: '#ffe8e8', brand: 'youtube',   urlTpl: 'https://youtube.com/@{username}' },
-  twitch:    { label: 'Twitch',      favicon: 'https://www.google.com/s2/favicons?domain=twitch.tv&sz=32',      color: '#9146FF', bg: '#f0e8ff', brand: 'twitch',    urlTpl: 'https://twitch.tv/{username}' },
-  kakao:     { label: 'KakaoTalk',   favicon: 'https://www.google.com/s2/favicons?domain=kakao.com&sz=32',      color: '#3A1D1D', bg: '#FEE500', brand: 'kakaotalk', urlTpl: 'https://open.kakao.com/o/{roomid}' },
-  discord:   { label: 'Discord',     favicon: 'https://www.google.com/s2/favicons?domain=discord.com&sz=32',    color: '#5865F2', bg: '#eef0fe', brand: 'discord',   urlTpl: 'https://discord.gg/{server}' },
-  notion:    { label: 'Notion',      favicon: 'https://www.google.com/s2/favicons?domain=notion.so&sz=32',      color: '#000000', bg: '#f5f5f5', brand: 'notion',    urlTpl: 'https://notion.so/{page}' },
-  portfolio: { label: 'Portfolio',   favicon: 'https://www.google.com/s2/favicons?domain=github.io&sz=32',      color: '#4285F4', bg: '#e8f0fe', brand: '',          urlTpl: 'https://{username}.github.io' },
-  npm:       { label: 'npm',         favicon: 'https://www.google.com/s2/favicons?domain=npmjs.com&sz=32',      color: '#CB3837', bg: '#fee8e8', brand: 'npm',       urlTpl: 'https://npmjs.com/~{username}' },
-};
-
-/* shields.io 배지 URL 생성 */
-function shieldsBadge(label, msg, color, logo, style = 'flat-square') {
-  const base = 'https://img.shields.io/badge/';
-  const l = encodeURIComponent(label.replace(/-/g,'--'));
-  const m = encodeURIComponent(msg.replace(/-/g,'--'));
-  const logoParam = logo ? `&logo=${logo}&logoColor=white` : '';
-  return `${base}${l}-${m}-${color}?style=${style}${logoParam}`;
-}
-
-/* ── 현재 상태 ───────────────────────────────────────── */
+/* ── 전역 상태 ───────────────────────────────────────── */
 const WE = {
-  type:    'stats',
-  theme:   'cotton-candy',
-  layout:  '',
-  emoji:   '👨‍💻',
-  accent:  '#ED93B1',
-  username: 'octocat',
-  title:   'GitHub Stats',
-  stats:   [
-    { label: 'Stars',  val: '2.8k' },
-    { label: 'Repos',  val: '142'  },
-    { label: 'Active', val: '98%'  }
+  style:  'glass',      // glass | dark | neu | border | gradient | minimal
+  accent: '#4285F4',
+  preset: null,         // 현재 적용된 프리셋 id
+
+  /* 블록 배열 — 순서가 곧 렌더 순서 */
+  blocks: [
+    { id: 'b1', type: 'avatar',  data: { emoji: '👨‍💻' } },
+    { id: 'b2', type: 'name',    data: { username: '', name: 'The Octocat', role: 'Full-stack Developer', handle: '@octocat' } },
+    { id: 'b3', type: 'stats',   data: { items: [{ label:'Stars', val:'2.8k' }, { label:'Repos', val:'142' }, { label:'Active', val:'98%' }] } },
+    { id: 'b4', type: 'badges',  data: { tags: ['React', 'TypeScript', 'Node.js'] } },
   ],
-  tags:    ['React', 'TypeScript', 'Node.js'],
-  pname:   '',
-  handle:  '@octocat',
-  role:    'Full-stack Developer',
-  bio:     'Building amazing things with code',
-  streak:  '42',
-  longest: '87',
-  total:   '1,247',
-  /* links 전용 */
-  linkItems: [
-    { type: 'github',   url: '' },
-    { type: 'blog',     url: '' },
-    { type: 'email',    url: '' },
-  ],
-  /* banner 전용 */
-  bannerText:   'Hi! Welcome!',
-  bannerHeight: '160',
-  bannerColor:  'gradient',
-  bannerType:   'wave',
+
+  _uid: 10,
 };
 
-/* 모든 테마/레이아웃 클래스 목록 */
-const ALL_THEME_CLASSES = TEMPLATES.map(t => [
-  `theme-${t.theme}`,
-  t.layout
-]).flat().filter(Boolean);
+function uid() { return 'b' + (++WE._uid); }
 
-const ALL_THEME_UNIQUE = [...new Set(ALL_THEME_CLASSES)];
-
-/* ── 핵심: 테마 적용 ─────────────────────────────────── */
-function applyTheme(templateId) {
-  const tpl = getById(templateId);
-  if (!tpl) return;
-
-  WE.type   = tpl.type;
-  WE.theme  = tpl.theme;
-  WE.layout = tpl.layout || '';
-  WE.accent = tpl.accentColor;
-
-  const card = document.getElementById('widget-card');
-  if (!card) return;
-
-  /* 배너 → 다른 타입 전환 시 인라인 스타일 리셋 */
-  if (tpl.type !== 'banner') {
-    card.style.cssText = '';
-  }
-
-  card.classList.remove(...ALL_THEME_UNIQUE);
-  card.classList.add(`theme-${WE.theme}`);
-  if (WE.layout) card.classList.add(WE.layout);
-
-  renderWidgetDOM();
-  updateCodeStrip();
-}
-
-/* ── DOM 렌더링 ─────────────────────────────────────── */
-function renderWidgetDOM() {
-  const card = document.getElementById('widget-card');
-  if (!card) return;
-
-  switch (WE.type) {
-    case 'stats':   renderStats(card);   break;
-    case 'tech':    renderTech(card);    break;
-    case 'profile': renderProfile(card); break;
-    case 'streak':  renderStreak(card);  break;
-    case 'links':   renderLinks(card);   break;
-    case 'banner':  renderBanner(card);  break;
-  }
-}
-
-/* ── SPECIAL THEMES RENDERING ────────────────────────── */
-const SPECIAL_THEMES = {
-  /* Stats */
-  'blog-card': (card) => {
-    card.innerHTML = `
-      <div class="w-header" style="margin-bottom:12px;">
-        <div style="font-size:11px;font-weight:700;color:var(--google-blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Latest Blog Post</div>
-        <div class="w-name" style="font-size:16px;">Restoring GitGloss Architecture</div>
-      </div>
-      <div style="display:flex;gap:12px;align-items:center;background:rgba(255,255,255,0.4);padding:10px;border-radius:12px;border:1px solid rgba(0,0,0,0.05);">
-        <div style="width:60px;height:60px;border-radius:8px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;">📝</div>
-        <div style="flex:1;">
-          <div style="font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:4px;">How we fixed the gallery...</div>
-          <div style="font-size:11px;color:var(--text-sub);">2025.04.22 · 5 min read</div>
-        </div>
-      </div>
-    `;
-  },
-  'progress-100': (card) => {
-    card.innerHTML = `
-      <div class="w-header">
-        <div class="w-name">100 Days of Code</div>
-        <div class="w-handle">Challenge Progress</div>
-      </div>
-      <div style="margin:16px 0;">
-        <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:6px;">
-          <span style="color:var(--accent);">Day 42</span>
-          <span style="color:var(--text-sub);">42%</span>
-        </div>
-        <div style="height:10px;background:rgba(0,0,0,0.05);border-radius:5px;overflow:hidden;">
-          <div style="width:42%;height:100%;background:linear-gradient(90deg, var(--accent), #9B8FE8);border-radius:5px;"></div>
-        </div>
-      </div>
-      <div style="font-size:11px;color:var(--text-hint);text-align:center;">Keep going! You're doing great. 🚀</div>
-    `;
-  },
-  'radar-chart': (card) => {
-    card.innerHTML = `
-      <div class="w-header" style="margin-bottom:10px;">
-        <div class="w-name">Skill Radar</div>
-        <div class="w-handle">Competency Map</div>
-      </div>
-      <div style="display:flex;justify-content:center;padding:10px;">
-        <div style="width:100px;height:100px;background:rgba(66,133,244,0.1);clip-path:polygon(50% 0%, 100% 38%, 81% 91%, 19% 91%, 0% 38%);display:flex;align-items:center;justify-content:center;border:2px solid var(--accent);">
-          <div style="width:60px;height:60px;background:rgba(66,133,244,0.3);clip-path:polygon(50% 0%, 100% 38%, 81% 91%, 19% 91%, 0% 38%);"></div>
-        </div>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:10px;">
-        <div style="font-size:9px;text-align:center;font-weight:700;color:var(--text-sub);">Frontend</div>
-        <div style="font-size:9px;text-align:center;font-weight:700;color:var(--text-sub);">Backend</div>
-        <div style="font-size:9px;text-align:center;font-weight:700;color:var(--text-sub);">Design</div>
-      </div>
-    `;
-  },
-  /* Profile */
-  'mbti-status': (card) => {
-    card.innerHTML = `
-      <div class="w-header">
-        <div class="w-avatar" id="w-avatar">${WE.emoji}</div>
-        <div>
-          <div class="w-name">INTP Developer</div>
-          <div class="w-handle">MBTI / Current Status</div>
-        </div>
-      </div>
-      <div style="display:flex;gap:8px;margin-top:12px;">
-        <div style="flex:1;background:rgba(155,143,232,0.1);padding:10px;border-radius:12px;text-align:center;border:1px solid rgba(155,143,232,0.2);">
-          <div style="font-size:10px;font-weight:700;color:#9B8FE8;margin-bottom:4px;">MOOD</div>
-          <div style="font-size:13px;font-weight:600;">버그 잡는 중 🐛</div>
-        </div>
-        <div style="flex:1;background:rgba(237,147,177,0.1);padding:10px;border-radius:12px;text-align:center;border:1px solid rgba(237,147,177,0.2);">
-          <div style="font-size:10px;font-weight:700;color:#ED93B1;margin-bottom:4px;">FUEL</div>
-          <div style="font-size:13px;font-weight:600;">커피 필요함 ☕</div>
-        </div>
-      </div>
-    `;
-  },
-  /* Links */
-  'spotify-glass': (card) => {
-    card.innerHTML = `
-      <div style="display:flex;gap:16px;align-items:center;">
-        <div style="width:70px;height:70px;border-radius:50%;background:url('https://i.scdn.co/image/ab67616d0000b273b251a37c012876f1e5828468') no-repeat center;background-size:cover;border:3px solid #1DB954;animation:rotate 10s linear infinite;box-shadow:0 8px 24px rgba(29,185,84,0.3);"></div>
-        <div style="flex:1;">
-          <div style="font-size:10px;font-weight:800;color:#1DB954;text-transform:uppercase;margin-bottom:4px;">Now Playing</div>
-          <div style="font-size:15px;font-weight:700;color:var(--text-main);margin-bottom:2px;">Cruel Summer</div>
-          <div style="font-size:12px;color:var(--text-sub);">Taylor Swift</div>
-          <div style="margin-top:8px;height:3px;background:rgba(29,185,84,0.2);border-radius:2px;">
-            <div style="width:65%;height:100%;background:#1DB954;border-radius:2px;"></div>
-          </div>
-        </div>
-      </div>
-      <style>@keyframes rotate { from { transform:rotate(0); } to { transform:rotate(360deg); } }</style>
-    `;
-  },
-  'coffee-meter': (card) => {
-    card.innerHTML = `
-      <div class="w-header" style="margin-bottom:12px;">
-        <div class="w-name">Today's Fuel</div>
-        <div class="w-handle">Caffeine Intake</div>
-      </div>
-      <div style="display:flex;justify-content:center;gap:8px;font-size:28px;">
-        <span>☕</span><span>☕</span><span style="opacity:0.2;">☕</span><span style="opacity:0.2;">☕</span>
-      </div>
-      <div style="text-align:center;font-size:12px;font-weight:700;color:var(--accent);margin-top:10px;">2 / 4 Cups Done</div>
-    `;
-  }
+/* ── 카드 스타일 맵 ──────────────────────────────────── */
+const STYLE_CLASS = {
+  glass:    'ws-glass',
+  dark:     'ws-dark',
+  neu:      'ws-neu',
+  border:   'ws-border',
+  gradient: 'ws-gradient',
+  minimal:  'ws-minimal',
 };
 
-/* ── Stats 위젯 ── */
-function renderStats(card) {
-  if (SPECIAL_THEMES[WE.theme]) return SPECIAL_THEMES[WE.theme](card);
+/* ══════════════════════════════════════════════════════
+   BLOCK PANEL — 왼쪽 패널 렌더
+══════════════════════════════════════════════════════ */
+function renderBlockList() {
+  const list = document.getElementById('block-list');
+  if (!list) return;
 
-  card.innerHTML = `
-    <div class="w-header">
-      <div class="w-avatar" id="w-avatar">${WE.emoji}</div>
-      <div>
-        <div class="w-name" id="w-name">${WE.username || 'octocat'}</div>
-        <div class="w-handle" id="w-handle">@${WE.username || 'octocat'} · GitHub</div>
+  list.innerHTML = WE.blocks.map(b => `
+    <div class="block-item" data-id="${b.id}">
+      <div class="block-item-header">
+        <span class="block-drag">⠿</span>
+        <span class="block-icon">${BLOCK_ICON[b.type] || '▪'}</span>
+        <span class="block-label">${BLOCK_LABEL[b.type] || b.type}</span>
+        <button class="block-toggle ${b.collapsed ? '' : 'open'}"
+                onclick="toggleBlock('${b.id}')">▾</button>
+        <button class="block-remove" onclick="removeBlock('${b.id}')">✕</button>
       </div>
-    </div>
-    <div class="w-stats" id="w-stats">
-      ${WE.stats.map((s, i) => `
-        <div class="w-stat">
-          <div class="w-num" id="w-s${i+1}-val">${s.val}</div>
-          <div class="w-lbl" id="w-s${i+1}-lbl">${s.label}</div>
-        </div>
-      `).join('')}
-    </div>
-    <div class="w-tags" id="w-tags">${renderBadges(WE.tags)}</div>
-  `;
-}
-
-/* ── Tech 위젯 ── */
-function renderTech(card) {
-  card.innerHTML = `
-    <div class="w-header">
-      <div class="w-avatar" id="w-avatar">${WE.emoji}</div>
-      <div>
-        <div class="w-name" id="w-name">${WE.username || 'octocat'}</div>
-        <div class="w-handle" id="w-handle">Tech Stack</div>
+      <div class="block-fields ${b.collapsed ? 'hidden' : ''}">
+        ${renderBlockFields(b)}
       </div>
-    </div>
-    <div class="w-tags" id="w-tags">${renderBadges(WE.tags)}</div>
-  `;
-}
-
-/* ── Profile 위젯 ── */
-function renderProfile(card) {
-  if (SPECIAL_THEMES[WE.theme]) return SPECIAL_THEMES[WE.theme](card);
-
-  const hasRole = ['profile-portfolio','profile-glass-grid','profile-soft'].includes(WE.theme);
-  card.innerHTML = `
-    <div class="w-header">
-      <div class="w-avatar" id="w-avatar">${WE.emoji}</div>
-      <div>
-        <div class="w-name" id="w-name">${WE.pname || WE.username || 'octocat'}</div>
-        ${hasRole ? `<div class="w-role">${WE.role}</div>` : ''}
-        <div class="w-handle" id="w-handle">${WE.handle || '@octocat'}</div>
-      </div>
-    </div>
-    <div class="w-bio" id="w-bio">${WE.bio}</div>
-    <div class="w-tags" id="w-tags">${renderBadges(WE.tags)}</div>
-  `;
-}
-
-/* ── Streak 위젯 ── */
-function renderStreak(card) {
-  card.innerHTML = `
-    <div class="w-header">
-      <div class="w-avatar" id="w-avatar">${WE.emoji}</div>
-      <div>
-        <div class="w-name" id="w-name">${WE.username || 'octocat'}</div>
-        <div class="w-handle" id="w-handle">@${WE.username || 'octocat'} · GitHub</div>
-      </div>
-    </div>
-    <div class="w-streak-main">
-      <div class="w-streak-num">${WE.streak}</div>
-      <div class="w-streak-label">Day Streak 🔥</div>
-    </div>
-    <div class="w-streak-sub">
-      <div class="w-stat">
-        <div class="w-num">${WE.longest}</div>
-        <div class="w-lbl">Longest</div>
-      </div>
-      <div class="w-stat">
-        <div class="w-num">${WE.total}</div>
-        <div class="w-lbl">Total</div>
-      </div>
-    </div>
-  `;
-}
-
-/* ── Links 위젯 ── */
-function renderLinks(card) {
-  if (SPECIAL_THEMES[WE.theme]) return SPECIAL_THEMES[WE.theme](card);
-
-  const theme = WE.theme;
-  const items = WE.linkItems;
-  
-  let wrapStyle = 'display:flex;flex-wrap:wrap;gap:10px;justify-content:center;';
-  let btnRenderer = renderLinkBtnPill;
-
-  if (theme === 'links-icon-grid') {
-    wrapStyle = 'display:grid;grid-template-columns:repeat(3,1fr);gap:10px;';
-    btnRenderer = renderLinkBtnIconGrid;
-  } else if (theme === 'links-minimal-list') {
-    wrapStyle = 'display:flex;flex-direction:column;gap:8px;';
-    btnRenderer = renderLinkBtnMinimal;
-  } else if (theme === 'links-gradient-btns') {
-    btnRenderer = renderLinkBtnGradient;
-  } else if (theme === 'links-bordered') {
-    btnRenderer = renderLinkBtnBordered;
-  } else if (theme === 'links-social-pack') {
-    btnRenderer = renderLinkBtnSocial;
-  } else if (theme === 'links-dark-row') {
-    btnRenderer = renderLinkBtnDark;
-  } else if (theme === 'links-contact-card') {
-    wrapStyle = 'display:flex;flex-direction:column;gap:10px;';
-    btnRenderer = renderLinkBtnContact;
-  } else if (theme === 'links-dev-hub') {
-    btnRenderer = renderLinkBtnDevHub;
-  }
-
-  card.innerHTML = `
-    <div class="w-header">
-      <div class="w-avatar" id="w-avatar">${WE.emoji}</div>
-      <div>
-        <div class="w-name">${WE.pname || WE.username || 'octocat'}</div>
-        <div class="w-handle">링크 모음</div>
-      </div>
-    </div>
-    <div id="w-links-wrap" style="${wrapStyle}padding-top:8px;">
-      ${items.map(item => btnRenderer(item)).join('')}
-    </div>
-  `;
-}
-
-function renderLinkBtnPill(item) {
-  const m = LINK_META[item.type] || { label: item.type, favicon: '', color: '#555', bg: '#eee' };
-  return `<a href="${item.url || '#'}" target="_blank" style="
-    display:inline-flex;align-items:center;gap:6px;
-    padding:8px 18px;border-radius:999px;
-    background:${m.bg};border:1.5px solid ${m.color}22;
-    color:${m.color};font-size:13px;font-weight:600;
-    text-decoration:none;transition:transform .15s;">
-    <img src="${m.favicon}" width="16" height="16" style="object-fit:contain;" alt="${m.label}">${m.label}
-  </a>`;
-}
-
-function renderLinkBtnIconGrid(item) {
-  const m = LINK_META[item.type] || { label: item.type, favicon: '', color: '#555', bg: '#eee' };
-  return `<a href="${item.url || '#'}" target="_blank" style="
-    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
-    padding:16px 8px;border-radius:16px;
-    background:${m.bg};border:1.5px solid ${m.color}22;
-    color:${m.color};font-size:11px;font-weight:700;
-    text-decoration:none;aspect-ratio:1;">
-    <img src="${m.favicon}" width="24" height="24" style="object-fit:contain;" alt="${m.label}">${m.label}
-  </a>`;
-}
-
-function renderLinkBtnMinimal(item) {
-  const m = LINK_META[item.type] || { label: item.type, favicon: '', color: '#333', bg: '#fff' };
-  return `<a href="${item.url || '#'}" target="_blank" style="
-    display:flex;align-items:center;justify-content:space-between;
-    padding:10px 16px;border-radius:8px;
-    background:transparent;border-bottom:1px solid rgba(0,0,0,.08);
-    color:#1a1a2e;font-size:14px;font-weight:600;text-decoration:none;">
-    <span style="display:flex;align-items:center;gap:10px;">
-      <img src="${m.favicon}" width="16" height="16" style="object-fit:contain;" alt="${m.label}">${m.label}
-    </span>
-    <span style="font-size:12px;color:#999;">→</span>
-  </a>`;
-}
-
-function renderLinkBtnGradient(item) {
-  const gradients = {
-    github:    'linear-gradient(135deg,#333,#111)',
-    blog:      'linear-gradient(135deg,#20c997,#0ca678)',
-    email:     'linear-gradient(135deg,#EA4335,#c5221f)',
-    linkedin:  'linear-gradient(135deg,#0A66C2,#0952a0)',
-    twitter:   'linear-gradient(135deg,#1DA1F2,#0c85d0)',
-    instagram: 'linear-gradient(135deg,#E1306C,#833AB4,#FD1D1D)',
-    youtube:   'linear-gradient(135deg,#FF0000,#cc0000)',
-    twitch:    'linear-gradient(135deg,#9146FF,#6441a5)',
-    kakao:     'linear-gradient(135deg,#FEE500,#f0d800)',
-    discord:   'linear-gradient(135deg,#5865F2,#3c45bd)',
-    notion:    'linear-gradient(135deg,#555,#333)',
-    portfolio: 'linear-gradient(135deg,#4285F4,#185FC5)',
-    npm:       'linear-gradient(135deg,#CB3837,#a82e2d)',
-  };
-  const m = LINK_META[item.type] || { label: item.type, favicon: '' };
-  const grad = gradients[item.type] || 'linear-gradient(135deg,#555,#333)';
-  const textColor = item.type === 'kakao' ? '#3A1D1D' : '#fff';
-  return `<a href="${item.url || '#'}" target="_blank" style="
-    display:inline-flex;align-items:center;gap:8px;
-    padding:10px 20px;border-radius:999px;
-    background:${grad};color:${textColor};
-    font-size:13px;font-weight:700;text-decoration:none;
-    box-shadow:0 4px 12px rgba(0,0,0,.15);">
-    <img src="${m.favicon}" width="16" height="16" style="object-fit:contain;filter:brightness(0) invert(1);" alt="${m.label}">${m.label}
-  </a>`;
-}
-
-function renderLinkBtnBordered(item) {
-  const m = LINK_META[item.type] || { label: item.type, favicon: '', color: '#4285F4', bg: '#eee' };
-  return `<a href="${item.url || '#'}" target="_blank" style="
-    display:inline-flex;align-items:center;gap:8px;
-    padding:9px 18px;border-radius:10px;
-    background:transparent;border:2px solid ${m.color};
-    color:${m.color};font-size:13px;font-weight:600;text-decoration:none;">
-    <img src="${m.favicon}" width="16" height="16" style="object-fit:contain;" alt="${m.label}">${m.label}
-  </a>`;
-}
-
-function renderLinkBtnSocial(item) {
-  const m = LINK_META[item.type] || { label: item.type, favicon: '', color: '#333', bg: '#eee' };
-  return `<a href="${item.url || '#'}" target="_blank" style="
-    display:inline-flex;align-items:center;gap:7px;
-    padding:8px 16px;border-radius:12px;
-    background:${m.bg};
-    color:${m.color};font-size:12px;font-weight:700;text-decoration:none;
-    border:1.5px solid ${m.color}33;">
-    <img src="${m.favicon}" width="16" height="16" style="object-fit:contain;" alt="${m.label}">${m.label}
-  </a>`;
-}
-
-function renderLinkBtnDark(item) {
-  const m = LINK_META[item.type] || { label: item.type, favicon: '', color: '#fff', bg: '#333' };
-  return `<a href="${item.url || '#'}" target="_blank" style="
-    display:inline-flex;align-items:center;gap:8px;
-    padding:9px 18px;border-radius:10px;
-    background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
-    color:#fff;font-size:13px;font-weight:600;text-decoration:none;">
-    <img src="${m.favicon}" width="16" height="16" style="object-fit:contain;filter:brightness(0) invert(1);" alt="${m.label}">${m.label}
-  </a>`;
-}
-
-function renderLinkBtnContact(item) {
-  const m = LINK_META[item.type] || { label: item.type, favicon: '', color: '#333', bg: '#eee' };
-  return `<a href="${item.url || '#'}" target="_blank" style="
-    display:flex;align-items:center;gap:14px;
-    padding:14px 18px;border-radius:16px;
-    background:${m.bg};border:1.5px solid ${m.color}22;
-    color:${m.color};font-size:14px;font-weight:600;text-decoration:none;">
-    <img src="${m.favicon}" width="24" height="24" style="object-fit:contain;" alt="${m.label}">
-    <div>
-      <div style="font-size:13px;font-weight:700;">${m.label}</div>
-      <div style="font-size:11px;opacity:.6;margin-top:1px;">${item.url || '링크를 입력해주세요'}</div>
-    </div>
-    <span style="margin-left:auto;font-size:14px;">→</span>
-  </a>`;
-}
-
-function renderLinkBtnDevHub(item) {
-  const m = LINK_META[item.type] || { label: item.type, favicon: '', color: '#333', bg: '#f5f5f5' };
-  return `<a href="${item.url || '#'}" target="_blank" style="
-    display:inline-flex;align-items:center;gap:7px;
-    padding:8px 14px;border-radius:8px;
-    background:#f8f8f8;border:1px solid #e0e0e0;
-    color:#333;font-size:12px;font-weight:600;text-decoration:none;">
-    <img src="${m.favicon}" width="16" height="16" style="object-fit:contain;" alt="${m.label}">${m.label}
-  </a>`;
-}
-
-/* ── Banner 위젯 렌더 (미리보기 전용 — 실제 이미지는 코드로) ── */
-function renderBanner(card) {
-  const theme = WE.theme;
-  const text  = WE.bannerText || 'Hi! Welcome!';
-  const user  = WE.username || 'octocat';
-
-  /* 배너는 카드 컨테이너 스타일을 리셋해서 전체 너비로 표시 */
-  card.style.cssText = 'width:100%;max-width:560px;padding:0;background:transparent;border:none;box-shadow:none;border-radius:16px;overflow:hidden;';
-
-  /* 미리보기: 테마별 CSS 스타일 배너 박스 */
-  const previewStyles = {
-    'banner-wave-pink':      'background:linear-gradient(135deg,#FFF0F7,#F4C0D1);',
-    'banner-wave-blue':      'background:linear-gradient(135deg,#E6F1FB,#B5D4F4);',
-    'banner-slice-gradient': 'background:linear-gradient(120deg,#9B8FE8,#4285F4,#ED93B1);',
-    'banner-egg':            'background:linear-gradient(135deg,#FFF5F9,#F0EEFF);',
-    'banner-cylinder':       'background:linear-gradient(135deg,#E1F5EE,#7EC8E3);',
-    'banner-shark':          'background:linear-gradient(135deg,#1a1a2e,#0d0d1a);',
-    'banner-divider-hits':   'background:#f0f4ff;',
-    'banner-typing':         'background:#0d1117;',
-    'banner-github-trophy':  'background:linear-gradient(135deg,#fff9e6,#fff3c0);',
-    'banner-snake':          'background:linear-gradient(135deg,#EAF3DE,#C0DD97);',
-    'premium-hit':           'background:linear-gradient(135deg,#f0f4ff,#4285f408);',
-  };
-
-  const isDark = ['banner-shark','banner-typing'].includes(theme);
-  const bgStyle = previewStyles[theme] || 'background:#f5f5f5;';
-  const textColor = isDark ? '#fff' : '#1a1a2e';
-
-  let innerContent = '';
-
-  if (theme === 'banner-divider-hits') {
-    innerContent = `
-      <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
-        <div style="font-size:13px;font-weight:600;color:#555;">방문자 카운터</div>
-        <div style="display:flex;align-items:center;gap:0;border-radius:6px;overflow:hidden;border:1px solid #ddd;">
-          <div style="background:#555;color:#fff;padding:6px 14px;font-size:13px;font-weight:600;">hits</div>
-          <div style="background:#34A853;color:#fff;padding:6px 14px;font-size:13px;font-weight:700;">1,234</div>
-        </div>
-        <div style="font-size:11px;color:#999;">seeyoufarm.com Hits 카운터</div>
-      </div>`;
-  } else if (theme === 'banner-typing') {
-    innerContent = `
-      <div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:600;color:#61DAFB;">
-        ${text.split(';')[0]}<span style="border-right:3px solid #61DAFB;"> </span>
-      </div>
-      <div style="font-size:11px;color:#8b949e;margin-top:8px;">readme-typing-svg 애니메이션</div>`;
-  } else if (theme === 'banner-github-trophy') {
-    innerContent = `
-      <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
-        ${['🏆','⭐','🔥','💎','🚀','📚'].map(e=>`
-          <div style="background:#fff;border:1px solid #f0c060;border-radius:10px;padding:10px 12px;text-align:center;min-width:50px;">
-            <div style="font-size:20px;">${e}</div>
-            <div style="font-size:9px;color:#888;margin-top:4px;">Trophy</div>
-          </div>`).join('')}
-      </div>`;
-  } else if (theme === 'banner-snake') {
-    innerContent = `
-      <div style="position:relative;width:100%;height:60px;overflow:hidden;">
-        <div style="position:absolute;width:16px;height:16px;background:#34A853;border-radius:3px;top:20px;left:20px;"></div>
-        <div style="position:absolute;width:16px;height:16px;background:#4CAF50;border-radius:3px;top:20px;left:40px;"></div>
-        <div style="position:absolute;width:16px;height:16px;background:#66BB6A;border-radius:3px;top:20px;left:60px;"></div>
-        <div style="position:absolute;width:8px;height:8px;background:#FF5252;border-radius:50%;top:24px;left:90px;"></div>
-        <div style="font-size:11px;color:${textColor};opacity:.6;position:absolute;bottom:4px;right:8px;">contribution snake 애니메이션</div>
-      </div>`;
-  } else if (theme === 'premium-hit') {
-    innerContent = `
-      <div style="display:flex;flex-direction:column;align-items:center;background:rgba(255,255,255,0.1);padding:16px 24px;border-radius:24px;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);box-shadow:0 12px 40px rgba(0,0,0,0.15);">
-        <div style="font-size:12px;font-weight:700;color:${textColor};opacity:0.7;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">${text || 'Visitors'}</div>
-        <div style="font-size:44px;font-weight:800;color:${textColor};font-family:'Inter', sans-serif;">1,247</div>
-        <div style="margin-top:10px;width:100px;height:4px;background:rgba(255,255,255,0.2);border-radius:2px;overflow:hidden;">
-          <div style="width:70%;height:100%;background:var(--accent);"></div>
-        </div>
-      </div>`;
-  } else {
-    innerContent = `
-      <div style="font-size:28px;font-weight:800;color:${textColor};letter-spacing:-.02em;">${text}</div>`;
-  }
-
-  card.innerHTML = `
-    <div style="width:100%;border-radius:16px;overflow:hidden;${bgStyle}padding:32px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:120px;">
-      ${innerContent}
-      <div style="margin-top:12px;font-size:10px;opacity:.5;color:${textColor};">미리보기 · 실제 코드는 아래 탭에서 복사</div>
-    </div>
-  `;
-}
-
-/* 배지 HTML 생성 */
-function renderBadges(tags) {
-  const colors = ['pk','pu','sk','pk','pu','sk'];
-  return tags.map((tag, i) =>
-    `<span class="w-badge w-badge-${colors[i % 3]}" data-tech="${tag}">${tag}</span>`
-  ).join('');
-}
-
-/* ── 코드 스트립 — 실제 동작하는 코드 생성 ─────────────── */
-function updateCodeStrip() {
-  const pre = document.getElementById('code-pre');
-  if (!pre) return;
-
-  const tab = document.querySelector('.ctab.on');
-  const fmt = tab ? tab.dataset.fmt || tab.textContent.trim().toLowerCase() : 'md';
-
-  let code = '';
-
-  switch (WE.type) {
-    case 'stats':   code = genStatsCode(fmt);   break;
-    case 'tech':    code = genTechCode(fmt);    break;
-    case 'profile': code = genProfileCode(fmt); break;
-    case 'streak':  code = genStreakCode(fmt);  break;
-    case 'links':   code = genLinksCode(fmt);   break;
-    case 'banner':  code = genBannerCode(fmt);  break;
-    default:        code = `<!-- GitGloss: ${WE.type} -->`;
-  }
-
-  pre.textContent = code;
-}
-
-/* ── 코드 생성 함수들 ─────────────────────────────────── */
-
-function genStatsCode(fmt) {
-  const user  = WE.username || 'octocat';
-  const theme = WE.theme;
-
-  if (theme === 'blog-card') {
-    return `<!-- Blog Feed Widget: Use a tool like blog-post-workflow -->\n[![Latest Blog Post](https://img.shields.io/badge/Latest_Blog_Post-20c997?style=for-the-badge&logo=velog&logoColor=white)](https://github.com/gautamkrishnar/blog-post-workflow)`;
-  }
-  if (theme === 'progress-100') {
-    return `<!-- 100 Days of Code: Use a progress bar SVG generator -->\n![Progress](https://geps.dev/progress/42)`;
-  }
-  if (theme === 'radar-chart') {
-    return `<!-- Skill Radar: Use a radar chart generator -->\n![Radar Chart](https://github-readme-stats.vercel.app/api/top-langs/?username=${user}&layout=compact)`;
-  }
-
-  /* github-readme-stats 실제 API */
-  const statsUrl = `https://github-readme-stats.vercel.app/api?username=${user}&show_icons=true&include_all_commits=true&theme=default&hide_title=false&hide_border=false`;
-  const topLangUrl = `https://github-readme-stats.vercel.app/api/top-langs/?username=${user}&layout=compact&theme=default`;
-
-  if (fmt === 'md') return [
-    `![${user}'s GitHub stats](${statsUrl})`,
-    ``,
-    `![Top Langs](${topLangUrl})`,
-  ].join('\n');
-
-  if (fmt === 'html') return [
-    `<img src="${statsUrl}" alt="${user}'s GitHub stats" />`,
-    `<br/>`,
-    `<img src="${topLangUrl}" alt="Top Languages" />`,
-  ].join('\n');
-
-  return `<image href="${statsUrl}" width="495" height="195" />`;
-}
-
-function genTechCode(fmt) {
-  const tags = WE.tags.length ? WE.tags : ['React', 'TypeScript', 'Node.js'];
-
-  /* shields.io 배지 URL 매핑 */
-  const TECH_SHIELD = {
-    'React':      { logo: 'react',      color: '61DAFB', label: 'React' },
-    'TypeScript': { logo: 'typescript', color: '3178C6', label: 'TypeScript' },
-    'JavaScript': { logo: 'javascript', color: 'F7DF1E', label: 'JavaScript' },
-    'Node.js':    { logo: 'nodedotjs',  color: '339933', label: 'Node.js' },
-    'Python':     { logo: 'python',     color: '3776AB', label: 'Python' },
-    'Go':         { logo: 'go',         color: '00ADD8', label: 'Go' },
-    'Rust':       { logo: 'rust',       color: '000000', label: 'Rust' },
-    'Vue.js':     { logo: 'vuedotjs',   color: '4FC08D', label: 'Vue.js' },
-    'Next.js':    { logo: 'nextdotjs',  color: '000000', label: 'Next.js' },
-    'Docker':     { logo: 'docker',     color: '2496ED', label: 'Docker' },
-    'AWS':        { logo: 'amazonaws',  color: 'FF9900', label: 'AWS' },
-    'MySQL':      { logo: 'mysql',      color: '4479A1', label: 'MySQL' },
-    'PostgreSQL': { logo: 'postgresql', color: '4169E1', label: 'PostgreSQL' },
-    'MongoDB':    { logo: 'mongodb',    color: '47A248', label: 'MongoDB' },
-    'Figma':      { logo: 'figma',      color: 'F24E1E', label: 'Figma' },
-    'Swift':      { logo: 'swift',      color: 'F05138', label: 'Swift' },
-    'Kotlin':     { logo: 'kotlin',     color: '7F52FF', label: 'Kotlin' },
-    'Flutter':    { logo: 'flutter',    color: '02569B', label: 'Flutter' },
-  };
-
-  const style = 'flat-square';
-  const badges = tags.map(tag => {
-    const info = TECH_SHIELD[tag];
-    if (info) {
-      return `https://img.shields.io/badge/${encodeURIComponent(info.label)}-${info.color}?style=${style}&logo=${info.logo}&logoColor=white`;
-    }
-    return `https://img.shields.io/badge/${encodeURIComponent(tag)}-555555?style=${style}`;
-  });
-
-  if (fmt === 'md') return badges.map(url => `![](${url})`).join(' ');
-  if (fmt === 'html') return badges.map(url => `<img src="${url}" alt="badge" />`).join('\n');
-  return badges.map((url, i) => `<image href="${url}" y="${i * 32}" width="120" height="28" />`).join('\n');
-}
-
-function genProfileCode(fmt) {
-  const user = WE.username || 'octocat';
-  /* github-readme-stats 프로필 카드 */
-  const url = `https://github-readme-stats.vercel.app/api?username=${user}&show_icons=true&include_all_commits=true&count_private=true&theme=default`;
-
-  if (fmt === 'md') return `![${user}'s GitHub Profile](${url})`;
-  if (fmt === 'html') return `<img src="${url}" alt="${user}'s GitHub Profile" />`;
-  return `<image href="${url}" width="495" height="195" />`;
-}
-
-function genStreakCode(fmt) {
-  const user = WE.username || 'octocat';
-  /* github-readme-streak-stats 실제 API */
-  const url = `https://streak-stats.demolab.com/?user=${user}&theme=default`;
-
-  if (fmt === 'md') return `[![GitHub Streak](${url})](https://git.io/streak-stats)`;
-  if (fmt === 'html') return `<img src="${url}" alt="GitHub Streak" />`;
-  return `<image href="${url}" width="495" height="195" />`;
-}
-
-function genLinksCode(fmt) {
-  const items = WE.linkItems;
-  const theme = WE.theme;
-
-  if (theme === 'spotify-glass') {
-    return `<!-- Spotify Now Playing: Use spotify-github-profile-readme -->\n[![Spotify](https://novatide.vercel.app/api/spotify?background_color=1db954&border_color=ffffff&github_username=${WE.username || 'octocat'})](https://github.com/kittinan/spotify-github-profile-readme)`;
-  }
-  if (theme === 'coffee-meter') {
-    return `<!-- Buy Me A Coffee: Use buy-me-a-coffee badge -->\n[![Buy Me A Coffee](https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/)`;
-  }
-
-  /* shields.io 기반 링크 버튼 생성 */
-  const LINK_SHIELD = {
-    github:    { logo: 'github',    color: '181717', label: 'GitHub' },
-    blog:      { logo: 'velog',     color: '20C997', label: '블로그' },
-    email:     { logo: 'gmail',     color: 'EA4335', label: 'Email' },
-    linkedin:  { logo: 'linkedin',  color: '0A66C2', label: 'LinkedIn' },
-    twitter:   { logo: 'x',         color: '000000', label: 'X/Twitter' },
-    instagram: { logo: 'instagram', color: 'E4405F', label: 'Instagram' },
-    youtube:   { logo: 'youtube',   color: 'FF0000', label: 'YouTube' },
-    twitch:    { logo: 'twitch',    color: '9146FF', label: 'Twitch' },
-    kakao:     { logo: 'kakaotalk', color: 'FAE100', label: 'KakaoTalk' },
-    discord:   { logo: 'discord',   color: '5865F2', label: 'Discord' },
-    notion:    { logo: 'notion',    color: '000000', label: 'Notion' },
-    portfolio: { logo: 'github',    color: '4285F4', label: 'Portfolio' },
-    npm:       { logo: 'npm',       color: 'CB3837', label: 'npm' },
-  };
-
-  const style = 'for-the-badge';
-
-  if (fmt === 'md') {
-    return items.map(item => {
-      const info = LINK_SHIELD[item.type] || { logo: '', color: '555', label: item.type };
-      const shieldUrl = `https://img.shields.io/badge/${encodeURIComponent(info.label)}-${info.color}?style=${style}&logo=${info.logo}&logoColor=white`;
-      const href = item.url || '#';
-      return `[![${info.label}](${shieldUrl})](${href})`;
-    }).join('\n');
-  }
-
-  if (fmt === 'html') {
-    return `<p align="center">\n` + items.map(item => {
-      const info = LINK_SHIELD[item.type] || { logo: '', color: '555', label: item.type };
-      const shieldUrl = `https://img.shields.io/badge/${encodeURIComponent(info.label)}-${info.color}?style=${style}&logo=${info.logo}&logoColor=white`;
-      const href = item.url || '#';
-      return `  <a href="${href}"><img src="${shieldUrl}" alt="${info.label}" /></a>`;
-    }).join('\n') + `\n</p>`;
-  }
-
-  return items.map((item, i) => {
-    const info = LINK_SHIELD[item.type] || { logo: '', color: '555', label: item.type };
-    const shieldUrl = `https://img.shields.io/badge/${encodeURIComponent(info.label)}-${info.color}?style=${style}&logo=${info.logo}&logoColor=white`;
-    return `<image href="${shieldUrl}" y="${i * 40}" width="160" height="32" />`;
-  }).join('\n');
-}
-
-function genBannerCode(fmt) {
-  const theme = WE.theme;
-  const text  = encodeURIComponent(WE.bannerText || 'Hi! Welcome!');
-  const user  = WE.username || 'octocat';
-
-  /* 테마별 실제 서비스 URL */
-  const bannerUrls = {
-    'banner-wave-pink':      `https://capsule-render.vercel.app/api?type=wave&color=gradient&customColorList=12&height=160&section=header&text=${text}&fontSize=60&fontColor=ffffff&animation=fadeIn`,
-    'banner-wave-blue':      `https://capsule-render.vercel.app/api?type=wave&color=gradient&customColorList=2&height=160&section=header&text=${text}&fontSize=60&fontColor=ffffff`,
-    'banner-slice-gradient': `https://capsule-render.vercel.app/api?type=slice&color=gradient&height=160&section=header&text=${text}&fontAlign=50&fontAlignY=65&fontSize=70&fontColor=ffffff`,
-    'banner-egg':            `https://capsule-render.vercel.app/api?type=egg&color=gradient&customColorList=12&height=200&text=${text}&fontSize=60&fontColor=ffffff`,
-    'banner-cylinder':       `https://capsule-render.vercel.app/api?type=cylinder&color=gradient&customColorList=6&height=150&section=header&text=${text}&fontSize=55&fontColor=ffffff`,
-    'banner-shark':          `https://capsule-render.vercel.app/api?type=shark&color=0D1117&height=160&section=header&text=${text}&fontSize=55&fontColor=ffffff&reversal=false`,
-    'banner-divider-hits':   `https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2F${user}&count_bg=%2341B883&title_bg=%23555555&icon=github.svg&icon_color=%23E7E7E7&title=hits&edge_flat=false`,
-    'banner-typing':         `https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=4285F4&width=435&lines=${text}`,
-    'banner-github-trophy':  `https://github-profile-trophy.vercel.app/?username=${user}&theme=flat&no-frame=true&margin-w=4`,
-    'banner-snake':          `https://github.com/${user}/${user}/blob/output/snake.svg`,
-    'premium-hit':           `https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2F${user}&count_bg=%234285F4&title_bg=%23555555&icon=github.svg&icon_color=%23E7E7E7&title=visitors&edge_flat=false`,
-  };
-
-  const url = bannerUrls[theme] || bannerUrls['banner-wave-pink'];
-
-  if (fmt === 'md') {
-    if (theme === 'banner-divider-hits') {
-      return `<p align="center">\n  <a href="https://hits.seeyoufarm.com"><img src="${url}" /></a>\n</p>`;
-    }
-    if (theme === 'banner-github-trophy') {
-      return `<p align="center">\n  <img src="${url}" alt="GitHub Trophy" />\n</p>`;
-    }
-    if (theme === 'banner-snake') {
-      return `<!-- Snake 게임 설정: 먼저 GitHub Actions를 설정해야 합니다. -->\n<picture>\n  <source media="(prefers-color-scheme: dark)" srcset="${url}" />\n  <img alt="Snake animation" src="${url}" />\n</picture>`;
-    }
-    return `![header](${url})`;
-  }
-
-  if (fmt === 'html') {
-    return `<p align="center">\n  <img src="${url}" alt="header banner" />\n</p>`;
-  }
-
-  return `<image href="${url}" width="840" height="160" />`;
-}
-
-/* ── 입력 바인딩 ─────────────────────────────────────── */
-function bindInputs() {
-  const bind = (id, key, render = true) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    /* 초기값 동기화 */
-    if (el.value) WE[key] = el.value;
-    el.addEventListener('input', () => {
-      WE[key] = el.value;
-      if (render) renderWidgetDOM();
-      updateCodeStrip();
-    });
-  };
-
-  bind('inp-username', 'username');
-  bind('inp-title',    'title', false);
-  bind('inp-pname',    'pname');
-  bind('inp-handle',   'handle');
-  bind('inp-role',     'role');
-  bind('inp-bio',      'bio');
-  bind('inp-streak',   'streak');
-  bind('inp-longest-streak', 'longest');
-  bind('inp-total-contributions', 'total');
-  bind('inp-banner-text',   'bannerText');
-  bind('inp-banner-height', 'bannerHeight');
-
-  /* inp-username-banner → WE.username (배너 전용) */
-  const bannerUserEl = document.getElementById('inp-username-banner');
-  if (bannerUserEl) {
-    bannerUserEl.addEventListener('input', () => {
-      WE.username = bannerUserEl.value;
-      renderWidgetDOM();
-      updateCodeStrip();
-    });
-  }
-
-  /* Stat 라벨/값 */
-  [1,2,3].forEach(n => {
-    const lbl = document.getElementById(`s${n}-label`);
-    const val = document.getElementById(`s${n}-val`);
-    if (lbl) lbl.addEventListener('input', () => {
-      WE.stats[n-1].label = lbl.value || WE.stats[n-1].label;
-      renderWidgetDOM(); updateCodeStrip();
-    });
-    if (val) val.addEventListener('input', () => {
-      WE.stats[n-1].val = val.value || WE.stats[n-1].val;
-      renderWidgetDOM(); updateCodeStrip();
-    });
-  });
-
-  /* Links 동적 행 바인딩 (초기화 후 호출) */
-  bindLinkInputs();
-}
-
-/* 링크 입력 행 바인딩 */
-function bindLinkInputs() {
-  document.querySelectorAll('.link-row-url').forEach((inp, idx) => {
-    inp.addEventListener('input', () => {
-      if (WE.linkItems[idx]) {
-        WE.linkItems[idx].url = inp.value;
-        renderWidgetDOM();
-        updateCodeStrip();
-      }
-    });
-  });
-  document.querySelectorAll('.link-row-type').forEach((sel, idx) => {
-    sel.addEventListener('change', () => {
-      if (WE.linkItems[idx]) {
-        WE.linkItems[idx].type = sel.value;
-        renderWidgetDOM();
-        updateCodeStrip();
-      }
-    });
-  });
-}
-
-/* 링크 행 추가 */
-function addLinkRow() {
-  WE.linkItems.push({ type: 'blog', url: '' });
-  renderLinkRows();
-  renderWidgetDOM();
-  updateCodeStrip();
-}
-
-/* 링크 행 삭제 */
-function removeLinkRow(idx) {
-  WE.linkItems.splice(idx, 1);
-  renderLinkRows();
-  renderWidgetDOM();
-  updateCodeStrip();
-}
-
-/* 링크 행 DOM 재렌더 */
-function renderLinkRows() {
-  const wrap = document.getElementById('link-rows-wrap');
-  if (!wrap) return;
-
-  const linkTypeOptions = Object.keys(LINK_META).map(k =>
-    `<option value="${k}">${LINK_META[k].label}</option>`
-  ).join('');
-
-  wrap.innerHTML = WE.linkItems.map((item, idx) => `
-    <div class="field-group" style="display:flex;gap:5px;align-items:center;padding-bottom:0;">
-      <select class="field-input link-row-type" style="flex:0 0 120px;font-size:11px;">
-        ${Object.keys(LINK_META).map(k =>
-          `<option value="${k}" ${k === item.type ? 'selected' : ''}>${LINK_META[k].label}</option>`
-        ).join('')}
-      </select>
-      <input class="field-input link-row-url" placeholder="URL 입력" value="${item.url}"
-        style="flex:1;font-size:11px;">
-      <button onclick="removeLinkRow(${idx})" style="
-        background:none;border:none;cursor:pointer;
-        color:#EA4335;font-size:16px;padding:0 4px;">×</button>
     </div>
   `).join('');
 
-  bindLinkInputs();
+  initDrag();
 }
 
-/* ── 퍼블릭 함수들 ───────────────────────────────────── */
+const BLOCK_ICON  = { avatar:'😀', name:'✏️', stats:'📊', badges:'🏷️', streak:'🔥', links:'🔗', bio:'📝', divider:'➖' };
+const BLOCK_LABEL = { avatar:'이모지 아바타', name:'이름 / 직무', stats:'Stats 숫자', badges:'기술 배지', streak:'스트릭', links:'링크 버튼', bio:'소개글', divider:'구분선' };
 
-function selectEmoji(btn, emoji) {
-  document.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  WE.emoji = emoji;
-  const avatar = document.getElementById('w-avatar');
-  if (avatar) avatar.textContent = emoji;
+function renderBlockFields(b) {
+  const d = b.data;
+  switch (b.type) {
+
+    case 'avatar':
+      return `
+        <div class="field-row">
+          <div class="emoji-picker">
+            ${['👨‍💻','👩‍💻','🚀','⚡','🎨','🔥','💎','🌟','🎯','🦄','🐙','🤖','👾','🎮','☕','🌈','😎','🦊','🐱','🐧'].map(e => `
+              <button class="ep-btn ${d.emoji === e ? 'on' : ''}"
+                      onclick="setBlockData('${b.id}','emoji','${e}')">${e}</button>
+            `).join('')}
+          </div>
+        </div>`;
+
+    case 'name':
+      return `
+        <div class="field-row">
+          <label class="field-label">GitHub 사용자명 <span style="color:var(--google-red)">*</span></label>
+          <input class="field-input" value="${d.username || ''}" placeholder="octocat"
+                 oninput="setBlockData('${b.id}','username',this.value)"
+                 style="border-color:${d.username ? 'rgba(0,0,0,0.1)' : 'rgba(234,67,53,0.4)'}">
+        </div>
+        <div class="field-row">
+          <label class="field-label">표시 이름</label>
+          <input class="field-input" value="${d.name || ''}" placeholder="The Octocat"
+                 oninput="setBlockData('${b.id}','name',this.value)">
+        </div>
+        <div class="field-row">
+          <label class="field-label">직무 / 한 줄 소개</label>
+          <input class="field-input" value="${d.role || ''}" placeholder="Full-stack Developer"
+                 oninput="setBlockData('${b.id}','role',this.value)">
+        </div>
+        <div class="field-row">
+          <label class="field-label">핸들 (선택)</label>
+          <input class="field-input" value="${d.handle || ''}" placeholder="@octocat"
+                 oninput="setBlockData('${b.id}','handle',this.value)">
+        </div>`;
+
+    case 'stats':
+      return d.items.map((item, i) => `
+        <div class="field-row stat-row">
+          <input class="field-input" value="${item.label}" placeholder="라벨"
+                 oninput="setStatItem('${b.id}',${i},'label',this.value)" style="flex:1.2">
+          <input class="field-input" value="${item.val}" placeholder="값"
+                 oninput="setStatItem('${b.id}',${i},'val',this.value)" style="flex:1">
+          <button class="btn-icon-sm" onclick="removeStatItem('${b.id}',${i})">✕</button>
+        </div>
+      `).join('') + `
+        <button class="btn-add-row" onclick="addStatItem('${b.id}')">+ 항목 추가</button>`;
+
+    case 'badges':
+      return `
+        <div class="tag-wrap" id="tags-${b.id}">
+          ${d.tags.map((t,i) => `
+            <span class="tag tag-pk">${t}
+              <button class="tag-x" onclick="removeBadge('${b.id}',${i})">×</button>
+            </span>
+          `).join('')}
+        </div>
+        <input class="field-input" placeholder="기술명 입력 후 Enter" style="margin-top:6px"
+               onkeydown="addBadge(event,'${b.id}',this)">`;
+
+    case 'streak':
+      return `
+        <div class="field-row">
+          <label class="field-label">현재 스트릭 (일)</label>
+          <input class="field-input" value="${d.current || '42'}" type="number"
+                 oninput="setBlockData('${b.id}','current',this.value)">
+        </div>
+        <div class="field-row">
+          <label class="field-label">최장 스트릭</label>
+          <input class="field-input" value="${d.longest || '87'}" type="number"
+                 oninput="setBlockData('${b.id}','longest',this.value)">
+        </div>
+        <div class="field-row">
+          <label class="field-label">총 기여도</label>
+          <input class="field-input" value="${d.total || '1,247'}"
+                 oninput="setBlockData('${b.id}','total',this.value)">
+        </div>`;
+
+    case 'links':
+      return `
+        <div id="links-${b.id}">
+          ${(d.items || []).map((item, i) => `
+            <div class="field-row link-row">
+              <select class="field-select" onchange="setLinkItem('${b.id}',${i},'type',this.value)">
+                ${['github','blog','email','linkedin','twitter','instagram','youtube','discord','notion','portfolio'].map(t =>
+                  `<option value="${t}" ${item.type===t?'selected':''}>${t}</option>`
+                ).join('')}
+              </select>
+              <input class="field-input" value="${item.url || ''}" placeholder="URL"
+                     oninput="setLinkItem('${b.id}',${i},'url',this.value)">
+              <button class="btn-icon-sm" onclick="removeLinkItem('${b.id}',${i})">✕</button>
+            </div>
+          `).join('')}
+        </div>
+        <button class="btn-add-row" onclick="addLinkItem('${b.id}')">+ 링크 추가</button>`;
+
+    case 'bio':
+      return `
+        <div class="field-row">
+          <textarea class="field-input" rows="3" style="resize:vertical"
+                    oninput="setBlockData('${b.id}','text',this.value)"
+                    placeholder="한 줄 소개를 입력하세요">${d.text || ''}</textarea>
+        </div>`;
+
+    case 'divider':
+      return `<div style="font-size:11px;color:var(--text-hint);padding:4px 0;">구분선이 추가됩니다</div>`;
+
+    default: return '';
+  }
 }
 
-function selColor(el, color) {
+/* ══════════════════════════════════════════════════════
+   PRESET — 갤러리 템플릿 → 빌더 프리셋 적용
+══════════════════════════════════════════════════════ */
+
+// 테마명 → 카드 스타일 매핑
+const THEME_TO_STYLE = {
+  'cotton-candy': 'glass',   'lavender-sky': 'gradient', 'cream-glass': 'glass',
+  'aqua-veil': 'dark',       'dark-candy': 'dark',       'plum-night': 'dark',
+  'dusk-purple': 'gradient', 'neu-candy': 'neu',         'neu-rose': 'neu',
+  'candy-burst': 'border',   'badge-minimal': 'minimal', 'badge-glass': 'glass',
+  'badge-soft': 'neu',       'badge-pastel': 'glass',    'badge-dark-pro': 'dark',
+  'badge-stack-heavy': 'border', 'badge-clean': 'minimal', 'badge-cloud': 'glass',
+  'badge-frontend': 'glass', 'badge-backend': 'dark',
+  'profile-minimal': 'minimal', 'profile-dark-hero': 'dark', 'profile-soft': 'neu',
+  'profile-character': 'glass', 'profile-obsidian': 'dark', 'profile-glass-grid': 'glass',
+  'profile-interactive': 'glass', 'profile-portfolio': 'glass', 'profile-simple-dark': 'dark',
+  'dev-card': 'dark',        'designer': 'gradient',     'engineer': 'dark',
+  'creator': 'border',       'tech-light': 'glass',      'tech-dark': 'dark',
+  'tech-soft': 'neu',        'stats-lite': 'minimal',    'dark-lite': 'dark',
+  'glass-neon': 'dark',      'aurora': 'dark',           'mono-border': 'border',
+};
+
+// 타입 → 기본 블록 구성
+const TYPE_TO_BLOCKS = {
+  stats: () => [
+    { id: uid(), type: 'avatar',  data: { emoji: '👨‍💻' }, collapsed: false },
+    { id: uid(), type: 'name',    data: { username: '', name: 'The Octocat', role: 'Full-stack Developer', handle: '@octocat' }, collapsed: false },
+    { id: uid(), type: 'stats',   data: { items: [{ label:'Stars', val:'2.8k' }, { label:'Repos', val:'142' }, { label:'Active', val:'98%' }] }, collapsed: false },
+    { id: uid(), type: 'badges',  data: { tags: ['React', 'TypeScript', 'Node.js'] }, collapsed: true },
+  ],
+  tech: () => [
+    { id: uid(), type: 'avatar',  data: { emoji: '🚀' }, collapsed: false },
+    { id: uid(), type: 'name',    data: { username: '', name: 'The Octocat', role: 'Tech Stack', handle: '' }, collapsed: false },
+    { id: uid(), type: 'badges',  data: { tags: ['React', 'TypeScript', 'Node.js', 'Python', 'Docker'] }, collapsed: false },
+  ],
+  profile: () => [
+    { id: uid(), type: 'avatar',  data: { emoji: '👨‍💻' }, collapsed: false },
+    { id: uid(), type: 'name',    data: { username: '', name: 'The Octocat', role: 'Full-stack Developer', handle: '@octocat' }, collapsed: false },
+    { id: uid(), type: 'bio',     data: { text: 'Building amazing things with code ✨' }, collapsed: false },
+    { id: uid(), type: 'badges',  data: { tags: ['React', 'TypeScript'] }, collapsed: false },
+    { id: uid(), type: 'links',   data: { items: [{ type:'github', url:'' }, { type:'blog', url:'' }] }, collapsed: false },
+  ],
+  links: () => [
+    { id: uid(), type: 'avatar',  data: { emoji: '🔗' }, collapsed: false },
+    { id: uid(), type: 'name',    data: { username: '', name: 'The Octocat', role: '링크 모음', handle: '' }, collapsed: false },
+    { id: uid(), type: 'links',   data: { items: [{ type:'github', url:'' }, { type:'blog', url:'' }, { type:'email', url:'' }] }, collapsed: false },
+  ],
+  streak: () => [
+    { id: uid(), type: 'avatar',  data: { emoji: '🔥' }, collapsed: false },
+    { id: uid(), type: 'name',    data: { username: '', name: 'The Octocat', role: 'GitHub Streak', handle: '@octocat' }, collapsed: false },
+    { id: uid(), type: 'streak',  data: { current: '42', longest: '87', total: '1,247' }, collapsed: false },
+  ],
+  banner: () => [
+    { id: uid(), type: 'avatar',  data: { emoji: '👋' }, collapsed: false },
+    { id: uid(), type: 'name',    data: { username: '', name: 'Hi! Welcome!', role: '', handle: '' }, collapsed: false },
+    { id: uid(), type: 'bio',     data: { text: 'GitHub 프로필에 오신 것을 환영합니다.' }, collapsed: false },
+  ],
+};
+
+function applyPreset(templateId) {
+  const tpl = (typeof TEMPLATES !== 'undefined') && TEMPLATES.find(t => t.id === templateId);
+  if (!tpl) return;
+
+  // 카드 스타일 적용
+  const style = THEME_TO_STYLE[tpl.theme] || 'glass';
+  WE.style  = style;
+  WE.accent = tpl.accentColor || '#4285F4';
+  WE.preset = templateId;
+
+  // 블록 기본 구성 적용
+  const blockFactory = TYPE_TO_BLOCKS[tpl.type] || TYPE_TO_BLOCKS.stats;
+  WE.blocks = blockFactory();
+
+  // UI 동기화
+  document.querySelectorAll('.style-btn').forEach(b => {
+    b.classList.toggle('on', b.dataset.style === style);
+  });
+  document.querySelectorAll('.sw').forEach(s => {
+    s.classList.toggle('on', s.title === WE.accent);
+  });
+  // 프리셋 썸네일 활성화
+  document.querySelectorAll('.preset-thumb').forEach(p => {
+    p.classList.toggle('on', p.dataset.id === templateId);
+  });
+
+  renderBlockList();
+  renderWidget();
+}
+
+// URL 파라미터로 프리셋 자동 적용
+function applyPresetFromURL() {
+  const params = new URLSearchParams(location.search);
+  const id = params.get('template') || params.get('preset');
+  if (id) applyPreset(id);
+}
+
+function switchPresetFilter(el, type) {
+  document.querySelectorAll('.preset-filter').forEach(b => b.classList.remove('on'));
+  el.classList.add('on');
+  renderPresetGrid(type);
+}
+
+/* ══════════════════════════════════════════════════════
+   PRESET GRID — 왼쪽 패널 프리셋 썸네일
+══════════════════════════════════════════════════════ */
+function renderPresetGrid(filterType = 'all') {
+  const grid = document.getElementById('preset-grid');
+  if (!grid || typeof TEMPLATES === 'undefined') return;
+
+  const list = filterType === 'all'
+    ? TEMPLATES
+    : TEMPLATES.filter(t => t.type === filterType);
+
+  grid.innerHTML = list.map(tpl => {
+    const style = THEME_TO_STYLE[tpl.theme] || 'glass';
+    const bg = getPresetThumbBg(tpl);
+    return `
+      <button class="preset-thumb ${WE.preset === tpl.id ? 'on' : ''}"
+              data-id="${tpl.id}" title="${tpl.title}"
+              onclick="applyPreset('${tpl.id}')">
+        <div class="preset-thumb-inner" style="${bg}">
+          ${tpl.badge ? `<span class="preset-badge">${tpl.badge}</span>` : ''}
+        </div>
+        <div class="preset-thumb-name">${tpl.title}</div>
+      </button>
+    `;
+  }).join('');
+}
+
+function getPresetThumbBg(tpl) {
+  const darkThemes = ['dark-candy','plum-night','aqua-veil','badge-dark-pro','profile-dark-hero','profile-obsidian','profile-simple-dark','dev-card','engineer','tech-dark','glass-neon','aurora','dark-lite'];
+  const neuThemes  = ['neu-candy','neu-rose','badge-soft','badge-clean','profile-soft','tech-soft'];
+  const gradThemes = ['lavender-sky','dusk-purple','designer'];
+
+  if (darkThemes.includes(tpl.theme)) {
+    return `background:linear-gradient(135deg,#1a1035,#0d0714);`;
+  }
+  if (neuThemes.includes(tpl.theme)) {
+    return `background:linear-gradient(145deg,#f5eaf5,#ede0ed);`;
+  }
+  if (gradThemes.includes(tpl.theme)) {
+    return `background:linear-gradient(135deg,#667eea,#f093fb);`;
+  }
+  const acc = tpl.accentColor || '#4285F4';
+  return `background:linear-gradient(135deg,${hexAlpha(acc,0.12)},${hexAlpha(acc,0.06)});`;
+}
+
+/* ══════════════════════════════════════════════════════
+   BLOCK ACTIONS
+══════════════════════════════════════════════════════ */
+function addBlock(type) {
+  const defaults = {
+    avatar:  { emoji: '👨‍💻' },
+    name:    { name: '', role: '', handle: '' },
+    stats:   { items: [{ label:'Stars', val:'2.8k' }, { label:'Repos', val:'142' }] },
+    badges:  { tags: ['React', 'TypeScript'] },
+    streak:  { current: '42', longest: '87', total: '1,247' },
+    links:   { items: [{ type:'github', url:'' }, { type:'blog', url:'' }] },
+    bio:     { text: '' },
+    divider: {},
+  };
+  WE.blocks.push({ id: uid(), type, data: defaults[type] || {}, collapsed: false });
+  renderBlockList();
+  renderWidget();
+}
+
+function removeBlock(id) {
+  WE.blocks = WE.blocks.filter(b => b.id !== id);
+  renderBlockList();
+  renderWidget();
+}
+
+function toggleBlock(id) {
+  const b = WE.blocks.find(b => b.id === id);
+  if (b) b.collapsed = !b.collapsed;
+  renderBlockList();
+}
+
+function setBlockData(id, key, val) {
+  const b = WE.blocks.find(b => b.id === id);
+  if (b) { b.data[key] = val; renderWidget(); updateCode(); }
+}
+
+function setStatItem(id, i, key, val) {
+  const b = WE.blocks.find(b => b.id === id);
+  if (b && b.data.items[i]) { b.data.items[i][key] = val; renderWidget(); updateCode(); }
+}
+
+function addStatItem(id) {
+  const b = WE.blocks.find(b => b.id === id);
+  if (b) { b.data.items.push({ label: 'Label', val: '0' }); renderBlockList(); renderWidget(); }
+}
+
+function removeStatItem(id, i) {
+  const b = WE.blocks.find(b => b.id === id);
+  if (b) { b.data.items.splice(i, 1); renderBlockList(); renderWidget(); }
+}
+
+function addBadge(e, id, input) {
+  if (e.key !== 'Enter' || !input.value.trim()) return;
+  const b = WE.blocks.find(b => b.id === id);
+  if (b) { b.data.tags.push(input.value.trim()); input.value = ''; renderBlockList(); renderWidget(); }
+}
+
+function removeBadge(id, i) {
+  const b = WE.blocks.find(b => b.id === id);
+  if (b) { b.data.tags.splice(i, 1); renderBlockList(); renderWidget(); }
+}
+
+function addLinkItem(id) {
+  const b = WE.blocks.find(b => b.id === id);
+  if (b) { b.data.items.push({ type: 'github', url: '' }); renderBlockList(); renderWidget(); }
+}
+
+function removeLinkItem(id, i) {
+  const b = WE.blocks.find(b => b.id === id);
+  if (b) { b.data.items.splice(i, 1); renderBlockList(); renderWidget(); }
+}
+
+function setLinkItem(id, i, key, val) {
+  const b = WE.blocks.find(b => b.id === id);
+  if (b && b.data.items[i]) { b.data.items[i][key] = val; renderWidget(); updateCode(); }
+}
+
+/* ── 스타일 / 액센트 ─────────────────────────────────── */
+const GRADIENT_PRESETS = {
+  sunset:   { from: '#FF6B6B', to: '#FFE66D', mid: '#FF8E53' },
+  ocean:    { from: '#2193b0', to: '#6dd5ed', mid: '#4ab8d4' },
+  forest:   { from: '#134E5E', to: '#71B280', mid: '#2d7a5a' },
+  candy:    { from: '#ED93B1', to: '#9B8FE8', mid: '#c490cc' },
+  midnight: { from: '#0f0c29', to: '#302b63', mid: '#24243e' },
+  aurora:   { from: '#00C9FF', to: '#92FE9D', mid: '#4de8b0' },
+};
+
+WE.gradient = 'candy'; // 기본 그라디언트
+
+function toggleGradientPicker(el) {
+  const picker = document.getElementById('gradient-picker');
+  if (!picker) return;
+  const isOpen = picker.classList.contains('open');
+  if (isOpen) {
+    picker.classList.remove('open');
+  } else {
+    // 다른 스타일 버튼 off, gradient 버튼 on
+    document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('on'));
+    el.classList.add('on');
+    picker.classList.add('open');
+    WE.style = 'gradient';
+    renderWidget();
+  }
+}
+
+function setGradient(el, name) {
+  document.querySelectorAll('.grad-opt').forEach(b => b.classList.remove('on'));
+  el.classList.add('on');
+  WE.gradient = name;
+  WE.style = 'gradient';
+  renderWidget();
+}
+
+function setStyle(el, style) {
+  // gradient picker 닫기
+  const picker = document.getElementById('gradient-picker');
+  if (picker) picker.classList.remove('open');
+
+  document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('on'));
+  el.classList.add('on');
+  WE.style = style;
+  renderWidget();
+}
+
+function setAccent(el, color) {
   document.querySelectorAll('.sw').forEach(s => s.classList.remove('on'));
   el.classList.add('on');
   WE.accent = color;
+  renderWidget();
 }
 
-function selectType(btn, type) {
-  document.querySelectorAll('.type-chip').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on');
-  WE.type = type;
+function selectEmoji(el, emoji) {
+  // 첫 번째 avatar 블록에 적용
+  const b = WE.blocks.find(b => b.type === 'avatar');
+  if (b) { b.data.emoji = emoji; renderBlockList(); renderWidget(); }
+}
 
-  /* 필드 패널 전환 */
-  ['stats','tech','profile','streak','links','banner'].forEach(t => {
-    const el = document.getElementById(`fields-${t}`);
-    if (el) el.style.display = t === type ? '' : 'none';
+/* ══════════════════════════════════════════════════════
+   WIDGET RENDERER
+══════════════════════════════════════════════════════ */
+function renderWidget() {
+  const card = document.getElementById('widget-card');
+  if (!card) return;
+
+  // 1. 인라인 스타일 완전 초기화
+  card.removeAttribute('style');
+
+  // 2. 스타일 클래스 적용
+  card.className = 'widget-card ' + (STYLE_CLASS[WE.style] || 'ws-glass');
+
+  // 3. CSS 변수 주입
+  card.style.setProperty('--accent',        WE.accent);
+  card.style.setProperty('--accent-alpha',  hexAlpha(WE.accent, 0.15));
+  card.style.setProperty('--accent-border', hexAlpha(WE.accent, 0.35));
+  card.style.setProperty('--accent-text',   darkenColor(WE.accent));
+
+  // 4. gradient 스타일은 프리셋 기반으로 배경 직접 주입
+  if (WE.style === 'gradient') {
+    const preset = GRADIENT_PRESETS[WE.gradient] || GRADIENT_PRESETS.candy;
+    card.style.background = `linear-gradient(145deg, ${preset.from} 0%, ${preset.mid} 50%, ${preset.to} 100%)`;
+    card.style.boxShadow  = `0 16px 48px ${hexAlpha(preset.from, 0.4)}`;
+  }
+
+  // 5. 블록 순서대로 HTML 조합
+  card.innerHTML = WE.blocks.map(b => renderBlockHTML(b)).join('');
+
+  updateCode();
+}
+
+function renderBlockHTML(b) {
+  const d = b.data;
+  const acc = WE.accent;
+
+  switch (b.type) {
+
+    case 'avatar':
+      return `<div class="wb-avatar">${d.emoji || '👨‍💻'}</div>`;
+
+    case 'name':
+      return `
+        <div class="wb-name-block">
+          ${d.name  ? `<div class="wb-name">${d.name}</div>` : ''}
+          ${d.role  ? `<div class="wb-role">${d.role}</div>` : ''}
+          ${d.handle? `<div class="wb-handle">${d.handle}</div>` : ''}
+        </div>`;
+
+    case 'stats':
+      return `
+        <div class="wb-stats">
+          ${d.items.map(item => `
+            <div class="wb-stat">
+              <div class="wb-stat-val" style="color:${acc}">${item.val}</div>
+              <div class="wb-stat-lbl">${item.label}</div>
+            </div>
+          `).join('')}
+        </div>`;
+
+    case 'badges':
+      return `
+        <div class="wb-badges">
+          ${d.tags.map((t, i) => {
+            // 액센트 색상 기반 배지 — 밝은 배경 + 진한 텍스트
+            const bgColor = hexAlpha(acc, 0.15);
+            const textColor = darkenColor(acc, 0.6);
+            const borderColor = hexAlpha(acc, 0.35);
+            return `<span class="wb-badge" style="background:${bgColor};border:1px solid ${borderColor};color:${textColor}">${t}</span>`;
+          }).join('')}
+        </div>`;
+
+    case 'streak':
+      return `
+        <div class="wb-streak">
+          <div class="wb-streak-num" style="color:${acc}">${d.current || '42'}</div>
+          <div class="wb-streak-lbl">Day Streak 🔥</div>
+          <div class="wb-streak-sub">
+            <div class="wb-streak-item">
+              <span class="wb-streak-item-val">${d.longest || '87'}</span>
+              <span class="wb-streak-item-key">Longest</span>
+            </div>
+            <div class="wb-streak-item">
+              <span class="wb-streak-item-val">${d.total || '1,247'}</span>
+              <span class="wb-streak-item-key">Total</span>
+            </div>
+          </div>
+        </div>`;
+
+    case 'links':
+      return `
+        <div class="wb-links">
+          ${(d.items || []).map(item => {
+            const meta = LINK_META[item.type] || { label: item.type, color: acc, bg: hexAlpha(acc, 0.08) };
+            return `<a class="wb-link-btn" href="${item.url || '#'}" target="_blank"
+                       style="background:${meta.bg};border-color:${meta.color}22;color:${meta.color}">
+                      ${meta.label}
+                    </a>`;
+          }).join('')}
+        </div>`;
+
+    case 'bio':
+      return `<div class="wb-bio">${d.text || ''}</div>`;
+
+    case 'divider':
+      return `<div class="wb-divider" style="background:${hexAlpha(acc, 0.2)}"></div>`;
+
+    default: return '';
+  }
+}
+
+/* ── 링크 메타 ───────────────────────────────────────── */
+const LINK_META = {
+  github:    { label: 'GitHub',    color: '#181717', bg: '#f0f0f0' },
+  blog:      { label: '블로그',    color: '#20c997', bg: '#e8fdf5' },
+  email:     { label: 'Email',     color: '#EA4335', bg: '#fde8e6' },
+  linkedin:  { label: 'LinkedIn',  color: '#0A66C2', bg: '#e7f0fa' },
+  twitter:   { label: 'X / Twitter', color: '#000', bg: '#f0f0f0' },
+  instagram: { label: 'Instagram', color: '#E1306C', bg: '#fde8f0' },
+  youtube:   { label: 'YouTube',   color: '#FF0000', bg: '#ffe8e8' },
+  discord:   { label: 'Discord',   color: '#5865F2', bg: '#eef0fe' },
+  notion:    { label: 'Notion',    color: '#000',    bg: '#f5f5f5' },
+  portfolio: { label: 'Portfolio', color: '#4285F4', bg: '#e8f0fe' },
+};
+
+/* ── 유틸 ────────────────────────────────────────────── */
+function hexAlpha(hex, alpha) {
+  const r = parseInt(hex.slice(1,3),16);
+  const g = parseInt(hex.slice(3,5),16);
+  const b = parseInt(hex.slice(5,7),16);
+  if (isNaN(r)) return `rgba(66,133,244,${alpha})`;
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+// 배지 텍스트용 — 밝은 색은 어둡게, 어두운 색은 그대로
+function darkenColor(hex, factor = 0.6) {
+  const r = parseInt(hex.slice(1,3),16);
+  const g = parseInt(hex.slice(3,5),16);
+  const b = parseInt(hex.slice(5,7),16);
+  if (isNaN(r)) return hex;
+  const brightness = (r * 299 + g * 587 + b * 114) / 255000;
+  if (brightness > 0.65) {
+    return `rgb(${Math.round(r*0.45)},${Math.round(g*0.45)},${Math.round(b*0.45)})`;
+  }
+  return hex;
+}
+
+// 두 hex 색상 혼합 (t=0 → hex1, t=1 → hex2)
+function mixColor(hex1, hex2, t) {
+  const r1=parseInt(hex1.slice(1,3),16), g1=parseInt(hex1.slice(3,5),16), b1=parseInt(hex1.slice(5,7),16);
+  const r2=parseInt(hex2.slice(1,3),16), g2=parseInt(hex2.slice(3,5),16), b2=parseInt(hex2.slice(5,7),16);
+  if (isNaN(r1)||isNaN(r2)) return hex1;
+  return `rgb(${Math.round(r1+(r2-r1)*t)},${Math.round(g1+(g2-g1)*t)},${Math.round(b1+(b2-b1)*t)})`;
+}
+
+/* ══════════════════════════════════════════════════════
+   DRAG & DROP (블록 순서 변경)
+══════════════════════════════════════════════════════ */
+function initDrag() {
+  const list = document.getElementById('block-list');
+  if (!list) return;
+  let dragging = null;
+
+  list.querySelectorAll('.block-item').forEach(item => {
+    item.setAttribute('draggable', true);
+
+    item.addEventListener('dragstart', e => {
+      dragging = item;
+      item.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    item.addEventListener('dragend', () => {
+      item.classList.remove('dragging');
+      dragging = null;
+      // 순서 동기화
+      const newOrder = [...list.querySelectorAll('.block-item')].map(el => el.dataset.id);
+      WE.blocks.sort((a, b) => newOrder.indexOf(a.id) - newOrder.indexOf(b.id));
+      renderWidget();
+    });
+    item.addEventListener('dragover', e => {
+      e.preventDefault();
+      if (!dragging || dragging === item) return;
+      const rect = item.getBoundingClientRect();
+      const mid  = rect.top + rect.height / 2;
+      if (e.clientY < mid) list.insertBefore(dragging, item);
+      else list.insertBefore(dragging, item.nextSibling);
+    });
   });
+}
 
-  /* links/banner 선택 시 이모지·사용자명 숨김 */
-  const hideForTypes = ['links', 'banner'];
-  const shouldHide = hideForTypes.includes(type);
-  ['divider-emoji','label-emoji','emoji-grid','divider-username','field-username'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = shouldHide ? 'none' : '';
-  });
+/* ══════════════════════════════════════════════════════
+   CODE STRIP — API URL 생성
+══════════════════════════════════════════════════════ */
+function updateCode() {
+  const pre = document.getElementById('code-pre');
+  if (!pre) return;
+  const tab = document.querySelector('.ctab.on');
+  const fmt = tab ? tab.dataset.fmt : 'md';
+  pre.textContent = generateCode(fmt);
+}
 
-  if (typeof renderTemplateThumbs === 'function') renderTemplateThumbs(type);
+function buildAPIUrl() {
+  const base   = window.location.origin + '/api/widget';
+  const params = new URLSearchParams();
 
-  setTimeout(() => {
-    const first = TEMPLATES.find(t => t.type === type);
-    if (first) {
-      applyTheme(first.id);
-      document.querySelectorAll('.tpl-thumb').forEach(t => t.classList.remove('active'));
-      const firstThumb = document.querySelector(`.tpl-thumb[data-id="${first.id}"]`);
-      if (firstThumb) firstThumb.classList.add('active');
+  params.set('style',  WE.style);
+  params.set('accent', WE.accent.replace('#', ''));
+  if (WE.gradient && WE.style === 'gradient') params.set('grad', WE.gradient);
+
+  // 블록별 파라미터 추출
+  WE.blocks.forEach(b => {
+    const d = b.data;
+    switch (b.type) {
+      case 'avatar':
+        if (d.emoji) params.set('emoji', d.emoji);
+        break;
+      case 'name':
+        if (d.username) params.set('username', d.username);
+        if (d.name)     params.set('name',     d.name);
+        if (d.role)     params.set('role',     d.role);
+        if (d.handle)   params.set('handle',   d.handle);
+        break;
+      case 'bio':
+        if (d.text) params.set('bio', d.text);
+        break;
+      case 'stats':
+        if (d.items && d.items.length > 0) {
+          params.set('stats', d.items.map(s => `${s.label}:${s.val}`).join(','));
+        }
+        break;
+      case 'badges':
+        if (d.tags && d.tags.length > 0) {
+          params.set('badges', d.tags.join(','));
+        }
+        break;
+      case 'streak':
+        params.set('streak', `${d.current || 0}:${d.longest || 0}:${d.total || 0}`);
+        break;
+      case 'links':
+        if (d.items && d.items.length > 0) {
+          const linkStr = d.items
+            .filter(l => l.url)
+            .map(l => `${l.type}:${l.url}`)
+            .join(',');
+          if (linkStr) params.set('links', linkStr);
+        }
+        break;
     }
-  }, 10);
+  });
+
+  return `${base}?${params.toString()}`;
+}
+
+function generateCode(fmt) {
+  const url = buildAPIUrl();
+
+  // 이름 블록에서 표시 이름 추출
+  const nameBlock = WE.blocks.find(b => b.type === 'name');
+  const altText   = nameBlock?.data?.name || 'GitGloss Widget';
+
+  if (fmt === 'md') {
+    return `![${altText}](${url})`;
+  }
+
+  if (fmt === 'html') {
+    return `<img src="${url}" alt="${altText}" style="max-width:100%;" />`;
+  }
+
+  return url;
 }
 
 function selCtab(btn, fmt) {
   document.querySelectorAll('.ctab').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
   btn.dataset.fmt = fmt;
-  updateCodeStrip();
+  updateCode();
 }
 
 function doCopy() {
@@ -971,77 +748,16 @@ function doCopy() {
     btn.classList.add('copied');
     const ad = document.getElementById('ad-b2');
     if (ad) ad.classList.add('show');
-    setTimeout(() => {
-      btn.textContent = orig;
-      btn.classList.remove('copied');
-    }, 2000);
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
   });
 }
 
-function addTag(e, input) {
-  if (e.key !== 'Enter') return;
-  const val = input.value.trim();
-  if (!val) return;
-  WE.tags.push(val);
-  const wrap = document.getElementById('tag-wrap');
-  if (wrap) {
-    const span = document.createElement('span');
-    span.className = 'tag tag-pk';
-    span.innerHTML = `${val} <button class="tag-x" onclick="removeTag(this)">×</button>`;
-    wrap.appendChild(span);
-  }
-  input.value = '';
-  renderWidgetDOM(); updateCodeStrip();
-}
-
-function addTagTo(e, input, wrapId) {
-  if (e.key !== 'Enter') return;
-  const val = input.value.trim();
-  if (!val) return;
-  WE.tags.push(val);
-  const wrap = document.getElementById(wrapId);
-  if (wrap) {
-    const span = document.createElement('span');
-    span.className = 'tag tag-pk';
-    span.innerHTML = `${val} <button class="tag-x" onclick="removeTag(this)">×</button>`;
-    wrap.appendChild(span);
-  }
-  input.value = '';
-  renderWidgetDOM(); updateCodeStrip();
-}
-
-function removeTag(btn) {
-  const tag = btn.parentElement;
-  const text = tag.textContent.replace('×','').trim();
-  WE.tags = WE.tags.filter(t => t !== text);
-  tag.remove();
-  renderWidgetDOM(); updateCodeStrip();
-}
-
-function exportWidget() {
-  const card = document.getElementById('widget-card');
-  if (!card) return;
-  const rect = card.getBoundingClientRect();
-  const w = Math.round(rect.width);
-  const h = Math.round(rect.height);
-  const svgStr = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
-  <foreignObject width="100%" height="100%">
-    <div xmlns="http://www.w3.org/1999/xhtml">${card.outerHTML}</div>
-  </foreignObject>
-</svg>`;
-  const blob = new Blob([svgStr], { type: 'image/svg+xml' });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href = url;
-  a.download = `gitgloss-${WE.theme}.svg`;
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-/* ── 초기화 ─────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
-  bindInputs();
-  applyTheme('stats-01');
-  const first = document.querySelector('.tpl-thumb');
-  if (first) first.classList.add('active');
+  renderPresetGrid('all');
+  renderBlockList();
+  renderWidget();
+  applyPresetFromURL();
 });
