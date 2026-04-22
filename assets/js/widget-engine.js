@@ -237,7 +237,9 @@ const TYPE_TO_BLOCKS = {
 
 function applyPreset(templateId) {
   const tpl = (typeof TEMPLATES !== 'undefined') && TEMPLATES.find(t => t.id === templateId);
-  if (!tpl) { console.warn('Template not found:', templateId); return; }
+  if (!tpl) { console.warn('[GitGloss] Template not found:', templateId); return; }
+
+  console.log('[GitGloss] Applying preset:', tpl.title, '| style:', THEME_TO_STYLE[tpl.theme] || 'glass');
 
   // 1. 카드 스타일 + 액센트 적용
   const style = THEME_TO_STYLE[tpl.theme] || 'glass';
@@ -248,8 +250,7 @@ function applyPreset(templateId) {
   // 2. 블록 구성 — 타입에 맞는 팩토리 사용
   const typeKey = ['stats','tech','profile','links','streak','banner'].includes(tpl.type)
     ? tpl.type : 'stats';
-  const blockFactory = TYPE_TO_BLOCKS[typeKey] || TYPE_TO_BLOCKS.stats;
-  WE.blocks = blockFactory();
+  WE.blocks = TYPE_TO_BLOCKS[typeKey]();
 
   // 3. 스타일 버튼 UI 동기화
   document.querySelectorAll('.style-btn').forEach(b => {
@@ -270,7 +271,7 @@ function applyPreset(templateId) {
   const picker = document.getElementById('gradient-picker');
   if (picker) picker.classList.remove('open');
 
-  // 7. 렌더
+  // 7. 렌더 — 블록 패널 + 위젯 카드 동시 업데이트
   renderBlockList();
   renderWidget();
 }
@@ -286,6 +287,14 @@ function switchPresetFilter(el, type) {
   document.querySelectorAll('.preset-filter').forEach(b => b.classList.remove('on'));
   el.classList.add('on');
   renderPresetGrid(type);
+
+  // 해당 타입의 첫 번째 프리셋 자동 적용
+  if (typeof TEMPLATES !== 'undefined') {
+    const first = type === 'all'
+      ? TEMPLATES[0]
+      : TEMPLATES.find(t => t.type === type);
+    if (first) applyPreset(first.id);
+  }
 }
 
 /* ══════════════════════════════════════════════════════
