@@ -237,30 +237,40 @@ const TYPE_TO_BLOCKS = {
 
 function applyPreset(templateId) {
   const tpl = (typeof TEMPLATES !== 'undefined') && TEMPLATES.find(t => t.id === templateId);
-  if (!tpl) return;
+  if (!tpl) { console.warn('Template not found:', templateId); return; }
 
-  // 카드 스타일 적용
+  // 1. 카드 스타일 + 액센트 적용
   const style = THEME_TO_STYLE[tpl.theme] || 'glass';
   WE.style  = style;
   WE.accent = tpl.accentColor || '#4285F4';
   WE.preset = templateId;
 
-  // 블록 기본 구성 적용
-  const blockFactory = TYPE_TO_BLOCKS[tpl.type] || TYPE_TO_BLOCKS.stats;
+  // 2. 블록 구성 — 타입에 맞는 팩토리 사용
+  const typeKey = ['stats','tech','profile','links','streak','banner'].includes(tpl.type)
+    ? tpl.type : 'stats';
+  const blockFactory = TYPE_TO_BLOCKS[typeKey] || TYPE_TO_BLOCKS.stats;
   WE.blocks = blockFactory();
 
-  // UI 동기화
+  // 3. 스타일 버튼 UI 동기화
   document.querySelectorAll('.style-btn').forEach(b => {
     b.classList.toggle('on', b.dataset.style === style);
   });
+
+  // 4. 색상 스와치 동기화
   document.querySelectorAll('.sw').forEach(s => {
     s.classList.toggle('on', s.title === WE.accent);
   });
-  // 프리셋 썸네일 활성화
+
+  // 5. 프리셋 썸네일 활성화
   document.querySelectorAll('.preset-thumb').forEach(p => {
     p.classList.toggle('on', p.dataset.id === templateId);
   });
 
+  // 6. 그라디언트 피커 닫기
+  const picker = document.getElementById('gradient-picker');
+  if (picker) picker.classList.remove('open');
+
+  // 7. 렌더
   renderBlockList();
   renderWidget();
 }
@@ -290,12 +300,10 @@ function renderPresetGrid(filterType = 'all') {
     : TEMPLATES.filter(t => t.type === filterType);
 
   grid.innerHTML = list.map(tpl => {
-    const style = THEME_TO_STYLE[tpl.theme] || 'glass';
     const bg = getPresetThumbBg(tpl);
     return `
       <button class="preset-thumb ${WE.preset === tpl.id ? 'on' : ''}"
-              data-id="${tpl.id}" title="${tpl.title}"
-              onclick="applyPreset('${tpl.id}')">
+              data-id="${tpl.id}" title="${tpl.title}">
         <div class="preset-thumb-inner" style="${bg}">
           ${tpl.badge ? `<span class="preset-badge">${tpl.badge}</span>` : ''}
         </div>
@@ -303,6 +311,13 @@ function renderPresetGrid(filterType = 'all') {
       </button>
     `;
   }).join('');
+
+  // 이벤트 위임 — onclick 인라인 대신 안전하게 처리
+  grid.onclick = (e) => {
+    const btn = e.target.closest('.preset-thumb');
+    if (!btn) return;
+    applyPreset(btn.dataset.id);
+  };
 }
 
 function getPresetThumbBg(tpl) {
@@ -756,6 +771,12 @@ function doCopy() {
    INIT
 ══════════════════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
+  // templates.js 로드 확인
+  if (typeof TEMPLATES === 'undefined') {
+    console.error('TEMPLATES not loaded!');
+    return;
+  }
+
   renderPresetGrid('all');
   renderBlockList();
   renderWidget();
