@@ -416,22 +416,6 @@
 .panel-left-footer a { color:inherit; }
 
 /* ── RIGHT PANEL ─────────────────────────────────────── */
-.panel-right {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  background: var(--bg-main);
-  background-image: var(--grid-pattern);
-}
-.preview-area {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  padding: 40px;
-}
 .preview-bg-dots {
   position: absolute;
   inset: 0;
@@ -511,24 +495,50 @@
 
 /* ── 카드 스타일 6종 ─────────────────────────────────── */
 
-/* Glass — 진짜 블러 글래스모피즘 */
+/* Glass — 진짜 배경 블러 글래스모피즘 */
 .ws-glass {
-  background: rgba(255,255,255,0.45);
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
-  border: 1px solid rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(48px) saturate(200%);
+  -webkit-backdrop-filter: blur(48px) saturate(200%);
+  border: 1px solid rgba(255,255,255,0.45);
   box-shadow:
-    0 8px 32px rgba(0,0,0,0.06),
-    0 2px 8px rgba(0,0,0,0.04),
-    inset 0 1px 0 rgba(255,255,255,0.8);
+    0 8px 32px rgba(0,0,0,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.6),
+    inset 0 -1px 0 rgba(255,255,255,0.1);
 }
 .ws-glass::before {
   content: '';
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.05) 100%);
+  background: linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.05) 100%);
   pointer-events: none;
+}
+.ws-glass .wb-name   { color: #08080F; }
+.ws-glass .wb-role   { color: rgba(8,8,15,0.65); }
+.ws-glass .wb-handle { color: rgba(8,8,15,0.4); }
+.ws-glass .wb-stat   {
+  background: rgba(255,255,255,0.5);
+  border: 1px solid rgba(255,255,255,0.6);
+  backdrop-filter: blur(8px);
+}
+
+/* Minimal — 기존 Glass 흰 카드 디자인 */
+.ws-minimal {
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(0,0,0,0.07);
+  border-radius: 24px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04);
+  padding: 28px;
+}
+.ws-minimal .wb-stat {
+  background: rgba(255,255,255,0.9);
+  border: 1px solid rgba(0,0,0,0.06);
+}
+.ws-minimal .wb-badge {
+  background: rgba(0,0,0,0.04) !important;
+  border-color: rgba(0,0,0,0.08) !important;
+  color: var(--text-sub) !important;
 }
 
 /* Dark */
@@ -1305,8 +1315,6 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: var(--bg-main);
-  background-image: var(--grid-pattern);
 }
 
 .preview-area {
@@ -1317,6 +1325,12 @@
   position: relative;
   overflow: hidden;
   padding: 40px;
+  /* Glass 블러가 실제로 보이도록 컬러 배경 */
+  background:
+    radial-gradient(ellipse at 25% 35%, rgba(66,133,244,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 65%, rgba(234,67,53,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 65% 20%, rgba(251,188,5,0.1) 0%, transparent 45%),
+    #F0F2F8;
 }
 .preview-bg-dots {
   position: absolute;
