@@ -82,6 +82,8 @@
   background: var(--glass-white);
   border: 1px solid var(--glass-border);
   border-radius: 20px;
+}
+
 /* ── M3 Cards (Material 3 Surface + Fluent Depth) ── */
 .glass-card, .m3-card {
   background: var(--m3-surface);

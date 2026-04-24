@@ -98,13 +98,12 @@ const BLOCK_ICON  = {
   bio:    `<img src="${getFluentUrl('Memo')}" style="width:18px;height:18px;">`, 
   divider:`<img src="${getFluentUrl('Horizontal Line')}" style="width:18px;height:18px;">`, 
   trophy: `<img src="${getFluentUrl('Trophy')}" style="width:18px;height:18px;">`, 
-  snake:  `<img src="${getFluentUrl('Snake')}" style="width:18px;height:18px;">`, 
   hits:   `<img src="${getFluentUrl('Eye')}" style="width:18px;height:18px;">`, 
   coffee: `<img src="${getFluentUrl('Hot Beverage')}" style="width:18px;height:18px;">`, 
   banner: `<img src="${getFluentUrl('Artist Palette')}" style="width:18px;height:18px;">`, 
   typing: `<img src="${getFluentUrl('Keyboard')}" style="width:18px;height:18px;">` 
 };
-const BLOCK_LABEL = { avatar:'이모지 아바타', name:'이름 / 직무', stats:'Stats 숫자', badges:'기술 배지', streak:'스트릭', links:'링크 버튼', bio:'소개글', divider:'구분선', trophy:'GitHub Trophy', snake:'Snake Game', hits:'Hits 카운터', coffee:'커피 카운터', banner:'배너', typing:'타이핑 SVG' };
+const BLOCK_LABEL = { avatar:'이모지 아바타', name:'이름 / 직무', stats:'Stats 숫자', badges:'기술 배지', streak:'스트릭', links:'링크 버튼', bio:'소개글', divider:'구분선', trophy:'GitHub Trophy', hits:'Hits 카운터', coffee:'커피 카운터', banner:'배너', typing:'타이핑 SVG' };
 
 function renderBlockFields(b) {
   const d = b.data;
@@ -1140,6 +1139,7 @@ function doCopy() {
     btn.classList.add('copied');
     const ad = document.getElementById('ad-b2');
     if (ad) ad.classList.add('show');
+    if (typeof openCongratsModal === 'function') openCongratsModal();
     setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
   });
 }

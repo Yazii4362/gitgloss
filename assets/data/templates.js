@@ -75,7 +75,7 @@ const TEMPLATES = [
   { id:'banner-07', type:'creative', theme:'banner-divider-hits',   layout:'banner-layout', title:'Hits Counter',    desc:'seeyoufarm Hits 방문자 카운터 배지',             badge:'HOT', accentColor:'#34A853', config:{text:''} },
   { id:'banner-08', type:'banner', theme:'banner-typing',         layout:'banner-layout', title:'Typing SVG',      desc:'readme-typing-svg 애니메이션 타이핑 텍스트',    badge:null,  accentColor:'#4285F4', config:{text:"I'm a Developer;I love Open Source"} },
   { id:'banner-09', type:'creative', theme:'banner-github-trophy',  layout:'banner-layout', title:'GitHub Trophy',   desc:'github-profile-trophy 업적 배지 모음',           badge:null,  accentColor:'#FFD700', config:{text:''} },
-  { id:'banner-10', type:'creative', theme:'banner-snake',          layout:'banner-layout', title:'Snake Game',      desc:'contribution-snake SVG 게임 애니메이션',         badge:'NEW', accentColor:'#34A853', config:{text:''} },
+
 
   /* ── NEW: CREATIVE & INTERACTIVE (7) ─────────────── */
   { id:'stats-11',   type:'stats',   theme:'glass-neon',    layout:'', title:'Glass Neon',     desc:'네온 글로우 + 글래스모피즘 조합 카드',      badge:'NEW', accentColor:'#9B8FE8', config:{stats:['Stars','Repos','Active']} },
