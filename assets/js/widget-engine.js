@@ -12,7 +12,7 @@ const WE = {
 
   /* 블록 배열 — 순서가 곧 렌더 순서 */
   blocks: [
-    { id: 'b1', type: 'avatar',  data: { emoji: 'fluent:Technologist|👨‍💻' } },
+    { id: 'b1', type: 'avatar',  data: { emoji: 'fluent:person' } },
     { id: 'b2', type: 'name',    data: { username: '', name: 'The Octocat', role: 'Full-stack Developer', handle: '@octocat' } },
     { id: 'b3', type: 'stats',   data: { items: [{ label:'Stars', val:'2.8k' }, { label:'Repos', val:'142' }, { label:'Active', val:'98%' }] } },
     { id: 'b4', type: 'badges',  data: { tags: ['React', 'TypeScript', 'Node.js'] } },
@@ -23,29 +23,63 @@ const WE = {
 
 /* ── 이모지 & 아이콘 데이터 ────────────────────────────── */
 const AVATAR_DATA = {
-  // Microsoft Fluent 3D Emojis (Official 3D Style)
-  fluentEmojis: [
-    { c: '👨‍💻', n: 'Technologist' }, { c: '🚀', n: 'Rocket' }, { c: '🔥', n: 'Fire' }, { c: '⚡', n: 'High Voltage' },
-    { c: '💎', n: 'Gem Stone' }, { c: '🌟', n: 'Star' }, { c: '🎯', n: 'Direct Hit' }, { c: '💡', n: 'Light Bulb' },
-    { c: '🎨', n: 'Artist Palette' }, { c: '🎮', n: 'Video Game' }, { c: '👾', n: 'Alien Monster' }, { c: '🤖', n: 'Robot' },
-    { c: '☕', n: 'Hot Beverage' }, { c: '🌈', n: 'Rainbow' }, { c: '🦄', n: 'Unicorn' }, { c: '🐙', n: 'Octopus' },
-    { c: '🦊', n: 'Fox' }, { c: '🐧', n: 'Penguin' }, { c: '🍕', n: 'Pizza' }, { c: '🍩', n: 'Doughnut' },
-    { c: '🥑', n: 'Avocado' }, { c: '🎁', n: 'Wrapped Gift' }, { c: '😎', n: 'Smiling Face with Sunglasses' },
-    { c: '💻', n: 'Laptop' }, { c: '📱', n: 'Mobile Phone' }, { c: '🔒', n: 'Locked' },
-    { c: '👋', n: 'Waving Hand' }, { c: '✨', n: 'Sparkles' }, { c: '🔗', n: 'Link' }, { c: '⚙️', n: 'Gear' }
-  ],
-  icons: {
-    'Solid (Material)': ['home','person','settings','favorite','star','bolt','rocket','terminal','code','database','cloud','shield','verified','campaign','mail','explore','build','smart_toy'],
-    'Solid (FA)': ['house','user','gear','heart','star','bolt','rocket','terminal','code','database','cloud','shield','check','bell','envelope','compass','wrench','robot']
-  }
+  // Fluent System Icons (Microsoft Design)
+  fluentIcons: [
+    { name: 'person', label: 'Person' },
+    { name: 'rocket', label: 'Rocket' },
+    { name: 'fire', label: 'Fire' },
+    { name: 'flash', label: 'Flash' },
+    { name: 'star', label: 'Star' },
+    { name: 'heart', label: 'Heart' },
+    { name: 'code', label: 'Code' },
+    { name: 'laptop', label: 'Laptop' },
+    { name: 'desktop', label: 'Desktop' },
+    { name: 'phone', label: 'Phone' },
+    { name: 'lightbulb', label: 'Lightbulb' },
+    { name: 'target-arrow', label: 'Target' },
+    { name: 'trophy', label: 'Trophy' },
+    { name: 'gift', label: 'Gift' },
+    { name: 'emoji', label: 'Emoji' },
+    { name: 'emoji-smile-slight', label: 'Smile' },
+    { name: 'emoji-laugh', label: 'Laugh' },
+    { name: 'sparkle', label: 'Sparkle' },
+    { name: 'brain-circuit', label: 'Brain' },
+    { name: 'book', label: 'Book' },
+    { name: 'bookmark', label: 'Bookmark' },
+    { name: 'briefcase', label: 'Briefcase' },
+    { name: 'calendar', label: 'Calendar' },
+    { name: 'camera', label: 'Camera' },
+    { name: 'chat', label: 'Chat' },
+    { name: 'checkmark-circle', label: 'Check' },
+    { name: 'cloud', label: 'Cloud' },
+    { name: 'color', label: 'Color' },
+    { name: 'compass-northwest', label: 'Compass' },
+    { name: 'database', label: 'Database' },
+    { name: 'document', label: 'Document' },
+    { name: 'folder', label: 'Folder' },
+    { name: 'games', label: 'Games' },
+    { name: 'globe', label: 'Globe' },
+    { name: 'home', label: 'Home' },
+    { name: 'image', label: 'Image' },
+    { name: 'link', label: 'Link' },
+    { name: 'location', label: 'Location' },
+    { name: 'mail', label: 'Mail' },
+    { name: 'megaphone', label: 'Megaphone' },
+    { name: 'music-note-2', label: 'Music' },
+    { name: 'paint-brush', label: 'Paint' },
+    { name: 'puzzle-piece', label: 'Puzzle' },
+    { name: 'shield', label: 'Shield' },
+    { name: 'sparkle', label: 'Sparkle' },
+    { name: 'settings', label: 'Settings' },
+    { name: 'video', label: 'Video' },
+    { name: 'wand', label: 'Wand' },
+    { name: 'weather-sunny', label: 'Sun' }
+  ]
 };
 
-function getFluentUrl(name) {
-  // Folder: Title Case with spaces (e.g. Hot Beverage)
-  // File: snake_case (e.g. hot_beverage_3d.png)
-  const folder = name.replace(/_/g, ' '); 
-  const file = name.toLowerCase().replace(/ /g, '_').replace(/%20/g, '_');
-  return `https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/${folder}/3D/${file}_3d.png`;
+function getFluentIconSVG(iconName, size = 24) {
+  // Iconify API를 통한 Fluent Icons
+  return `https://api.iconify.design/fluent/${iconName}-${size}-filled.svg`;
 }
 
 function uid() { return 'b' + (++WE._uid); }
@@ -89,19 +123,19 @@ function renderBlockList() {
 }
 
 const BLOCK_ICON  = { 
-  avatar: `<img src="${getFluentUrl('Technologist')}" style="width:18px;height:18px;">`, 
-  name:   `<img src="${getFluentUrl('Writing Hand')}" style="width:18px;height:18px;">`, 
-  stats:  `<img src="${getFluentUrl('Bar Chart')}" style="width:18px;height:18px;">`, 
-  badges: `<img src="${getFluentUrl('Label')}" style="width:18px;height:18px;">`, 
-  streak: `<img src="${getFluentUrl('Fire')}" style="width:18px;height:18px;">`, 
-  links:  `<img src="${getFluentUrl('Link')}" style="width:18px;height:18px;">`, 
-  bio:    `<img src="${getFluentUrl('Memo')}" style="width:18px;height:18px;">`, 
-  divider:`<img src="${getFluentUrl('Horizontal Line')}" style="width:18px;height:18px;">`, 
-  trophy: `<img src="${getFluentUrl('Trophy')}" style="width:18px;height:18px;">`, 
-  hits:   `<img src="${getFluentUrl('Eye')}" style="width:18px;height:18px;">`, 
-  coffee: `<img src="${getFluentUrl('Hot Beverage')}" style="width:18px;height:18px;">`, 
-  banner: `<img src="${getFluentUrl('Artist Palette')}" style="width:18px;height:18px;">`, 
-  typing: `<img src="${getFluentUrl('Keyboard')}" style="width:18px;height:18px;">` 
+  avatar: `<img src="${getFluentIconSVG('person', 20)}" style="width:18px;height:18px;">`, 
+  name:   `<img src="${getFluentIconSVG('text-edit-style', 20)}" style="width:18px;height:18px;">`, 
+  stats:  `<img src="${getFluentIconSVG('data-bar-vertical', 20)}" style="width:18px;height:18px;">`, 
+  badges: `<img src="${getFluentIconSVG('tag', 20)}" style="width:18px;height:18px;">`, 
+  streak: `<img src="${getFluentIconSVG('fire', 20)}" style="width:18px;height:18px;">`, 
+  links:  `<img src="${getFluentIconSVG('link', 20)}" style="width:18px;height:18px;">`, 
+  bio:    `<img src="${getFluentIconSVG('document-text', 20)}" style="width:18px;height:18px;">`, 
+  divider:`<img src="${getFluentIconSVG('line-horizontal-1', 20)}" style="width:18px;height:18px;">`, 
+  trophy: `<img src="${getFluentIconSVG('trophy', 20)}" style="width:18px;height:18px;">`, 
+  hits:   `<img src="${getFluentIconSVG('eye', 20)}" style="width:18px;height:18px;">`, 
+  coffee: `<img src="${getFluentIconSVG('drink-coffee', 20)}" style="width:18px;height:18px;">`, 
+  banner: `<img src="${getFluentIconSVG('image', 20)}" style="width:18px;height:18px;">`, 
+  typing: `<img src="${getFluentIconSVG('keyboard', 20)}" style="width:18px;height:18px;">` 
 };
 const BLOCK_LABEL = { avatar:'이모지 아바타', name:'이름 / 직무', stats:'Stats 숫자', badges:'기술 배지', streak:'스트릭', links:'링크 버튼', bio:'소개글', divider:'구분선', trophy:'GitHub Trophy', hits:'Hits 카운터', coffee:'커피 카운터', banner:'배너', typing:'타이핑 SVG' };
 
@@ -112,43 +146,17 @@ function renderBlockFields(b) {
     case 'avatar':
       let emojiTabs = '<div class="emoji-picker-scroll">';
       
-      // Fluent 3D Emojis
+      // Fluent System Icons
       emojiTabs += `
-        <div class="field-label" style="margin:4px 0 8px">Premium 3D Emojis</div>
-        <div class="emoji-picker" style="grid-template-columns: repeat(4, 1fr); gap: 8px;">
-          ${AVATAR_DATA.fluentEmojis.map(e => {
-            const val = `fluent:${e.n}|${e.c}`; // name|char
+        <div class="field-label" style="margin:4px 0 8px">Fluent System Icons</div>
+        <div class="emoji-picker" style="grid-template-columns: repeat(5, 1fr); gap: 6px;">
+          ${AVATAR_DATA.fluentIcons.map(icon => {
+            const val = `fluent:${icon.name}`;
             const isSelected = d.emoji === val;
             return `
-              <button class="ep-btn ${isSelected ? 'on' : ''}" style="height:60px;"
-                      onclick="setBlockData('${b.id}','emoji','${val}')">
-                <img src="${getFluentUrl(e.n)}" style="width:40px; height:40px; object-fit:contain;" alt="${e.c}">
-              </button>`;
-          }).join('')}
-        </div>`;
-      // 아이콘 탭 (Material Symbols)
-      emojiTabs += `
-        <div class="field-label" style="margin:16px 0 6px">Solid Icons (Material)</div>
-        <div class="emoji-picker">
-          ${AVATAR_DATA.icons['Solid (Material)'].map(i => {
-            const val = `ms:${i}`;
-            return `
-              <button class="ep-btn ${d.emoji === val ? 'on' : ''}"
-                      onclick="setBlockData('${b.id}','emoji','${val}')">
-                <span class="material-symbols-rounded" style="font-size:20px">${i}</span>
-              </button>`;
-          }).join('')}
-        </div>`;
-      // 아이콘 탭 (Font Awesome)
-      emojiTabs += `
-        <div class="field-label" style="margin:16px 0 6px">Solid Icons (Font Awesome)</div>
-        <div class="emoji-picker">
-          ${AVATAR_DATA.icons['Solid (FA)'].map(i => {
-            const val = `fa:${i}`;
-            return `
-              <button class="ep-btn ${d.emoji === val ? 'on' : ''}"
-                      onclick="setBlockData('${b.id}','emoji','${val}')">
-                <i class="fa-solid fa-${i}" style="font-size:16px"></i>
+              <button class="ep-btn ${isSelected ? 'on' : ''}" style="height:50px;"
+                      onclick="setBlockData('${b.id}','emoji','${val}')" title="${icon.label}">
+                <img src="${getFluentIconSVG(icon.name, 24)}" style="width:28px; height:28px; object-fit:contain;" alt="${icon.label}">
               </button>`;
           }).join('')}
         </div>`;
@@ -318,14 +326,12 @@ function renderBlockFields(b) {
                  oninput="setBlockData('${b.id}','maxCups',this.value)">
         </div>
         <div class="field-row">
-          <label class="field-label">음료 이모지</label>
+          <label class="field-label">음료 아이콘</label>
           <select class="field-select" onchange="setBlockData('${b.id}','drinkEmoji',this.value)">
-            ${[
-              { c:'☕', n:'Hot Beverage' }, { c:'🧋', n:'Bubble Tea' }, { c:'🍵', n:'Teacup Without Handle' }, 
-              { c:'🥤', n:'Cup with Straw' }, { c:'🧃', n:'Beverage Box' }, { c:'🍺', n:'Beer Mug' }, { c:'🥛', n:'Glass of Milk' }
-            ].map(e =>
-              `<option value="fluent:${e.n}|${e.c}" ${(d.drinkEmoji||'').includes(e.n)?'selected':''}>${e.c} ${e.c === '☕' ? 'Coffee' : ''}</option>`
-            ).join('')}
+            <option value="fluent:drink-coffee" ${(d.drinkEmoji||'fluent:drink-coffee')==='fluent:drink-coffee'?'selected':''}>☕ Coffee</option>
+            <option value="fluent:drink-beer" ${d.drinkEmoji==='fluent:drink-beer'?'selected':''}>🍺 Beer</option>
+            <option value="fluent:drink-wine" ${d.drinkEmoji==='fluent:drink-wine'?'selected':''}>🍷 Wine</option>
+            <option value="fluent:drink-margarita" ${d.drinkEmoji==='fluent:drink-margarita'?'selected':''}>🍹 Cocktail</option>
           </select>
         </div>`;
 
@@ -405,30 +411,30 @@ const THEME_TO_STYLE = {
 // 타입 → 기본 블록 구성
 const TYPE_TO_BLOCKS = {
   stats: () => [
-    { id: uid(), type: 'avatar',  data: { emoji: 'fluent:technologist|👨‍💻' }, collapsed: false },
+    { id: uid(), type: 'avatar',  data: { emoji: 'fluent:person' }, collapsed: false },
     { id: uid(), type: 'name',    data: { username: '', name: 'The Octocat', role: 'Full-stack Developer', handle: '@octocat' }, collapsed: false },
     { id: uid(), type: 'stats',   data: { items: [{ label:'Stars', val:'2.8k' }, { label:'Repos', val:'142' }, { label:'Active', val:'98%' }] }, collapsed: false },
     { id: uid(), type: 'badges',  data: { tags: ['React', 'TypeScript', 'Node.js'] }, collapsed: true },
   ],
   tech: () => [
-    { id: uid(), type: 'avatar',  data: { emoji: 'fluent:rocket|🚀' }, collapsed: false },
+    { id: uid(), type: 'avatar',  data: { emoji: 'fluent:rocket' }, collapsed: false },
     { id: uid(), type: 'name',    data: { username: '', name: 'The Octocat', role: 'Tech Stack', handle: '' }, collapsed: false },
     { id: uid(), type: 'badges',  data: { tags: ['React', 'TypeScript', 'Node.js', 'Python', 'Docker'] }, collapsed: false },
   ],
   profile: () => [
-    { id: uid(), type: 'avatar',  data: { emoji: 'fluent:technologist|👨‍💻' }, collapsed: false },
+    { id: uid(), type: 'avatar',  data: { emoji: 'fluent:person' }, collapsed: false },
     { id: uid(), type: 'name',    data: { username: '', name: 'The Octocat', role: 'Full-stack Developer', handle: '@octocat' }, collapsed: false },
     { id: uid(), type: 'bio',     data: { text: 'Building amazing things with code ✨' }, collapsed: false },
     { id: uid(), type: 'badges',  data: { tags: ['React', 'TypeScript'] }, collapsed: false },
     { id: uid(), type: 'links',   data: { items: [{ type:'github', url:'' }, { type:'blog', url:'' }] }, collapsed: false },
   ],
   links: () => [
-    { id: uid(), type: 'avatar',  data: { emoji: 'fluent:link|🔗' }, collapsed: false },
+    { id: uid(), type: 'avatar',  data: { emoji: 'fluent:link' }, collapsed: false },
     { id: uid(), type: 'name',    data: { username: '', name: 'The Octocat', role: '링크 모음', handle: '' }, collapsed: false },
     { id: uid(), type: 'links',   data: { items: [{ type:'github', url:'' }, { type:'blog', url:'' }, { type:'email', url:'' }] }, collapsed: false },
   ],
   banner: () => [
-    { id: uid(), type: 'avatar',  data: { emoji: 'fluent:waving_hand|👋' }, collapsed: false },
+    { id: uid(), type: 'avatar',  data: { emoji: 'fluent:emoji' }, collapsed: false },
     { id: uid(), type: 'name',    data: { username: '', name: 'Hi! Welcome!', role: '', handle: '' }, collapsed: false },
     { id: uid(), type: 'bio',     data: { text: 'GitHub 프로필에 오신 것을 환영합니다.' }, collapsed: false },
   ],
@@ -438,7 +444,7 @@ const TYPE_TO_BLOCKS = {
     if (tplId === 'banner-09') return [{ id: uid(), type: 'trophy', data: { username: '' } }];
     if (tplId === 'banner-07' || tplId === 'banner-11') return [{ id: uid(), type: 'hits', data: { username: '' } }];
     if (tplId === 'links-11') return [{ id: uid(), type: 'coffee', data: { cups: '2', maxCups: '4' } }];
-    return [{ id: uid(), type: 'avatar', data: { emoji: 'fluent:sparkles|✨' } }];
+    return [{ id: uid(), type: 'avatar', data: { emoji: 'fluent:sparkle' } }];
   }
 };
 
@@ -559,7 +565,7 @@ function getPresetThumbBg(tpl) {
 ══════════════════════════════════════════════════════ */
 function addBlock(type) {
   const defaults = {
-    avatar:  { emoji: 'fluent:Technologist|👨‍💻' },
+    avatar:  { emoji: 'fluent:person' },
     name:    { username: '', name: '', role: '', handle: '' },
     stats:   { items: [{ label:'Stars', val:'2.8k' }, { label:'Repos', val:'142' }] },
     badges:  { tags: ['React', 'TypeScript'] },
@@ -570,7 +576,7 @@ function addBlock(type) {
     trophy:  { username: '', theme: 'flat' },
     snake:   { username: '', colorScheme: 'github' },
     hits:    { username: '', repo: '' },
-    coffee:  { cups: '2', maxCups: '4', drinkEmoji: 'fluent:Hot Beverage|☕' },
+    coffee:  { cups: '2', maxCups: '4', drinkEmoji: 'fluent:drink-coffee' },
     banner:  { text: 'Hi! Welcome!', bannerType: 'wave', color: 'ED93B1', height: '160' },
     typing:  { lines: "I'm a Developer;I love Open Source", color: '4285F4', size: '22' },
   };
@@ -736,18 +742,12 @@ function renderBlockHTML(b) {
   switch (b.type) {
 
     case 'avatar':
-      let content = d.emoji || 'fluent:Technologist|👨‍💻';
+      let content = d.emoji || 'fluent:person';
       if (content.startsWith('fluent:')) {
-        const [name, char] = content.replace('fluent:','').split('|');
-        content = `<img src="${getFluentUrl(name)}" style="width:100%; height:100%; object-fit:contain;" alt="${char}">`;
-      } else if (content.startsWith('ms:')) {
-        const iconName = content.split(':')[1];
-        content = `<span class="material-symbols-rounded">${iconName}</span>`;
-      } else if (content.startsWith('fa:')) {
-        const iconName = content.split(':')[1];
-        content = `<i class="fa-solid fa-${iconName}"></i>`;
+        const iconName = content.replace('fluent:','');
+        content = `<img src="${getFluentIconSVG(iconName, 48)}" style="width:48px; height:48px; object-fit:contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));" alt="${iconName}" onerror="this.style.display='none'">`;
       }
-      return `<div class="wb-avatar">${content}</div>`;
+      return `<div class="wb-avatar" style="background: ${hexAlpha(acc, 0.1)}; border-color: ${hexAlpha(acc, 0.2)};">${content}</div>`;
 
     case 'name':
       return `
@@ -857,13 +857,8 @@ function renderBlockHTML(b) {
     case 'coffee': {
       const cups = parseInt(d.cups) || 2;
       const max  = parseInt(d.maxCups) || 4;
-      let imgTag = '';
-      if (d.drinkEmoji && d.drinkEmoji.startsWith('fluent:')) {
-        const name = d.drinkEmoji.split('|')[0].replace('fluent:','');
-        imgTag = `<img src="${getFluentUrl(name)}" style="width:32px; height:32px; object-fit:contain;">`;
-      } else {
-        imgTag = `<img src="${getFluentUrl('Hot Beverage')}" style="width:32px; height:32px; object-fit:contain;">`;
-      }
+      const iconName = (d.drinkEmoji || 'fluent:drink-coffee').replace('fluent:', '');
+      const imgTag = `<img src="${getFluentIconSVG(iconName, 32)}" style="width:32px; height:32px; object-fit:contain;">`;
       
       const icons = Array.from({length: max}, (_, i) =>
         `<div style="opacity:${i < cups ? 1 : 0.15}; transition:opacity .2s; width:32px; height:32px;">${imgTag}</div>`

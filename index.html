@@ -1309,11 +1309,16 @@
   <!-- NAV -->
   <nav class="nav" aria-label="주요 내비게이션">
     <a href="/" class="nav-logo" aria-label="ReadMe.kit 홈으로 이동">ReadMe.kit</a>
-    <div class="nav-right">
-      <a href="gallery.html"                        class="nav-link">갤러리</a>
-      <a href="docs/showcase/reviews.html"          class="nav-link">후기</a>
+    <button class="nav-mobile-toggle" id="nav-mobile-toggle" aria-label="메뉴 열기">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="nav-right" id="nav-menu">
+      <a href="gallery.html" class="nav-link">갤러리</a>
+      <a href="docs/showcase/reviews.html" class="nav-link">후기</a>
       <a href="docs/showcase/notion-portfolio.html" class="nav-link">가이드</a>
-      <a href="about.html"                          class="nav-link">소개</a>
+      <a href="about.html" class="nav-link">소개</a>
       <a href="builder.html" class="nav-cta">위젯 만들기</a>
     </div>
   </nav>
@@ -2222,6 +2227,42 @@
         document.body.style.overflow = '';
       }
     });
+
+    /* Mobile Navigation Toggle */
+    const navToggle = document.getElementById('nav-mobile-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    
+    if (navToggle && navMenu) {
+      // Create overlay
+      const overlay = document.createElement('div');
+      overlay.className = 'nav-overlay';
+      overlay.id = 'nav-overlay';
+      document.body.appendChild(overlay);
+      
+      navToggle.addEventListener('click', () => {
+        navToggle.classList.toggle('active');
+        navMenu.classList.toggle('active');
+        overlay.classList.toggle('active');
+        document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+      });
+      
+      overlay.addEventListener('click', () => {
+        navToggle.classList.remove('active');
+        navMenu.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+      
+      // Close on link click
+      navMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          navToggle.classList.remove('active');
+          navMenu.classList.remove('active');
+          overlay.classList.remove('active');
+          document.body.style.overflow = '';
+        });
+      });
+    }
   </script>
 </body>
 </html>
