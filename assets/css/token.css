@@ -1,0 +1,238 @@
+/* =============================================
+   ReadMe.kit — Design Tokens v1
+   @import 이 파일 하나로 전체 토큰 로드
+   ============================================= */
+
+/* ── Fonts ─────────────────────────────────── */
+
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+
+@font-face {
+  font-family: 'LaundryGothic';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2403-2@1.0/TTLaundryGothicR.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LaundryGothic';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2403-2@1.0/TTLaundryGothicB.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tossface';
+  src: local('Apple Color Emoji'), local('Segoe UI Emoji'), local('Noto Color Emoji');
+  unicode-range: U+1F300-1F9FF, U+2600-26FF, U+2700-27BF;
+}
+
+.tossface-emoji {
+  font-family: 'Tossface', 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+}
+
+/* ── Reset ──────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Light Mode Tokens ──────────────────────── */
+
+:root {
+  /* Brand primitives */
+  --violet: #A78BFA;
+  --lime:   #D4F53C;
+  --black:  #09090E;
+
+  /* Surface */
+  --bg-main:   #FFFFFF;
+  --bg-subtle: #F8F8FC;
+
+  /* Text */
+  --text-main: #09090E;
+  --text-sub:  rgba(9,9,14,0.65);
+  --text-hint: rgba(9,9,14,0.40);
+
+  /* Brand semantic */
+  --primary: #A78BFA;
+  --action:  #D4F53C;
+  --dark:    #09090E;
+
+  /* Legacy alias — 기존 코드 호환용, 신규 코드에서는 위 변수 사용 */
+  --google-blue:   #A78BFA;
+  --google-red:    #F87171;
+  --google-yellow: #D4F53C;
+  --google-green:  #4ADE80;
+
+  /* Gradients */
+  --gradient-hero:     linear-gradient(135deg, rgba(167,139,250,0.10) 0%, rgba(212,245,60,0.06) 100%);
+  --gradient-primary:  linear-gradient(135deg, #A78BFA 0%, #7C3AED 100%);
+  --gradient-action:   linear-gradient(135deg, #D4F53C 0%, #A3E635 100%);
+  --gradient-glass:    linear-gradient(135deg, rgba(167,139,250,0.12) 0%, rgba(212,245,60,0.06) 100%);
+  --gradient-blue-red: linear-gradient(135deg, #A78BFA 0%, #F87171 100%);
+  --gradient-multi:    linear-gradient(135deg, #A78BFA 0%, #D4F53C 50%, #4ADE80 100%);
+
+  /* Glass */
+  --glass-white:  rgba(255,255,255,0.72);
+  --glass-border: rgba(167,139,250,0.15);
+  --blur-effect:  blur(30px) saturate(180%);
+
+  /* Shadows */
+  --shadow-subtle: 0 2px 8px rgba(167,139,250,0.06);
+  --shadow-depth:  0 10px 20px rgba(167,139,250,0.08), 0 6px 6px rgba(0,0,0,0.06);
+  --shadow-float:  0 20px 40px rgba(167,139,250,0.12), 0 10px 10px rgba(0,0,0,0.08);
+
+  /* Grid background pattern */
+  --grid-pattern:
+    repeating-linear-gradient(
+      0deg,
+      rgba(167,139,250,0.04) 0px, rgba(167,139,250,0.04) 1px,
+      transparent 1px, transparent 24px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(167,139,250,0.04) 0px, rgba(167,139,250,0.04) 1px,
+      transparent 1px, transparent 24px
+    );
+
+  /* Ad slot */
+  --ad-bg:    rgba(0,0,0,0.02);
+  --ad-border: rgba(0,0,0,0.10);
+  --ad-label:  rgba(0,0,0,0.35);
+
+  /* Typography scale */
+  --font-sans:    'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-heading: 'LaundryGothic', 'Pretendard', sans-serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Alias */
+  --font-main: var(--font-sans);
+
+  --display-lg:   800 57px/64px var(--font-heading);
+  --headline-lg:  700 32px/40px var(--font-heading);
+  --title-lg:     600 22px/28px var(--font-heading);
+  --body-lg:      400 16px/24px var(--font-main);
+  --label-lg:     500 14px/20px var(--font-main);
+
+  /* Spacing scale (4pt) */
+  --s1:  4px;
+  --s2:  8px;
+  --s3:  12px;
+  --s4:  16px;
+  --s6:  24px;
+  --s8:  32px;
+  --s12: 48px;
+
+  /* Material Design 3 semantic aliases */
+  --m3-primary:             #A78BFA;
+  --m3-on-primary:          #FFFFFF;
+  --m3-primary-container:   rgba(167,139,250,0.12);
+  --m3-on-primary-container: #09090E;
+  --m3-secondary:           rgba(9,9,14,0.65);
+  --m3-on-secondary:        #FFFFFF;
+  --m3-surface:             #FFFFFF;
+  --m3-on-surface:          #09090E;
+  --m3-surface-variant:     #F8F8FC;
+  --m3-on-surface-variant:  rgba(9,9,14,0.65);
+  --m3-background:          #FFFFFF;
+  --m3-on-background:       #09090E;
+  --m3-outline:             rgba(9,9,14,0.40);
+  --m3-outline-variant:     rgba(167,139,250,0.15);
+  --m3-error:               #F87171;
+  --m3-on-error:            #FFFFFF;
+
+  /* Fluent Design aliases */
+  --fluent-blur:      blur(30px) saturate(180%);
+  --fluent-acrylic:   rgba(255,255,255,0.72);
+  --fluent-border:    1px solid rgba(167,139,250,0.15);
+  --fluent-shadow-sm: 0 2px 8px rgba(167,139,250,0.06);
+  --fluent-shadow-md: 0 10px 20px rgba(167,139,250,0.08), 0 6px 6px rgba(0,0,0,0.06);
+  --fluent-shadow-lg: 0 20px 40px rgba(167,139,250,0.12), 0 10px 10px rgba(0,0,0,0.08);
+
+  /* GitGloss legacy aliases — builder.css 호환용 */
+  --gg-bg:             var(--bg-main);
+  --gg-bg-card:        var(--glass-white);
+  --gg-text:           var(--text-main);
+  --gg-text-sub:       var(--text-sub);
+  --gg-text-hint:      var(--text-hint);
+  --gg-pink:           var(--primary);
+  --gg-purple:         var(--primary);
+  --glass-shadow:      var(--shadow-depth);
+  --glass-blur:        var(--blur-effect);
+  --glass-bg-light:    var(--glass-white);
+  --glass-border-pink: rgba(167,139,250,0.20);
+}
+
+/* ── Dark Mode Tokens ───────────────────────── */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Surface */
+    --bg-main:   #09090E;
+    --bg-subtle: #111118;
+
+    /* Text */
+    --text-main: #F4F4F8;
+    --text-sub:  rgba(244,244,248,0.65);
+    --text-hint: rgba(244,244,248,0.40);
+
+    /* Glass */
+    --glass-white:  rgba(255,255,255,0.06);
+    --glass-border: rgba(167,139,250,0.20);
+
+    /* Shadows */
+    --shadow-subtle: 0 2px 8px rgba(0,0,0,0.30);
+    --shadow-depth:  0 10px 20px rgba(0,0,0,0.40), 0 6px 6px rgba(0,0,0,0.30);
+    --shadow-float:  0 20px 40px rgba(0,0,0,0.50), 0 10px 10px rgba(0,0,0,0.30);
+
+    /* Grid */
+    --grid-pattern:
+      repeating-linear-gradient(
+        0deg,
+        rgba(167,139,250,0.06) 0px, rgba(167,139,250,0.06) 1px,
+        transparent 1px, transparent 24px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        rgba(167,139,250,0.06) 0px, rgba(167,139,250,0.06) 1px,
+        transparent 1px, transparent 24px
+      );
+
+    /* Ad slot */
+    --ad-bg:    rgba(255,255,255,0.03);
+    --ad-border: rgba(255,255,255,0.08);
+    --ad-label:  rgba(255,255,255,0.30);
+
+    /* M3 dark overrides */
+    --m3-surface:            #111118;
+    --m3-on-surface:         #F4F4F8;
+    --m3-surface-variant:    #1A1A24;
+    --m3-on-surface-variant: rgba(244,244,248,0.65);
+    --m3-background:         #09090E;
+    --m3-on-background:      #F4F4F8;
+    --m3-outline:            rgba(244,244,248,0.40);
+    --m3-outline-variant:    rgba(167,139,250,0.20);
+
+    /* Fluent dark overrides */
+    --fluent-acrylic:   rgba(255,255,255,0.06);
+    --fluent-border:    1px solid rgba(167,139,250,0.15);
+    --fluent-shadow-sm: 0 2px 8px rgba(0,0,0,0.30);
+    --fluent-shadow-md: 0 10px 20px rgba(0,0,0,0.40), 0 6px 6px rgba(0,0,0,0.30);
+    --fluent-shadow-lg: 0 20px 40px rgba(0,0,0,0.50), 0 10px 10px rgba(0,0,0,0.30);
+
+    /* GitGloss legacy dark overrides */
+    --gg-bg:          #09090E;
+    --gg-bg-card:     rgba(255,255,255,0.06);
+    --gg-text:        #F4F4F8;
+    --gg-text-sub:    rgba(244,244,248,0.65);
+    --gg-text-hint:   rgba(244,244,248,0.40);
+    --glass-bg-light: rgba(255,255,255,0.06);
+  }
+}

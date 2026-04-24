@@ -22,6 +22,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/token.css">
   <link rel="stylesheet" href="assets/css/style.css">
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -217,6 +218,7 @@
     }
 
     .category-vibe { background: rgba(167,139,250,0.12); color: #7c3aed; border: 1px solid rgba(167,139,250,0.25); }
+    .category-identity { background: rgba(0,201,167,0.12); color: #047857; border: 1px solid rgba(0,201,167,0.25); }
 
     .template-badge {
       position: absolute;
@@ -319,8 +321,8 @@
     <div class="gallery-eyebrow">PREMIUM WIDGETS</div>
     <h1 class="gallery-title">프로필 위젯 갤러리</h1>
     <p class="gallery-desc">
-      기술 블로그 피드, MBTI 카드 등 67개 이상의 고퀄리티 위젯 템플릿을 확인해보세요.
-      빌더에서 즉시 커스텀하고 Markdown을 복사할 수 있어요.
+      67개 이상의 고퀄리티 위젯 템플릿 + Identity 배지 시리즈를 확인해보세요.
+      MBTI, 현재 상태, 역할, 바이브 배지까지 — 빌더에서 즉시 커스텀하고 Markdown을 복사할 수 있어요.
     </p>
 
     <!-- Search & Filter -->
@@ -342,6 +344,7 @@
         <button class="filter-tab" data-filter="links">Links</button>
         <button class="filter-tab" data-filter="banner">Banner</button>
         <button class="filter-tab" data-filter="vibe">Vibe ✨</button>
+        <button class="filter-tab" data-filter="identity">Identity 🪪</button>
       </div>
     </div>
   </div>
@@ -370,6 +373,7 @@
 
   <!-- SCRIPTS -->
   <script src="assets/data/templates.js"></script>
+  <script src="assets/data/templates-identity-patch.js"></script>
   <script src="assets/js/gallery.js"></script>
 
 </body>

@@ -10,27 +10,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/token.css">
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/builder.css">
-  <style>
-    /* Fluent Icons */
-    .fluent-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 20px;
-      height: 20px;
-    }
-    .fluent-icon svg {
-      width: 100%;
-      height: 100%;
-      fill: currentColor;
-    }
-    /* Tossface emoji styling */
-    .tossface-emoji {
-      font-family: 'Tossface', 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif !important;
-    }
-  </style>
   <meta name="msvalidate.01" content="A2891CCBCAC29E2D299E1DC3D15D3A97" />
 </head>
 
@@ -44,8 +26,9 @@
     <span class="topbar-title">Widget Studio</span>
     <div class="topbar-actions">
       <button class="topbar-help" onclick="startTour()" title="사용 방법 보러가기"
-        style="background:none; border:none; cursor:pointer; color:var(--text-hint); font-size:18px; display:flex; align-items:center; justify-content:center; margin-right:8px;"><span
-          class="material-symbols-rounded" style="font-size:20px;">help_outline</span></button>
+        style="background:none; border:none; cursor:pointer; color:var(--text-hint); font-size:18px; display:flex; align-items:center; justify-content:center; margin-right:8px;">
+        <img src="https://api.iconify.design/fluent/question-circle-20-filled.svg" width="20" height="20" alt="도움말" style="opacity:0.5;">
+      </button>
       <a href="gallery.html" class="topbar-back">← 갤러리</a>
     </div>
   </header>
@@ -66,6 +49,7 @@
         <button class="preset-filter" data-f="profile" onclick="switchPresetFilter(this,'profile')">Profile</button>
         <button class="preset-filter" data-f="links" onclick="switchPresetFilter(this,'links')">Links</button>
         <button class="preset-filter" data-f="creative" onclick="switchPresetFilter(this,'creative')">Creative</button>
+        <button class="preset-filter" data-f="identity" onclick="switchPresetFilter(this,'identity')">Identity 🪪</button>
       </div>
       <div class="preset-grid" id="preset-grid">
         <!-- JS가 렌더 -->
@@ -76,21 +60,21 @@
       <!-- ② 카드 스타일 -->
       <div class="section-label">카드 스타일</div>
       <div class="style-grid">
-        <button class="style-btn on" data-style="glass" onclick="setStyle(this,'glass')"><span class="tossface-emoji"></span>🪟</span> Glass</button>
-        <button class="style-btn" data-style="dark" onclick="setStyle(this,'dark')"><span class="tossface-emoji">🌑</span> Dark</button>
-        <button class="style-btn" data-style="neu" onclick="setStyle(this,'neu')"><span class="tossface-emoji">🫧</span> Soft</button>
-        <button class="style-btn" data-style="border" onclick="setStyle(this,'border')"><span class="tossface-emoji">⬜</span> Border</button>
-        <button class="style-btn" data-style="gradient" onclick="toggleGradientPicker(this)"><span class="tossface-emoji">🌈</span> Gradient ▾</button>
-        <button class="style-btn" data-style="minimal" onclick="setStyle(this,'minimal')"><span class="tossface-emoji">◻️</span> Minimal</button>
+        <button class="style-btn on" data-style="glass" onclick="setStyle(this,'glass')">🪟 Glass</button>
+        <button class="style-btn" data-style="dark" onclick="setStyle(this,'dark')">🌑 Dark</button>
+        <button class="style-btn" data-style="neu" onclick="setStyle(this,'neu')">🫧 Soft</button>
+        <button class="style-btn" data-style="border" onclick="setStyle(this,'border')">⬜ Border</button>
+        <button class="style-btn" data-style="gradient" onclick="toggleGradientPicker(this)">🌈 Gradient ▾</button>
+        <button class="style-btn" data-style="minimal" onclick="setStyle(this,'minimal')">◻️ Minimal</button>
       </div>
       <!-- 그라디언트 선택 드롭다운 -->
       <div class="gradient-picker" id="gradient-picker">
-        <button class="grad-opt" data-grad="sunset" onclick="setGradient(this,'sunset')"><span class="tossface-emoji">🌅</span> Sunset</button>
-        <button class="grad-opt" data-grad="ocean" onclick="setGradient(this,'ocean')"><span class="tossface-emoji">🌊</span> Ocean</button>
-        <button class="grad-opt" data-grad="forest" onclick="setGradient(this,'forest')"><span class="tossface-emoji">🌿</span> Forest</button>
-        <button class="grad-opt" data-grad="candy" onclick="setGradient(this,'candy')"><span class="tossface-emoji">🍬</span> Candy</button>
-        <button class="grad-opt" data-grad="midnight" onclick="setGradient(this,'midnight')"><span class="tossface-emoji">🌃</span> Midnight</button>
-        <button class="grad-opt" data-grad="aurora" onclick="setGradient(this,'aurora')"><span class="tossface-emoji">🌌</span> Aurora</button>
+        <button class="grad-opt" data-grad="sunset" onclick="setGradient(this,'sunset')">🌅 Sunset</button>
+        <button class="grad-opt" data-grad="ocean" onclick="setGradient(this,'ocean')">🌊 Ocean</button>
+        <button class="grad-opt" data-grad="forest" onclick="setGradient(this,'forest')">🌿 Forest</button>
+        <button class="grad-opt" data-grad="candy" onclick="setGradient(this,'candy')">🍬 Candy</button>
+        <button class="grad-opt" data-grad="midnight" onclick="setGradient(this,'midnight')">🌃 Midnight</button>
+        <button class="grad-opt" data-grad="aurora" onclick="setGradient(this,'aurora')">🌌 Aurora</button>
       </div>
 
       <!-- ③ 액센트 색상 -->
@@ -149,6 +133,20 @@
         </button>
         <button class="block-add-btn" onclick="addBlock('typing')">
           <img src="https://api.iconify.design/fluent/keyboard-20-filled.svg" width="16" height="16"> 타이핑 SVG
+        </button>
+
+        <!-- Identity 블록 ─────────────────── -->
+        <button class="block-add-btn" onclick="addBlock('mbti')" style="border-color:rgba(0,201,167,0.35);color:#047857;">
+          <img src="https://api.iconify.design/fluent/person-tag-20-filled.svg" width="16" height="16"> MBTI 배지
+        </button>
+        <button class="block-add-btn" onclick="addBlock('status')" style="border-color:rgba(52,168,83,0.35);color:#188038;">
+          <img src="https://api.iconify.design/fluent/presence-available-20-filled.svg" width="16" height="16"> 현재 상태
+        </button>
+        <button class="block-add-btn" onclick="addBlock('role')" style="border-color:rgba(66,133,244,0.35);color:#1967D2;">
+          <img src="https://api.iconify.design/fluent/briefcase-20-filled.svg" width="16" height="16"> 역할 배지
+        </button>
+        <button class="block-add-btn" onclick="addBlock('vibe')" style="border-color:rgba(155,143,232,0.35);color:#6a5fc1;">
+          <img src="https://api.iconify.design/fluent/sparkle-20-filled.svg" width="16" height="16"> 바이브 배지
         </button>
       </div>
 
@@ -218,333 +216,6 @@
     </div>
   </div>
 
-  <!-- ☕ 커피챗 플로팅 버튼 + 모달 -->
-  <style>
-    .coffee-fab {
-      position: fixed;
-      right: 28px;
-      bottom: 120px;
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      background: linear-gradient(145deg, #6f4e37, #c8813a);
-      border: none;
-      box-shadow: 0 6px 24px rgba(111, 78, 55, 0.4), 0 2px 8px rgba(0, 0, 0, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 999;
-      transition: transform .25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow .2s;
-      user-select: none;
-    }
-
-    .coffee-fab:hover {
-      transform: translateY(-4px) scale(1.08);
-      box-shadow: 0 12px 32px rgba(111, 78, 55, 0.5);
-    }
-
-    .coffee-fab:active {
-      transform: scale(0.93);
-    }
-
-    .gg-modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(8, 8, 15, 0.5);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .25s;
-    }
-
-    .gg-modal-overlay.open {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .gg-modal {
-      background: #fff;
-      border-radius: 28px;
-      padding: 40px 36px 32px;
-      max-width: 400px;
-      width: calc(100% - 48px);
-      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.18), 0 4px 16px rgba(0, 0, 0, 0.08);
-      position: relative;
-      transform: translateY(20px) scale(0.96);
-      transition: transform .32s cubic-bezier(0.34, 1.56, 0.64, 1);
-      text-align: center;
-    }
-
-    .gg-modal-overlay.open .gg-modal {
-      transform: translateY(0) scale(1);
-    }
-
-    .gg-modal-close {
-      position: absolute;
-      top: 16px;
-      right: 18px;
-      background: rgba(255, 255, 255, 0.15);
-      border: none;
-      border-radius: 50%;
-      width: 32px;
-      height: 32px;
-      font-size: 16px;
-      color: rgba(255, 255, 255, 0.7);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background .15s, color .15s;
-    }
-
-    .gg-modal-close:hover {
-      background: rgba(255, 255, 255, 0.25);
-      color: #fff;
-    }
-
-    #coffee-modal-overlay .gg-modal {
-      background: linear-gradient(160deg, #3d1f0a 0%, #6f4e37 35%, #a0522d 70%, #c8813a 100%);
-      box-shadow: 0 32px 80px rgba(111, 78, 55, 0.45), 0 4px 16px rgba(0, 0, 0, 0.15);
-      overflow: hidden;
-    }
-
-    #coffee-modal-overlay .gg-modal::before {
-      content: '';
-      position: absolute;
-      top: -60px;
-      right: -40px;
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .coffee-modal-img {
-      width: 100px;
-      height: 100px;
-      object-fit: contain;
-      display: block;
-      margin: 0 auto 20px;
-      filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.25));
-      animation: coffee-float 3s ease-in-out infinite;
-    }
-
-    @keyframes coffee-float {
-
-      0%,
-      100% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(-6px);
-      }
-    }
-
-    .coffee-modal-title {
-      font-family: var(--font-heading);
-      font-size: 22px;
-      font-weight: 800;
-      color: #fff;
-      letter-spacing: -.02em;
-      margin-bottom: 10px;
-    }
-
-    .coffee-modal-desc {
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.75);
-      line-height: 1.7;
-      margin-bottom: 28px;
-      font-weight: 500;
-    }
-
-    .coffee-modal-btns {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .coffee-btn-chat {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 15px 24px;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.18);
-      color: #fff;
-      font-size: 15px;
-      font-weight: 700;
-      text-decoration: none;
-      border: 1.5px solid rgba(255, 255, 255, 0.3);
-      cursor: pointer;
-      transition: background .2s, transform .15s, box-shadow .2s;
-    }
-    .coffee-btn-chat .tossface-emoji {
-      font-size: 18px;
-      line-height: 1;
-    }
-    .coffee-btn-chat:hover {
-      background: rgba(255, 255, 255, 0.28);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-    }
-
-    .coffee-btn-buy {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 15px 24px;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.95);
-      color: #5c3317;
-      font-size: 15px;
-      font-weight: 800;
-      text-decoration: none;
-      border: none;
-      cursor: pointer;
-      transition: background .2s, transform .15s, box-shadow .2s;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-    }
-    .coffee-btn-buy .tossface-emoji {
-      font-size: 18px;
-      line-height: 1;
-    }
-    .coffee-btn-buy:hover {
-      background: #fff;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
-    }
-
-    .coffee-modal-note {
-      font-size: 11px;
-      color: rgba(255, 255, 255, 0.45);
-      margin-top: 18px;
-      font-weight: 500;
-    }
-    /* ── 위젯 완성 축하 모달 ── */
-    .congrats-emoji-wrap {
-      font-size: 56px;
-      margin-bottom: 12px;
-      display: block;
-      font-family: 'Tossface', 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
-    }
-    .congrats-title {
-      font-family: var(--font-heading);
-      font-size: 24px;
-      font-weight: 800;
-      color: var(--text-main);
-      letter-spacing: -.02em;
-      margin-bottom: 8px;
-    }
-    .congrats-sub {
-      font-size: 14px;
-      color: var(--text-sub);
-      line-height: 1.65;
-      margin-bottom: 24px;
-      font-weight: 500;
-    }
-    .congrats-tips {
-      background: var(--bg-subtle, rgba(0,0,0,0.02));
-      border-radius: 14px;
-      padding: 16px 18px;
-      text-align: left;
-      margin-bottom: 24px;
-    }
-    .congrats-tips-title {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--text-hint);
-      margin-bottom: 10px;
-    }
-    .congrats-tip-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-      font-size: 13px;
-      color: var(--text-sub);
-      font-weight: 500;
-      margin-bottom: 7px;
-      line-height: 1.5;
-    }
-    .congrats-tip-item:last-child {
-      margin-bottom: 0;
-    }
-    .congrats-tip-icon {
-      font-size: 14px;
-      flex-shrink: 0;
-      margin-top: 1px;
-      font-family: 'Tossface', 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
-    }
-    .congrats-btn-primary {
-      display: block;
-      width: 100%;
-      padding: 14px;
-      border-radius: 14px;
-      background: var(--google-blue);
-      color: #fff;
-      font-size: 15px;
-      font-weight: 700;
-      text-align: center;
-      text-decoration: none;
-      border: none;
-      cursor: pointer;
-      transition: background .2s, transform .15s;
-      margin-bottom: 8px;
-    }
-    .congrats-btn-primary:hover {
-      background: #3367d6;
-      transform: translateY(-1px);
-    }
-    .congrats-btn-ghost {
-      display: block;
-      width: 100%;
-      padding: 12px;
-      border-radius: 14px;
-      background: transparent;
-      color: var(--text-hint);
-      font-size: 13px;
-      font-weight: 600;
-      text-align: center;
-      border: none;
-      cursor: pointer;
-      transition: color .15s;
-    }
-    .congrats-btn-ghost:hover {
-      color: var(--text-main);
-    }
-    .confetti-wrap {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 0;
-      overflow: visible;
-      pointer-events: none;
-    }
-    .confetti-dot {
-      position: absolute;
-      width: 7px;
-      height: 7px;
-      border-radius: 2px;
-      animation: confetti-fall 1.2s ease-out forwards;
-      opacity: 0;
-    }
-    @keyframes confetti-fall {
-      0% { opacity: 1; transform: translateY(0) rotate(0deg); }
-      100% { opacity: 0; transform: translateY(80px) rotate(360deg); }
-    }
-  </style>
-
   <!-- 플로팅 커피 버튼 -->
   <button class="coffee-fab" onclick="openCoffeeModal()" aria-label="개발자와 커피챗하기">
     <img src="assets/images/coffeeicon.webp" alt="커피" width="30" height="30" style="object-fit:contain;">
@@ -561,8 +232,8 @@
         피드백, 협업 제안, 아이디어 모두 환영합니다.
       </p>
       <div class="coffee-modal-btns">
-        <a href="https://open.kakao.com/me/4362" class="coffee-btn-chat" target="_blank" rel="noopener"><span class="tossface-emoji"></span>💬</span> 커피챗 신청하기</a>
-        <a href="#" class="coffee-btn-buy" target="_blank" rel="noopener"><span class="tossface-emoji">☕</span> 커피 한 잔 사주기</a>
+        <a href="https://open.kakao.com/me/4362" class="coffee-btn-chat" target="_blank" rel="noopener">💬 커피챗 신청하기</a>
+        <a href="#" class="coffee-btn-buy" target="_blank" rel="noopener">☕ 커피 한 잔 사주기</a>
       </div>
       <p class="coffee-modal-note">링크는 추후 업데이트 예정이에요 🙏</p>
     </div>

@@ -77,6 +77,53 @@ const AVATAR_DATA = {
   ]
 };
 
+/* ── Identity 카테고리 데이터 ────────────────────────────── */
+const IDENTITY_MBTI_COLORS = {
+  ENFP:'#00C9A7', ENFJ:'#00B4CC', INFP:'#3CB371', INFJ:'#2E8B57',
+  ENTP:'#7B68EE', ENTJ:'#6A5ACD', INTP:'#9370DB', INTJ:'#483D8B',
+  ESFP:'#FF8C00', ESTP:'#FF6347', ISFP:'#DAA520', ISTP:'#CD853F',
+  ESFJ:'#4285F4', ESTJ:'#1967D2', ISFJ:'#7EC8E3', ISTJ:'#5F9EA0',
+};
+
+const IDENTITY_STATUS_PRESETS = [
+  { emoji:'🟢', label:'Coding',       color:'#34A853' },
+  { emoji:'🎧', label:'Deep Focus',   color:'#7B68EE' },
+  { emoji:'☕', label:'Coffee Break', color:'#8B5A2B' },
+  { emoji:'🌙', label:'Night Shift',  color:'#2D1F42' },
+  { emoji:'🐛', label:'Debugging',    color:'#EA4335' },
+  { emoji:'🚀', label:'Shipping',     color:'#FF8C00' },
+  { emoji:'📝', label:'Code Review',  color:'#4285F4' },
+  { emoji:'💤', label:'AFK',          color:'#64748B' },
+  { emoji:'🔥', label:'In the Zone',  color:'#FF4500' },
+  { emoji:'🎯', label:'Sprint Day',   color:'#20C997' },
+];
+
+const IDENTITY_ROLE_PRESETS = [
+  { icon:'🌐', label:'Frontend Dev',   color:'#4285F4' },
+  { icon:'⚙️', label:'Backend Dev',    color:'#34A853' },
+  { icon:'💫', label:'Full Stack Dev', color:'#7B68EE' },
+  { icon:'🎨', label:'UX Designer',    color:'#ED93B1' },
+  { icon:'🔧', label:'DevOps Eng.',    color:'#FF8C00' },
+  { icon:'🤖', label:'ML Engineer',    color:'#EA4335' },
+  { icon:'📱', label:'Mobile Dev',     color:'#00B4CC' },
+  { icon:'🛡️', label:'Security Eng.', color:'#2D1F42' },
+  { icon:'✍️', label:'Tech Writer',   color:'#20C997' },
+  { icon:'📊', label:'Data Engineer',  color:'#FBBC05' },
+];
+
+const IDENTITY_VIBE_PRESETS = [
+  { emoji:'🦉', label:'Night Owl',        color:'#1a1a2e' },
+  { emoji:'🏡', label:'Remote Worker',    color:'#00C9A7' },
+  { emoji:'❤️', label:'Open Source',      color:'#FF8C00' },
+  { emoji:'☕', label:'Coffee Addict',    color:'#8B5A2B' },
+  { emoji:'🌑', label:'Dark Mode Only',   color:'#000000' },
+  { emoji:'⌨️', label:'Keyboard Warrior', color:'#64748B' },
+  { emoji:'🌿', label:'Git Addict',       color:'#F05032' },
+  { emoji:'📦', label:'npm install',      color:'#CB3837' },
+  { emoji:'🐧', label:'Linux User',       color:'#FCC624' },
+  { emoji:'⚡', label:'Hackathon Hero',   color:'#FBBC05' },
+];
+
 function getFluentIconSVG(iconName, size = 24) {
   // Iconify API를 통한 Fluent Icons
   return `https://api.iconify.design/fluent/${iconName}-${size}-filled.svg`;
@@ -135,9 +182,13 @@ const BLOCK_ICON  = {
   hits:   `<img src="${getFluentIconSVG('eye', 20)}" style="width:18px;height:18px;">`, 
   coffee: `<img src="${getFluentIconSVG('drink-coffee', 20)}" style="width:18px;height:18px;">`, 
   banner: `<img src="${getFluentIconSVG('image', 20)}" style="width:18px;height:18px;">`, 
-  typing: `<img src="${getFluentIconSVG('keyboard', 20)}" style="width:18px;height:18px;">` 
+  typing: `<img src="${getFluentIconSVG('keyboard', 20)}" style="width:18px;height:18px;">`,
+  mbti:   `<img src="${getFluentIconSVG('person-tag', 20)}" style="width:18px;height:18px;">`,
+  status: `<img src="${getFluentIconSVG('presence-available', 20)}" style="width:18px;height:18px;">`,
+  role:   `<img src="${getFluentIconSVG('briefcase', 20)}" style="width:18px;height:18px;">`,
+  vibe:   `<img src="${getFluentIconSVG('sparkle', 20)}" style="width:18px;height:18px;">`
 };
-const BLOCK_LABEL = { avatar:'이모지 아바타', name:'이름 / 직무', stats:'Stats 숫자', badges:'기술 배지', streak:'스트릭', links:'링크 버튼', bio:'소개글', divider:'구분선', trophy:'GitHub Trophy', hits:'Hits 카운터', coffee:'커피 카운터', banner:'배너', typing:'타이핑 SVG' };
+const BLOCK_LABEL = { avatar:'이모지 아바타', name:'이름 / 직무', stats:'Stats 숫자', badges:'기술 배지', streak:'스트릭', links:'링크 버튼', bio:'소개글', divider:'구분선', trophy:'GitHub Trophy', hits:'Hits 카운터', coffee:'커피 카운터', banner:'배너', typing:'타이핑 SVG', mbti:'MBTI 배지', status:'현재 상태 배지', role:'역할 배지', vibe:'바이브 배지' };
 
 function renderBlockFields(b) {
   const d = b.data;
@@ -382,6 +433,135 @@ function renderBlockFields(b) {
                  oninput="setBlockData('${b.id}','size',this.value)">
         </div>`;
 
+    case 'mbti':
+      return `
+        <div class="field-row">
+          <label class="field-label">MBTI 유형</label>
+          <select class="field-select" onchange="setBlockData('${b.id}','mbtiType',this.value)">
+            ${Object.keys(IDENTITY_MBTI_COLORS).map(type =>
+              `<option value="${type}" ${(d.mbtiType||'ENFP')===type?'selected':''}>${type}</option>`
+            ).join('')}
+          </select>
+        </div>
+        <div class="field-row">
+          <label class="field-label">배지 스타일</label>
+          <select class="field-select" onchange="setBlockData('${b.id}','style',this.value)">
+            <option value="flat-square" ${(d.style||'flat-square')==='flat-square'?'selected':''}>Flat Square</option>
+            <option value="for-the-badge" ${d.style==='for-the-badge'?'selected':''}>For The Badge</option>
+            <option value="plastic" ${d.style==='plastic'?'selected':''}>Plastic</option>
+          </select>
+        </div>`;
+
+    case 'status':
+      return `
+        <div class="field-row">
+          <label class="field-label">프리셋 선택</label>
+          <select class="field-select" onchange="setIdentityStatusPreset('${b.id}', this.value)">
+            <option value="">커스텀</option>
+            ${IDENTITY_STATUS_PRESETS.map((p, i) =>
+              `<option value="${i}">${p.emoji} ${p.label}</option>`
+            ).join('')}
+          </select>
+        </div>
+        <div class="field-row">
+          <label class="field-label">상태 이모지</label>
+          <input class="field-input" value="${d.statusEmoji || '🟢'}" placeholder="🟢"
+                 oninput="setBlockData('${b.id}','statusEmoji',this.value)">
+        </div>
+        <div class="field-row">
+          <label class="field-label">상태 메시지</label>
+          <input class="field-input" value="${d.statusMsg || 'Coding'}" placeholder="Coding"
+                 oninput="setBlockData('${b.id}','statusMsg',this.value)">
+        </div>
+        <div class="field-row">
+          <label class="field-label">배경 색상 (hex)</label>
+          <input class="field-input" value="${d.statusColor || '#34A853'}" placeholder="#34A853"
+                 oninput="setBlockData('${b.id}','statusColor',this.value)">
+        </div>
+        <div class="field-row">
+          <label class="field-label">배지 스타일</label>
+          <select class="field-select" onchange="setBlockData('${b.id}','style',this.value)">
+            <option value="flat-square" ${(d.style||'flat-square')==='flat-square'?'selected':''}>Flat Square</option>
+            <option value="for-the-badge" ${d.style==='for-the-badge'?'selected':''}>For The Badge</option>
+            <option value="plastic" ${d.style==='plastic'?'selected':''}>Plastic</option>
+          </select>
+        </div>`;
+
+    case 'role':
+      return `
+        <div class="field-row">
+          <label class="field-label">프리셋 선택</label>
+          <select class="field-select" onchange="setIdentityRolePreset('${b.id}', this.value)">
+            <option value="">커스텀</option>
+            ${IDENTITY_ROLE_PRESETS.map((p, i) =>
+              `<option value="${i}">${p.icon} ${p.label}</option>`
+            ).join('')}
+          </select>
+        </div>
+        <div class="field-row">
+          <label class="field-label">역할 아이콘</label>
+          <input class="field-input" value="${d.roleIcon || '🌐'}" placeholder="🌐"
+                 oninput="setBlockData('${b.id}','roleIcon',this.value)">
+        </div>
+        <div class="field-row">
+          <label class="field-label">역할 라벨</label>
+          <input class="field-input" value="${d.roleLabel || 'Role'}" placeholder="Role"
+                 oninput="setBlockData('${b.id}','roleLabel',this.value)">
+        </div>
+        <div class="field-row">
+          <label class="field-label">역할 메시지</label>
+          <input class="field-input" value="${d.roleMsg || 'Frontend Dev'}" placeholder="Frontend Dev"
+                 oninput="setBlockData('${b.id}','roleMsg',this.value)">
+        </div>
+        <div class="field-row">
+          <label class="field-label">배경 색상 (hex)</label>
+          <input class="field-input" value="${d.roleColor || '#4285F4'}" placeholder="#4285F4"
+                 oninput="setBlockData('${b.id}','roleColor',this.value)">
+        </div>
+        <div class="field-row">
+          <label class="field-label">배지 스타일</label>
+          <select class="field-select" onchange="setBlockData('${b.id}','style',this.value)">
+            <option value="flat-square" ${(d.style||'flat-square')==='flat-square'?'selected':''}>Flat Square</option>
+            <option value="for-the-badge" ${d.style==='for-the-badge'?'selected':''}>For The Badge</option>
+            <option value="plastic" ${d.style==='plastic'?'selected':''}>Plastic</option>
+          </select>
+        </div>`;
+
+    case 'vibe':
+      return `
+        <div class="field-row">
+          <label class="field-label">프리셋 선택</label>
+          <select class="field-select" onchange="setIdentityVibePreset('${b.id}', this.value)">
+            <option value="">커스텀</option>
+            ${IDENTITY_VIBE_PRESETS.map((p, i) =>
+              `<option value="${i}">${p.emoji} ${p.label}</option>`
+            ).join('')}
+          </select>
+        </div>
+        <div class="field-row">
+          <label class="field-label">바이브 이모지</label>
+          <input class="field-input" value="${d.vibeEmoji || '🦉'}" placeholder="🦉"
+                 oninput="setBlockData('${b.id}','vibeEmoji',this.value)">
+        </div>
+        <div class="field-row">
+          <label class="field-label">바이브 메시지</label>
+          <input class="field-input" value="${d.vibeMsg || 'Night Owl'}" placeholder="Night Owl"
+                 oninput="setBlockData('${b.id}','vibeMsg',this.value)">
+        </div>
+        <div class="field-row">
+          <label class="field-label">배경 색상 (hex)</label>
+          <input class="field-input" value="${d.vibeColor || '#1a1a2e'}" placeholder="#1a1a2e"
+                 oninput="setBlockData('${b.id}','vibeColor',this.value)">
+        </div>
+        <div class="field-row">
+          <label class="field-label">배지 스타일</label>
+          <select class="field-select" onchange="setBlockData('${b.id}','style',this.value)">
+            <option value="flat-square" ${(d.style||'flat-square')==='flat-square'?'selected':''}>Flat Square</option>
+            <option value="for-the-badge" ${d.style==='for-the-badge'?'selected':''}>For The Badge</option>
+            <option value="plastic" ${d.style==='plastic'?'selected':''}>Plastic</option>
+          </select>
+        </div>`;
+
     default: return '';
   }
 }
@@ -579,6 +759,10 @@ function addBlock(type) {
     coffee:  { cups: '2', maxCups: '4', drinkEmoji: 'fluent:drink-coffee' },
     banner:  { text: 'Hi! Welcome!', bannerType: 'wave', color: 'ED93B1', height: '160' },
     typing:  { lines: "I'm a Developer;I love Open Source", color: '4285F4', size: '22' },
+    mbti:    { mbtiType: 'ENFP', style: 'flat-square' },
+    status:  { statusEmoji: '🟢', statusMsg: 'Coding', statusColor: '#34A853', style: 'flat-square' },
+    role:    { roleIcon: '🌐', roleLabel: 'Role', roleMsg: 'Frontend Dev', roleColor: '#4285F4', style: 'flat-square' },
+    vibe:    { vibeEmoji: '🦉', vibeMsg: 'Night Owl', vibeColor: '#1a1a2e', style: 'flat-square' },
   };
   WE.blocks.push({ id: uid(), type, data: defaults[type] || {}, collapsed: false });
   renderBlockList();
@@ -697,11 +881,6 @@ function setAccent(el, color) {
   renderWidget();
 }
 
-function selectEmoji(el, emoji) {
-  // 첫 번째 avatar 블록에 적용
-  const b = WE.blocks.find(b => b.type === 'avatar');
-  if (b) { b.data.emoji = emoji; renderBlockList(); renderWidget(); }
-}
 
 /* ══════════════════════════════════════════════════════
    WIDGET RENDERER
@@ -894,6 +1073,54 @@ function renderBlockHTML(b) {
         </div>`;
     }
 
+    case 'mbti': {
+      const mbtiType = d.mbtiType || 'ENFP';
+      const color = IDENTITY_MBTI_COLORS[mbtiType] || '#00C9A7';
+      const style = d.style || 'flat-square';
+      const url = `https://img.shields.io/badge/MBTI-${mbtiType}-${color.replace('#','')}.svg?style=${style}&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTIgMkM2LjQ4IDIgMiA2LjQ4IDIgMTJzNC40OCAxMCAxMCAxMCAxMC00LjQ4IDEwLTEwUzE3LjUyIDIgMTIgMnptMCAxOGMtNC40MSAwLTgtMy41OS04LThzMy41OS04IDgtOCA4IDMuNTkgOCA4LTMuNTkgOC04IDh6bTAtMTRjLTMuMzEgMC02IDIuNjktNiA2czIuNjkgNiA2IDYgNi0yLjY5IDYtNi0yLjY5LTYtNi02eiIgZmlsbD0id2hpdGUiLz48L3N2Zz4=&logoColor=white`;
+      return `
+        <div class="wb-external-block">
+          <img src="${url}" alt="MBTI ${mbtiType}" style="border-radius:4px;" loading="lazy">
+        </div>`;
+    }
+
+    case 'status': {
+      const emoji = d.statusEmoji || '🟢';
+      const msg = d.statusMsg || 'Coding';
+      const color = (d.statusColor || '#34A853').replace('#','');
+      const style = d.style || 'flat-square';
+      const url = `https://img.shields.io/badge/${encodeURIComponent(emoji + ' ' + msg)}-${color}.svg?style=${style}&labelColor=555555&color=${color}`;
+      return `
+        <div class="wb-external-block">
+          <img src="${url}" alt="Status: ${msg}" style="border-radius:4px;" loading="lazy">
+        </div>`;
+    }
+
+    case 'role': {
+      const icon = d.roleIcon || '🌐';
+      const label = d.roleLabel || 'Role';
+      const msg = d.roleMsg || 'Frontend Dev';
+      const color = (d.roleColor || '#4285F4').replace('#','');
+      const style = d.style || 'flat-square';
+      const url = `https://img.shields.io/badge/${encodeURIComponent(icon + ' ' + label)}-${encodeURIComponent(msg)}-${color}.svg?style=${style}&labelColor=555555`;
+      return `
+        <div class="wb-external-block">
+          <img src="${url}" alt="Role: ${msg}" style="border-radius:4px;" loading="lazy">
+        </div>`;
+    }
+
+    case 'vibe': {
+      const emoji = d.vibeEmoji || '🦉';
+      const msg = d.vibeMsg || 'Night Owl';
+      const color = (d.vibeColor || '#1a1a2e').replace('#','');
+      const style = d.style || 'flat-square';
+      const url = `https://img.shields.io/badge/${encodeURIComponent(emoji + ' ' + msg)}-${color}.svg?style=${style}&labelColor=555555&color=${color}`;
+      return `
+        <div class="wb-external-block">
+          <img src="${url}" alt="Vibe: ${msg}" style="border-radius:4px;" loading="lazy">
+        </div>`;
+    }
+
     default: return '';
   }
 }
@@ -934,13 +1161,6 @@ function darkenColor(hex, factor = 0.6) {
   return hex;
 }
 
-// 두 hex 색상 혼합 (t=0 → hex1, t=1 → hex2)
-function mixColor(hex1, hex2, t) {
-  const r1=parseInt(hex1.slice(1,3),16), g1=parseInt(hex1.slice(3,5),16), b1=parseInt(hex1.slice(5,7),16);
-  const r2=parseInt(hex2.slice(1,3),16), g2=parseInt(hex2.slice(3,5),16), b2=parseInt(hex2.slice(5,7),16);
-  if (isNaN(r1)||isNaN(r2)) return hex1;
-  return `rgb(${Math.round(r1+(r2-r1)*t)},${Math.round(g1+(g2-g1)*t)},${Math.round(b1+(b2-b1)*t)})`;
-}
 
 /* ══════════════════════════════════════════════════════
    DRAG & DROP (블록 순서 변경)
@@ -1095,6 +1315,50 @@ function generateCode(fmt) {
         lines.push(fmt === 'html'
           ? `<img src="${url}" alt="Typing SVG" />`
           : `![Typing SVG](${url})`);
+        break;
+      }
+      case 'mbti': {
+        const mbtiType = d.mbtiType || 'ENFP';
+        const color = (IDENTITY_MBTI_COLORS[mbtiType] || '#00C9A7').replace('#','');
+        const style = d.style || 'flat-square';
+        const url = `https://img.shields.io/badge/MBTI-${mbtiType}-${color}.svg?style=${style}&logoColor=white`;
+        lines.push(fmt === 'html'
+          ? `<img src="${url}" alt="MBTI ${mbtiType}" />`
+          : `![MBTI ${mbtiType}](${url})`);
+        break;
+      }
+      case 'status': {
+        const emoji = d.statusEmoji || '🟢';
+        const msg = d.statusMsg || 'Coding';
+        const color = (d.statusColor || '#34A853').replace('#','');
+        const style = d.style || 'flat-square';
+        const url = `https://img.shields.io/badge/${encodeURIComponent(emoji + ' ' + msg)}-${color}.svg?style=${style}&labelColor=555555`;
+        lines.push(fmt === 'html'
+          ? `<img src="${url}" alt="Status: ${msg}" />`
+          : `![Status: ${msg}](${url})`);
+        break;
+      }
+      case 'role': {
+        const icon = d.roleIcon || '🌐';
+        const label = d.roleLabel || 'Role';
+        const msg = d.roleMsg || 'Frontend Dev';
+        const color = (d.roleColor || '#4285F4').replace('#','');
+        const style = d.style || 'flat-square';
+        const url = `https://img.shields.io/badge/${encodeURIComponent(icon + ' ' + label)}-${encodeURIComponent(msg)}-${color}.svg?style=${style}&labelColor=555555`;
+        lines.push(fmt === 'html'
+          ? `<img src="${url}" alt="Role: ${msg}" />`
+          : `![Role: ${msg}](${url})`);
+        break;
+      }
+      case 'vibe': {
+        const emoji = d.vibeEmoji || '🦉';
+        const msg = d.vibeMsg || 'Night Owl';
+        const color = (d.vibeColor || '#1a1a2e').replace('#','');
+        const style = d.style || 'flat-square';
+        const url = `https://img.shields.io/badge/${encodeURIComponent(emoji + ' ' + msg)}-${color}.svg?style=${style}&labelColor=555555`;
+        lines.push(fmt === 'html'
+          ? `<img src="${url}" alt="Vibe: ${msg}" />`
+          : `![Vibe: ${msg}](${url})`);
         break;
       }
     }
