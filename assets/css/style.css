@@ -160,20 +160,118 @@
   }
   .nav-logo, .topbar-logo { color: #F4F4F8; }
   .nav-link { color: rgba(244,244,248,0.65); }
+  .nav-link:hover { color: #F4F4F8; }
 
   /* Dark mode footer */
   .page-footer {
     background: rgba(9,9,14,0.95);
     border-top-color: rgba(167,139,250,0.15);
   }
-  .footer-logo, .footer-link { color: rgba(244,244,248,0.55); }
+  .footer-logo { color: #F4F4F8; }
+  .footer-link { color: rgba(244,244,248,0.55); }
+  .footer-link:hover { color: #F4F4F8; }
   .footer-copy { color: rgba(244,244,248,0.3); }
 
   /* Dark mode cards */
-  .glass-card {
+  .glass-card, .m3-card {
     background: rgba(255,255,255,0.05);
     border-color: rgba(167,139,250,0.15);
   }
+
+  /* Dark mode body text */
+  body { background: var(--bg-main); color: var(--text-main); }
+  h1, h2, h3, h4, h5, h6 { color: var(--text-main); }
+  p { color: var(--text-sub); }
+
+  /* Dark mode topbar (builder) */
+  .topbar {
+    background: rgba(9,9,14,0.92);
+    border-bottom-color: rgba(167,139,250,0.15);
+  }
+  .topbar-title { color: rgba(244,244,248,0.55); }
+  .topbar-back  { color: rgba(244,244,248,0.4); }
+
+  /* Dark mode panel (builder) */
+  .panel-left {
+    background: #111118;
+    border-right-color: rgba(167,139,250,0.12);
+  }
+  .section-label { color: rgba(244,244,248,0.35); }
+  .divider { background: rgba(167,139,250,0.1); }
+  .block-item { background: #1a1a24; border-color: rgba(167,139,250,0.12); }
+  .block-label { color: #F4F4F8; }
+  .field-input {
+    background: #1a1a24;
+    border-color: rgba(167,139,250,0.15);
+    color: #F4F4F8;
+  }
+  .field-select {
+    background: #1a1a24;
+    border-color: rgba(167,139,250,0.15);
+    color: #F4F4F8;
+  }
+  .block-add-btn {
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(167,139,250,0.15);
+    color: rgba(244,244,248,0.6);
+  }
+  .block-add-btn:hover {
+    background: rgba(167,139,250,0.1);
+    border-color: var(--violet);
+    color: var(--violet);
+  }
+  .style-btn {
+    background: #1a1a24;
+    border-color: rgba(167,139,250,0.15);
+    color: rgba(244,244,248,0.6);
+  }
+  .panel-left-footer { color: rgba(244,244,248,0.3); }
+  .panel-left-footer a { color: rgba(244,244,248,0.3); }
+
+  /* Dark mode code strip */
+  .code-strip { background: #111118; border-top-color: rgba(167,139,250,0.12); }
+  .code-tabs-row { border-bottom-color: rgba(167,139,250,0.12); }
+  .ctab { color: rgba(244,244,248,0.4); }
+  .ctab:hover { color: rgba(244,244,248,0.8); }
+  .ctab.on { color: var(--violet); border-bottom-color: var(--violet); }
+  .code-pre {
+    background: #0d0d14;
+    border-color: rgba(167,139,250,0.12);
+    color: rgba(244,244,248,0.8);
+  }
+
+  /* Dark mode gallery */
+  .template-card {
+    background: #111118;
+    border-color: rgba(167,139,250,0.12);
+  }
+  .template-title { color: #F4F4F8; }
+  .template-theme, .template-desc { color: rgba(244,244,248,0.5); }
+  .filter-tab {
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(167,139,250,0.15);
+    color: rgba(244,244,248,0.6);
+  }
+  .filter-tab:hover { background: rgba(167,139,250,0.1); }
+
+  /* Dark mode badges */
+  .badge-blue   { background: rgba(167,139,250,0.15); color: #c4b5fd; }
+  .badge-red    { background: rgba(248,113,113,0.15); color: #fca5a5; }
+  .badge-yellow { background: rgba(212,245,60,0.12);  color: #d4f53c; }
+  .badge-green  { background: rgba(74,222,128,0.12);  color: #86efac; }
+
+  /* Dark mode review cards (showcase) */
+  .review-card  { background: #111118; border-color: rgba(167,139,250,0.12); }
+  .review-quote { color: rgba(244,244,248,0.7); }
+  .layout-card  { background: #111118; border-color: rgba(167,139,250,0.12); }
+  .layout-title { color: #F4F4F8; }
+  .layout-desc  { color: rgba(244,244,248,0.55); }
+  .before-box   { background: #0d0d14; border-color: rgba(167,139,250,0.15); color: rgba(244,244,248,0.6); }
+  .notion-mockup { background: #111118; border-color: rgba(167,139,250,0.12); }
+  .notion-topbar { background: #111118; border-bottom-color: rgba(167,139,250,0.1); }
+  .notion-page-title { color: #F4F4F8; }
+  .notion-text  { color: rgba(244,244,248,0.65); }
+  .code-block   { background: #0d0d14; }
 }
 
 /* ── Studio White Glass Card ── */
