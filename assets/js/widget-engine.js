@@ -822,7 +822,6 @@ function renderBlockHTML(b) {
       const url = `https://github-profile-trophy.vercel.app/?username=${user}&theme=${theme}&no-frame=true&row=1&column=6`;
       return `
         <div class="wb-external-block">
-          <div class="wb-ext-label">🏆 GitHub Trophy</div>
           ${d.username
             ? `<img src="${url}" alt="GitHub Trophy" style="max-width:100%;border-radius:8px;" loading="lazy">`
             : `<div class="wb-ext-placeholder">GitHub 사용자명을 입력하면 트로피가 표시됩니다</div>`
@@ -836,7 +835,6 @@ function renderBlockHTML(b) {
       const url = `https://raw.githubusercontent.com/${user}/${user}/output/github-contribution-grid-snake${dark?'-dark':''}.svg`;
       return `
         <div class="wb-external-block">
-          <div class="wb-ext-label">🐍 Snake Game</div>
           ${d.username
             ? `<img src="${url}" alt="Snake Game" style="max-width:100%;border-radius:8px;" loading="lazy">`
             : `<div class="wb-ext-placeholder">GitHub 사용자명을 입력하면 스네이크 게임이 표시됩니다</div>`
@@ -850,7 +848,6 @@ function renderBlockHTML(b) {
       const url = `https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2F${user}%2F${repo}&count_bg=%2334A853&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false`;
       return `
         <div class="wb-external-block">
-          <div class="wb-ext-label">👁️ Hits Counter</div>
           ${d.username
             ? `<img src="${url}" alt="Hits" style="border-radius:4px;" loading="lazy">`
             : `<div class="wb-ext-placeholder">GitHub 사용자명을 입력하면 카운터가 표시됩니다</div>`
@@ -888,7 +885,6 @@ function renderBlockHTML(b) {
       const url = `https://capsule-render.vercel.app/api?type=${type}&color=${color}&height=${height}&section=header&text=${encodeURIComponent(text)}&fontSize=40&fontColor=ffffff&animation=fadeIn`;
       return `
         <div class="wb-external-block">
-          <div class="wb-ext-label">🎨 Banner — ${type}</div>
           <img src="${url}" alt="Banner" style="max-width:100%;border-radius:8px;" loading="lazy">
         </div>`;
     }
@@ -900,7 +896,6 @@ function renderBlockHTML(b) {
       const url = `https://readme-typing-svg.demolab.com?font=Fira+Code&size=${size}&pause=1000&color=${color}&width=435&lines=${lines}`;
       return `
         <div class="wb-external-block">
-          <div class="wb-ext-label">⌨️ Typing SVG</div>
           <img src="${url}" alt="Typing SVG" style="max-width:100%;border-radius:4px;" loading="lazy">
         </div>`;
     }

@@ -3,13 +3,14 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="naver-site-verification" content="d3cf9f8cacf2d3e321857160ba601cabeebcd3ba" />
   <meta name="title" content="배지 갤러리 — GitGloss | GitHub 프로필 배지 템플릿 모음">
   <meta name="description" content="30가지 이상의 프로필 배지 템플릿. Flat, Gradient, Outline, Glass, Pill, Square 스타일을 무료로 사용하세요.">
   <meta name="keywords" content="GitHub 배지, shields.io 스타일, GitHub README 배지, 개발자 배지 템플릿">
   <meta name="robots" content="index, follow">
+  <meta name="msvalidate.01" content="A2891CCBCAC29E2D299E1DC3D15D3A97" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#4285F4">
-
   <!-- OG -->
   <meta property="og:title" content="배지 갤러리 — GitGloss">
   <meta property="og:description" content="30가지 이상의 GitHub 프로필 배지 템플릿">
@@ -50,89 +51,64 @@
 
     /* Gallery Header */
     .gallery-header {
-      padding: 72px 80px 56px;
+      padding: 96px 80px 64px;
       text-align: center;
-      position: relative;
-    }
-
-    .gallery-header::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 600px;
-      height: 300px;
-      background: radial-gradient(circle, rgba(66, 133, 244, 0.07) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 0;
+      background: var(--m3-surface);
+      border-bottom: var(--fluent-border);
     }
 
     .gallery-eyebrow {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .15em;
+      font: var(--label-lg);
+      color: var(--m3-primary);
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--google-blue);
-      margin-bottom: 14px;
-      position: relative;
-      z-index: 1;
+      margin-bottom: 16px;
     }
 
     .gallery-title {
-      font-size: 44px;
-      font-weight: 800;
-      color: var(--text-main);
-      margin-bottom: 14px;
-      letter-spacing: -.03em;
-      position: relative;
-      z-index: 1;
+      font: var(--display-lg);
+      color: var(--m3-on-background);
+      margin-bottom: 24px;
+      letter-spacing: -0.04em;
     }
 
     .gallery-desc {
-      font-size: 17px;
-      color: var(--text-sub);
-      font-weight: 500;
-      max-width: 560px;
-      margin: 0 auto 36px;
-      position: relative;
-      z-index: 1;
+      font: var(--body-lg);
+      color: var(--m3-on-surface-variant);
+      max-width: 640px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
     }
 
-    /* Filter Tabs */
+    /* Filter Chips (M3) */
     .filter-tabs {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       justify-content: center;
       flex-wrap: wrap;
-      position: relative;
-      z-index: 1;
     }
 
     .filter-tab {
-      padding: 9px 18px;
-      border: 1px solid var(--glass-border);
-      border-radius: 10px;
-      background: var(--glass-white);
-      backdrop-filter: var(--blur-effect);
-      color: var(--text-sub);
-      font-size: 13px;
-      font-weight: 600;
+      padding: 10px 20px;
+      border: 1px solid var(--m3-outline);
+      border-radius: 100px;
+      /* Chip style */
+      background: transparent;
+      color: var(--m3-on-surface-variant);
+      font: var(--label-lg);
       cursor: pointer;
-      transition: all .2s;
+      transition: all 0.2s;
     }
 
     .filter-tab:hover {
-      background: rgba(66, 133, 244, 0.05);
-      border-color: rgba(66, 133, 244, 0.2);
-      transform: translateY(-1px);
+      background: var(--m3-surface-variant);
     }
 
     .filter-tab.active {
-      background: var(--google-blue);
-      color: #fff;
-      border-color: var(--google-blue);
-      box-shadow: 0 4px 16px rgba(66, 133, 244, 0.3);
+      background: var(--m3-primary);
+      color: var(--m3-on-primary);
+      border-color: var(--m3-primary);
+      box-shadow: var(--fluent-shadow-md);
     }
 
     /* Gallery Grid */
@@ -254,54 +230,34 @@
       z-index: 2;
     }
 
-    /* Gallery container */
     .gallery-container {
-      padding: 0 80px 80px;
+      padding: 48px 80px 80px;
       flex: 1;
+      background: var(--m3-background);
     }
 
     .gallery-stats {
-      font-size: 13px;
-      color: var(--text-hint);
-      font-weight: 500;
-      margin-bottom: 16px;
-    }
-
-    /* Template card extras */
-    .template-theme {
-      padding: 0 20px;
-      font-size: 12px;
-      color: var(--text-hint);
-      line-height: 1.5;
-      font-weight: 400;
-    }
-
-    .template-action {
-      padding: 12px 20px 20px;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--google-blue);
-      transition: gap .2s;
-    }
-
-    .template-card:hover .template-action {
-      color: var(--google-blue);
-      text-decoration: underline;
-    }
-
-    .template-category {
-      font-size: 10px;
-      font-weight: 800;
-      padding: 4px 10px;
-      border-radius: 20px;
+      font: var(--label-lg);
+      color: var(--m3-on-surface-variant);
+      margin-bottom: 24px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.05em;
     }
 
-    /* Search input focus */
-    #gallery-search:focus {
-      border-color: var(--google-blue) !important;
-      box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.12);
+    /* Search Box M3 */
+    .search-box input {
+      background: var(--m3-surface-variant) !important;
+      border: none !important;
+      border-radius: 100px !important;
+      padding: 16px 20px 16px 56px !important;
+      color: var(--m3-on-surface) !important;
+      font: var(--body-lg) !important;
+      box-shadow: none !important;
+    }
+
+    .search-box input:focus {
+      background: var(--m3-surface) !important;
+      outline: 2px solid var(--m3-primary) !important;
     }
 
     @media (max-width: 1024px) {

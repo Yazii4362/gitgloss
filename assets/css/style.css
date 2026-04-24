@@ -9,72 +9,67 @@
    Premium Developer Identity Studio
    ============================================= */
 :root {
-  /* ── Base Colors ── */
-  --bg-main:          #FFFFFF;
-  --bg-subtle:        #FBFBFB;
-  --text-main:        #08080F;
-  --text-sub:         rgba(8, 8, 15, 0.65);
-  --text-hint:        rgba(8, 8, 15, 0.40);
-
-  /* ── Google Primary Colors ── */
-  --google-blue:      #4285F4;
-  --google-red:       #EA4335;
-  --google-yellow:    #FBBC05;
-  --google-green:     #34A853;
-
-  /* ── Gradients ── */
-  --gradient-hero:    linear-gradient(135deg, rgba(66,133,244,0.08) 0%, rgba(234,67,53,0.06) 100%);
-  --gradient-blue-red: linear-gradient(135deg, #4285F4 0%, #EA4335 100%);
-  --gradient-multi:   linear-gradient(135deg, #4285F4 0%, #EA4335 50%, #FBBC05 100%);
-  --gradient-glass:   linear-gradient(135deg, rgba(66,133,244,0.12) 0%, rgba(52,168,83,0.08) 100%);
-
-  /* ── Glassmorphism System ── */
-  --glass-white:      rgba(255, 255, 255, 0.7);
-  --glass-border:     rgba(0, 0, 0, 0.08);
-  --blur-effect:      blur(30px) saturate(180%);
-
-  /* ── 2.5D Depth Shadow ── */
-  --shadow-depth:     0 10px 20px rgba(0, 0, 0, 0.05),
-                      0 6px 6px rgba(0, 0, 0, 0.1);
-  --shadow-float:     0 20px 40px rgba(0, 0, 0, 0.08),
-                      0 10px 10px rgba(0, 0, 0, 0.12);
-  --shadow-subtle:    0 2px 8px rgba(0, 0, 0, 0.04);
-
-  /* ── Legacy Compatibility ── */
-  --gg-bg:            var(--bg-main);
-  --gg-bg-card:       var(--glass-white);
-  --gg-text:          var(--text-main);
-  --gg-text-sub:      var(--text-sub);
-  --gg-text-hint:     var(--text-hint);
-  --gg-pink-deep:     var(--google-blue);
-  --gg-pink:          var(--google-blue);
-  --gg-purple:        var(--google-red);
-  --gg-sky:           var(--google-green);
-  --gg-bg-dark:       #08080F;
-  --gg-bg-dark-card:  rgba(8, 8, 15, 0.85);
-
-  /* ── Grid Pattern ── */
-  --grid-pattern:     repeating-linear-gradient(0deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 1px, transparent 1px, transparent 20px),
-                      repeating-linear-gradient(90deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 1px, transparent 1px, transparent 20px);
+  /* ── Material Design 3 Semantic Colors ── */
+  --m3-primary:        #005FB8; 
+  --m3-on-primary:     #FFFFFF;
+  --m3-primary-container: #D1E4FF;
+  --m3-on-primary-container: #001D36;
   
-  /* ── Legacy Glass Vars ── */
-  --glass-bg-light:   var(--glass-white);
-  --glass-bg-pink:    rgba(66, 133, 244, 0.08);
-  --glass-bg-purple:  rgba(234, 67, 53, 0.08);
-  --glass-border-pink:rgba(66, 133, 244, 0.2);
-  --glass-border-purple:rgba(234, 67, 53, 0.2);
-  --glass-blur:       var(--blur-effect);
-  --glass-blur-heavy: blur(40px) saturate(200%);
-  --glass-shadow:     var(--shadow-depth);
+  --m3-secondary:      #535F70;
+  --m3-on-secondary:   #FFFFFF;
+  
+  --m3-surface:        #FDFBFF;
+  --m3-on-surface:     #1A1C1E;
+  --m3-surface-variant: #E1E2EC;
+  --m3-on-surface-variant: #44474E;
+  
+  --m3-background:     #FEFBFF;
+  --m3-on-background:  #1A1C1E;
+  
+  --m3-outline:        #74777F;
+  --m3-outline-variant: #C4C6D0;
+  
+  --m3-error:          #BA1A1A;
+  --m3-on-error:       #FFFFFF;
 
-  /* ── Semantic (광고/상태 표시용) ── */
-  --ad-border:        rgba(0, 0, 0, 0.10);
-  --ad-bg:            rgba(0, 0, 0, 0.02);
-  --ad-label:         rgba(0, 0, 0, 0.35);
+  /* ── Fluent Design Enhancement (Depth & Texture) ── */
+  --fluent-blur:       blur(20px) saturate(120%);
+  --fluent-shadow-sm:  0 2px 4px rgba(0,0,0,0.04);
+  --fluent-shadow-md:  0 4px 8px rgba(0,0,0,0.08);
+  --fluent-shadow-lg:  0 8px 16px rgba(0,0,0,0.12);
+  --fluent-border:     1px solid rgba(0,0,0,0.06);
+  --fluent-acrylic:    rgba(255, 255, 255, 0.85);
 
-  /* ── Typography ── */
-  --font-sans:        'Inter', 'Syne', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono:        'JetBrains Mono', 'Fira Code', monospace;
+  /* ── 8pt Spacing System ── */
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s6: 24px; --s8: 32px; --s12: 48px;
+
+  /* ── Typography Scale (Material Basis) ── */
+  --font-main:         'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:         'JetBrains Mono', 'Fira Code', monospace;
+  
+  --display-lg:        800 57px/64px var(--font-main);
+  --headline-lg:       700 32px/40px var(--font-main);
+  --title-lg:          600 22px/28px var(--font-main);
+  --body-lg:           400 16px/24px var(--font-main);
+  --label-lg:          500 14px/20px var(--font-main);
+
+  /* ── Legacy Mappings (Compatibility) ── */
+  --bg-main:           var(--m3-background);
+  --bg-subtle:         var(--m3-surface-variant);
+  --text-main:         var(--m3-on-background);
+  --text-sub:          var(--m3-on-surface-variant);
+  --text-hint:         var(--m3-outline);
+  --google-blue:       var(--m3-primary);
+  --google-red:        var(--m3-error);
+  --google-green:      #188038;
+  --google-yellow:     #E37400;
+  --glass-white:       var(--fluent-acrylic);
+  --glass-border:      rgba(0,0,0,0.08);
+  --blur-effect:       var(--fluent-blur);
+  --shadow-depth:      var(--fluent-shadow-md);
+  --shadow-float:      var(--fluent-shadow-lg);
+  --shadow-subtle:     var(--fluent-shadow-sm);
+  --grid-pattern:      radial-gradient(circle, rgba(0,0,0,0.03) 1px, transparent 1px);
 }
 
 /* 다크모드는 명시적으로만 활성화 */
@@ -87,77 +82,65 @@
   background: var(--glass-white);
   border: 1px solid var(--glass-border);
   border-radius: 20px;
-  backdrop-filter: var(--blur-effect);
-  -webkit-backdrop-filter: var(--blur-effect);
-  box-shadow: var(--shadow-depth);
-  transform: translateZ(0);
+/* ── M3 Cards (Material 3 Surface + Fluent Depth) ── */
+.glass-card, .m3-card {
+  background: var(--m3-surface);
+  border: var(--fluent-border);
+  border-radius: 24px; /* Material 3 standard */
+  padding: var(--s6);
+  box-shadow: var(--fluent-shadow-md);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
 }
 
-/* Blue accent */
+.glass-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--fluent-acrylic);
+  backdrop-filter: var(--fluent-blur);
+  -webkit-backdrop-filter: var(--fluent-blur);
+  z-index: -1;
+}
+
+.glass-card:hover {
+  box-shadow: var(--fluent-shadow-lg);
+  transform: translateY(-2px);
+  border-color: var(--m3-primary-container);
+}
+
 .glass-card--blue {
-  background: rgba(66, 133, 244, 0.06);
-  border-color: rgba(66, 133, 244, 0.15);
-  box-shadow: var(--shadow-depth), 0 0 0 1px rgba(66, 133, 244, 0.08) inset;
+  background: var(--m3-primary-container);
+  border-color: var(--m3-outline-variant);
+  color: var(--m3-on-primary-container);
 }
 
-/* Red accent */
-.glass-card--red {
-  background: rgba(234, 67, 53, 0.06);
-  border-color: rgba(234, 67, 53, 0.15);
-  box-shadow: var(--shadow-depth), 0 0 0 1px rgba(234, 67, 53, 0.08) inset;
-}
-
-/* 2.5D Isometric Transform */
 .iso-card {
-  transform: rotateX(2deg) rotateY(-2deg) translateZ(20px);
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: perspective(1000px) rotateX(2deg) rotateY(-2deg);
+  transition: transform 0.4s var(--fluent-blur);
 }
 
 .iso-card:hover {
-  transform: rotateX(0deg) rotateY(0deg) translateZ(40px);
-  box-shadow: var(--shadow-float);
+  transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1.02);
 }
 
-/* ── Badge / Pill (Google Colors) ── */
-.badge-blue {
-  background: rgba(66, 133, 244, 0.10);
-  border: 1px solid rgba(66, 133, 244, 0.20);
-  color: #1967D2;
-  border-radius: 20px;
-  padding: 4px 12px;
+/* ── Badges (M3 Density) ── */
+.badge-blue, .badge-red, .badge-yellow, .badge-green {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--s1) var(--s3);
+  border-radius: 8px; /* Fluent/M3 Hybrid */
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
-.badge-red {
-  background: rgba(234, 67, 53, 0.10);
-  border: 1px solid rgba(234, 67, 53, 0.20);
-  color: #C5221F;
-  border-radius: 20px;
-  padding: 4px 12px;
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.badge-yellow {
-  background: rgba(251, 188, 5, 0.15);
-  border: 1px solid rgba(251, 188, 5, 0.30);
-  color: #E37400;
-  border-radius: 20px;
-  padding: 4px 12px;
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.badge-green {
-  background: rgba(52, 168, 83, 0.10);
-  border: 1px solid rgba(52, 168, 83, 0.20);
-  color: #188038;
-  border-radius: 20px;
-  padding: 4px 12px;
-  font-size: 11px;
-  font-weight: 600;
-}
+.badge-blue   { background: var(--m3-primary-container); color: var(--m3-primary); }
+.badge-red    { background: #FDE7E9; color: var(--m3-error); }
+.badge-yellow { background: #FFF4D6; color: var(--google-yellow); }
+.badge-green  { background: #E6F4EA; color: var(--google-green); }
 
 /* ── 광고 슬롯 (Cotton Candy 버전) ── */
 .ad-slot {
@@ -184,29 +167,47 @@
   font-family: var(--font-mono);
 }
 
-/* ── CTA 버튼 (Studio White) ── */
+/* ── Buttons (M3 Structure + Fluent Interaction) ── */
 .btn-primary {
-  background: var(--google-blue);
-  color: #fff;
+  background: var(--m3-primary);
+  color: var(--m3-on-primary);
   border: none;
-  border-radius: 12px;
-  padding: 12px 28px;
-  font-size: 14px;
-  font-weight: 600;
+  border-radius: 100px; /* M3 Filled Button */
+  padding: 12px 24px;
+  font: var(--label-lg);
   cursor: pointer;
-  box-shadow: var(--shadow-depth);
+  transition: all 0.2s;
+  box-shadow: var(--fluent-shadow-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s2);
+}
+
+.btn-primary:hover {
+  background: #0056a7;
+  box-shadow: var(--fluent-shadow-md);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
 }
 
 .btn-ghost {
-  background: var(--glass-white);
-  color: var(--text-main);
-  border: 1px solid var(--glass-border);
-  border-radius: 12px;
-  padding: 12px 28px;
-  font-size: 14px;
-  font-weight: 600;
+  background: transparent;
+  color: var(--m3-primary);
+  border: 1px solid var(--m3-outline);
+  border-radius: 100px;
+  padding: 11px 24px;
+  font: var(--label-lg);
   cursor: pointer;
-  backdrop-filter: var(--blur-effect);
+  transition: all 0.2s;
+}
+
+.btn-ghost:hover {
+  background: var(--m3-primary-container);
+  border-color: var(--m3-primary);
 }
 
 /* ── 테마 셀렉터 ── */
@@ -224,80 +225,73 @@
   color: #72243E;
 }
 
-/* ── 페이지 배경 (Studio White Grid) ── */
+/* ── Global Layout ── */
 body {
-  background: var(--bg-main);
+  background: var(--m3-background);
   background-image: var(--grid-pattern);
-  color: var(--text-main);
-  font-family: var(--font-sans);
+  background-size: 40px 40px;
+  color: var(--m3-on-background);
+  font: var(--body-lg);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.01em;
 }
 
-/* NAV (Studio White) */
+/* ── Navigation (High Clarity) ── */
 .nav {
   position: sticky;
   top: 0;
   z-index: 200;
-  background: var(--glass-white);
-  backdrop-filter: var(--blur-effect);
-  -webkit-backdrop-filter: var(--blur-effect);
-  border-bottom: 1px solid var(--glass-border);
-  padding: 16px 80px;
+  background: var(--fluent-acrylic);
+  backdrop-filter: var(--fluent-blur);
+  -webkit-backdrop-filter: var(--fluent-blur);
+  border-bottom: var(--fluent-border);
+  padding: var(--s4) 80px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: var(--shadow-subtle);
+  box-shadow: var(--fluent-shadow-sm);
 }
 
 .nav-logo {
-  font-size: 18px;
-  font-weight: 800;
-  color: var(--text-main);
+  font: var(--title-lg);
+  color: var(--m3-on-surface);
   text-decoration: none;
-  letter-spacing: -0.02em;
-  transition: color .2s;
+  letter-spacing: -0.03em;
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
 }
 
 .nav-logo:hover {
-  color: var(--google-blue);
-}
-
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 32px;
+  color: var(--m3-primary);
 }
 
 .nav-link {
-  font-size: 14px;
-  color: var(--text-sub);
+  font: var(--label-lg);
+  color: var(--m3-on-surface-variant);
   text-decoration: none;
-  font-weight: 500;
-  transition: color .2s;
+  transition: color 0.2s;
 }
 
 .nav-link:hover {
-  color: var(--google-blue);
+  color: var(--m3-primary);
 }
 
 .nav-cta {
-  background: var(--google-blue);
-  color: white;
+  background: var(--m3-primary);
+  color: var(--m3-on-primary);
   padding: 10px 24px;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 600;
+  border-radius: 100px;
+  font: var(--label-lg);
   text-decoration: none;
-  transition: all .25s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: 0 4px 12px rgba(66, 133, 244, 0.25);
-  display: inline-block;
+  box-shadow: var(--fluent-shadow-md);
+  transition: all 0.2s;
 }
 
 .nav-cta:hover {
-  background: #3367d6;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(66, 133, 244, 0.35);
+  background: #0056a7;
+  transform: translateY(-1px);
+  box-shadow: var(--fluent-shadow-lg);
 }
 
 .nb {

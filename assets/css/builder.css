@@ -3400,3 +3400,118 @@
   gap: 4px;
   padding: 8px 0;
 }
+
+/* ���� Toss Style Tooltips ������������������������������������������������������������������ */
+.gg-tooltip {
+  position: fixed;
+  z-index: 1000;
+  background: rgba(28, 28, 30, 0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  color: #fff;
+  padding: 16px 20px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 240px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(10px) scale(0.95);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  word-break: keep-all;
+}
+
+.gg-tooltip.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.gg-tooltip::after {
+  content: '';
+  position: absolute;
+  border: 8px solid transparent;
+}
+
+.gg-tooltip[data-dir="left"]::after {
+  border-right-color: rgba(28, 28, 30, 0.85);
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.gg-tooltip[data-dir="right"]::after {
+  border-left-color: rgba(28, 28, 30, 0.85);
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.gg-tooltip[data-dir="top"]::after {
+  border-bottom-color: rgba(28, 28, 30, 0.85);
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.gg-tooltip[data-dir="bottom"]::after {
+  border-top-color: rgba(28, 28, 30, 0.85);
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.gg-tooltip-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 12px;
+  margin-left: -20px;
+  margin-right: -20px;
+  padding-right: 20px;
+}
+
+.gg-tooltip-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.gg-tooltip-btn:hover {
+  color: #fff;
+}
+.gg-tooltip-btn.primary {
+  color: #0A84FF;
+  font-weight: 700;
+}
+.gg-tooltip-btn.primary:hover {
+  color: #409CFF;
+}
+
+.gg-tooltip-dim {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s;
+}
+.gg-tooltip-dim.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.tour-highlight {
+  position: relative;
+  z-index: 1001 !important;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3) !important;
+  pointer-events: none;
